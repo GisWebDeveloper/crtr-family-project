@@ -1,0 +1,56 @@
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="reportList.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong *ngIf="reportCategory">
+            {{ utilService.getLocalization(reportCategory.nameKz, reportCategory.nameRu) }}</strong>
+        <span class="float-end" *ngIf="reportList.length > 0">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('report-table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="report-table">
+                <thead class="text-center align-middle table-header">
+                <tr *ngIf="reportCategory">
+                    <th scope="col" colspan="14">
+                        <strong>{{ utilService.getLocalization(reportCategory.nameKz, reportCategory.nameRu) }}</strong>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" rowspan="2">#</th>
+                    <th scope="col" rowspan="2" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">{{ 'report-page.total' | translate }}</th>
+                    <th scope="col" colspan="11" class="value-column">{{ 'gov-agency-page.mvd.pr.checked' | translate }}</th>
+                    <th scope="col" colspan="11" class="value-column">{{ 'gov-agency-page.mvd.pr.unchecked' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of reportList; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">
+                            {{ utilService.getLocalization(item.region.nameKz, item.region.nameRu) }}
+                        </td>
+                        <td>{{ utilService.numberFormat(item.total) }}</td>
+                        <td>{{ utilService.numberFormat(item.checked) }}</td>
+                        <td>{{ utilService.numberFormat(item.unchecked) }}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ 'total' | translate }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.total) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.checked) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.unchecked) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+

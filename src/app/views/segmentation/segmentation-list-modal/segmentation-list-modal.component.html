@@ -1,0 +1,69 @@
+<c-modal id="statListModal" size="xl" alignment="center"
+         [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>{{ 'lists' | translate }}</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <!--
+        <c-callout color="info" class="mt-0">
+            <c-row>
+                <c-col [md]="11">{{ params.description }}</c-col>
+                <c-col [md]="1" class="text-end" *ngIf="params.list.length > 0">
+                    <a role="button" (click)="downloadList()"><i class="fa fa-file-excel-o fs-5"></i></a>
+                </c-col>
+            </c-row>
+        </c-callout>
+
+        <table cTable striped hover *ngIf="params.list.length > 0">
+            <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">#</th>
+                <th scope="col">{{ 'region' | translate }}</th>
+                <th scope="col">{{ 'full-name' | translate }}</th>
+                <th scope="col">{{ 'address' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params.list; let idx = index">
+                <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>{{ item.stateName + ', ' + item.regionName }}</td>
+                <td>
+                    <a target="_blank" class="link-info" [routerLink]="['/family/' + item.iin]">
+                        {{ utilService.concat(' / ', item.iin, item.fullName) }}
+                    </a>
+                </td>
+                <td>{{ item.address }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-row *ngIf="params.list.length > 0">
+            <c-col [md]="8">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
+                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="4">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+
+        <c-alert color="warning" *ngIf="params.list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+        -->
+    </c-modal-body>
+    <c-modal-footer>
+        <button color="secondary" (click)="toggleModal()" cButton>
+            {{ 'close' | translate }}
+        </button>
+    </c-modal-footer>
+</c-modal>

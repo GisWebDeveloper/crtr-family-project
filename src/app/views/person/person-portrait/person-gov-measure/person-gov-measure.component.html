@@ -1,0 +1,15 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && govMeasureList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.gov-measure' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="6">{{ 'person-portrait.measure' | translate }}</c-col>
+        <c-col [md]="2">{{ 'person-portrait.date-begin' | translate }}</c-col>
+        <c-col [md]="2">{{ 'person-portrait.date-end' | translate }}</c-col>
+    </c-row>
+    <c-row class="border-top mb-1" *ngFor="let ps of govMeasureList; let idx = index">
+        <c-col [md]="6"><span class="me-2">{{ (idx + 1) + '.' }}</span>{{ ps.name }}</c-col>
+        <c-col [md]="2">{{ ps.dateBegin }}</c-col>
+        <c-col [md]="2">{{ ps.dateEnd }}</c-col>
+    </c-row>
+</div>

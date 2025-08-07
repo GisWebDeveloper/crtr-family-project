@@ -1,0 +1,82 @@
+<table cTable small bordered hover id="table-main-statistics" *ngIf="regionStatItemList.length > 0">
+    <thead>
+    <tr class="text-center">
+        <th scope="col" rowspan="2" class="align-middle">{{ 'stat-page.region' | translate }}</th>
+        <th scope="col" colspan="2">{{ 'total' | translate }}</th>
+        <th scope="col" colspan="2" class="bg-info">A</th>
+        <th scope="col" colspan="2" class="bg-green">B</th>
+        <th scope="col" colspan="2" class="bg-yellow">C</th>
+        <th scope="col" colspan="2" class="bg-warning">D</th>
+        <th scope="col" colspan="2" class="bg-red">E</th>
+    </tr>
+    <tr class="text-center">
+        <th class="text-lowercase" cTableColor="secondary">{{ 'stat-page.family-count' | translate }}</th>
+        <th class="text-lowercase">{{ 'stat-page.person-count' | translate }}</th>
+        <ng-container *ngFor="let i of [1,2,3,4,5]">
+            <th class="text-lowercase" cTableColor="secondary">{{ 'stat-page.family-count' | translate }}</th>
+            <th class="text-lowercase">{{ 'stat-page.person-count' | translate }}</th>
+        </ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let stat of regionStatItemList | statTotalFilter: false">
+        <tr class="text-center"
+            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+            <td class="text-start" role="button" (click)="selectStatRegion(stat)">
+                <span [ngClass]="{'ps-5': stat.level > 1}">
+                    {{ utilService.getLocalization(stat.region.nameKz, stat.region.nameRu) }}</span>
+            </td>
+            <td class="fw-bolder" [ngClass]="{'table-secondary': stat != statItem}">
+                {{ getStatValue(stat, 'familyCountTotal') }}</td>
+            <td class="fw-bolder">{{ getStatValue(stat, 'personCountTotal') }}</td>
+            <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                <td [ngClass]="{'table-secondary': stat != statItem}">
+                    <a [attr.role]="hasPermission(permissions.MAIN_LIST) ? 'button' : null"
+                       (click)="hasPermission(permissions.MAIN_LIST) ? showListModal('FAMILY', stat,  i) : null">
+                        {{ getStatValue(stat, 'familyCount' + i) }}</a>
+                </td>
+                <td>
+                    <a [attr.role]="hasPermission(permissions.MAIN_LIST) ? 'button' : null"
+                       (click)="hasPermission(permissions.MAIN_LIST) ? showListModal('MEMBER', stat, i) : null">
+                        {{ getStatValue(stat, 'personCount' + i) }}</a>
+                </td>
+            </ng-container>
+        </tr>
+        <ng-container *ngIf="isSelectedRegion(stat)">
+            <tr class="text-center" *ngFor="let statChild of regionChildStatItemList"
+                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                <td class="text-start ps-5" role="button" (click)="selectStatRegion(statChild)">
+                    {{ utilService.getLocalization(statChild.region.nameKz, statChild.region.nameRu) }}</td>
+                <td class="fw-bolder" [ngClass]="{'table-secondary': statChild != statItem}">
+                    {{ getStatValue(statChild, 'familyCountTotal') }}</td>
+                <td class="fw-bolder">{{ getStatValue(statChild, 'personCountTotal') }}</td>
+                <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                    <td [ngClass]="{'table-secondary': statChild != statItem}">
+                        <a [attr.role]="hasPermission(permissions.MAIN_LIST) ? 'button' : null"
+                           (click)="hasPermission(permissions.MAIN_LIST) ? showListModal('FAMILY', statChild, i) : null">
+                            {{ getStatValue(statChild, 'familyCount' + i) }}</a>
+                    </td>
+                    <td>
+                        <a [attr.role]="hasPermission(permissions.MAIN_LIST) ? 'button' : null"
+                           (click)="hasPermission(permissions.MAIN_LIST) ? showListModal('MEMBER', statChild, i) : null">
+                            {{ getStatValue(statChild, 'personCount' + i) }}</a>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </ng-container>
+    </tbody>
+    <tfoot cTableColor="secondary">
+    <tr class="fw-bolder text-center" *ngFor="let statTotal of regionStatItemList | statTotalFilter: true">
+        <td class="text-start">{{ 'total' | translate }}</td>
+        <td>{{ getStatValue(statTotal, 'familyCountTotal') }}</td>
+        <td>{{ getStatValue(statTotal, 'personCountTotal') }}</td>
+        <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+            <td>{{ getStatValue(statTotal, 'familyCount' + i) }}</td>
+            <td>{{ getStatValue(statTotal, 'personCount' + i) }}</td>
+        </ng-container>
+    </tr>
+    </tfoot>
+</table>
+
+<app-stat-list-modal [eventShowListModal]="eventShowListModal"></app-stat-list-modal>

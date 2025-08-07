@@ -1,0 +1,91 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm (submit)="initActionLogList()" novalidate>
+            <c-row>
+                <c-col [md]="3">
+                    <label cLabel for="action">{{ 'administration-page.action-log.action' | translate }}</label>
+                    <ng-select id="action" name="action" bindValue="code" bindLabel="nameRu"
+                               [items]="filter.actionDictionary" [(ngModel)]="filter.actionCode" [clearable]="false">
+                    </ng-select>
+                </c-col>
+                <c-col [md]="3">
+                    <label cLabel for="searchKey">{{ 'administration-page.action-log.search-key' | translate }}</label>
+                    <input type="text" name="searchKey" id="searchKey" cFormControl maxlength="30"
+                           [(ngModel)]="filter.searchKey"/>
+                </c-col>
+                <c-col [md]="4" class="d-flex align-items-end">
+                    <button cButton color="info" type="submit" class="text-white px-3">
+                        <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                        {{ 'search' | translate }}
+                    </button>
+                    <button cButton color="light" type="reset" class="ms-3">
+                        <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                        {{ 'clear' | translate }}
+                    </button>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'administration-page.action-log.label' | translate }}</strong>
+    </c-card-header>
+    <c-card-body>
+        <c-alert color="warning" *ngIf="this.actionLogList.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+
+        <table cTable striped hover *ngIf="actionLogList.length > 0">
+            <thead>
+            <tr class="align-middle">
+                <th scope="col">#</th>
+                <th scope="col">{{ 'administration-page.action-log.date' | translate }}</th>
+                <th scope="col">{{ 'administration-page.action-log.action' | translate }}</th>
+                <th scope="col">{{ 'administration-page.action-log.description' | translate }}</th>
+                <th scope="col">{{ 'administration-page.action-log.user' | translate }}</th>
+                <th scope="col">{{ 'administration-page.action-log.ip-address' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of actionLogList; let idx = index">
+                <th scope="row">{{ ((pagination.currentPage - 1) * pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>{{ item.actionDate }}</td>
+                <td>{{ getActionName(item) }}</td>
+                <td [innerHTML]="getDescription(item)"></td>
+                <td>{{ getUserName(item) }}</td>
+                <td>{{ item.ip }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-row *ngIf="actionLogList.length > 0">
+            <c-col [md]="8">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="pagination.totalItems > pagination.itemsPerPage"
+                            [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
+                            [totalItems]="pagination.totalItems" [maxSize]="pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="4">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-body>
+</c-card>

@@ -1,0 +1,331 @@
+<!-- Общие сведения -->
+<div class="mb-2" *ngIf="person">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <c-row>
+            <c-col [md]="10">
+                <strong>{{ 'person-portrait.header.general-info' | translate }}</strong>
+            </c-col>
+            <c-col [md]="2" class="text-end pe-3" *ngIf="hasAdminPermissions">
+                <a role="button" (click)="downloadPersonCard()">
+                    <i class="fa fa-file-pdf-o"></i></a>
+            </c-col>
+        </c-row>
+    </div>
+
+    <c-row>
+        <!-- PERSON INFO -->
+        <c-col [md]="7">
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.full-name' | translate }}:</c-col>
+                <c-col [md]="8" *ngIf="authService.getUserId() !== authService.DEMO_USER_ID">
+                    {{ utilService.getCapitalized(person.surName + ' ' + person.firstName + (person.secondName ? ' ' + person.secondName : '')) }}
+                </c-col>
+                <c-col [md]="8" *ngIf="authService.getUserId() === authService.DEMO_USER_ID">
+                    <i class="fa fa-asterisk text-dark"
+                       *ngFor="let i of [0, 1, 2, 3, 4]"></i>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.iin' | translate }}:</c-col>
+                <c-col [md]="8" *ngIf="authService.getUserId() !== authService.DEMO_USER_ID">{{ person.iin }}</c-col>
+                <c-col [md]="8" *ngIf="authService.getUserId() === authService.DEMO_USER_ID">
+                    <i class="fa fa-asterisk text-dark"
+                       *ngFor="let i of [0, 1, 2, 3, 4]"></i>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.birth-date' | translate }}:</c-col>
+                <c-col [md]="8">{{ person.birthDate }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.gender' | translate }}:</c-col>
+                <c-col [md]="8">
+                    {{ person.sexId === 2 ? ('gender-type.female' | translate) : ('gender-type.male' | translate) }}
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.nationality' | translate }}:</c-col>
+                <c-col [md]="8">
+                    {{ translateService.currentLang === 'kz' ? person.nationality.nameKz : person.nationality.nameRu }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.citizenship' | translate }}:</c-col>
+                <c-col [md]="8">
+                    {{ translateService.currentLang === 'kz' ? person.citizenship.nameKz : person.citizenship.nameRu }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.phone' | translate }}:</c-col>
+                <c-col [md]="8">
+                    <span [ngClass]="{'me-2': phoneParams.phoneNumber}">{{ phoneParams.phoneNumber | phone }}</span>
+                    <button cButton size="sm" variant="outline" color="dark"
+                            (click)="findPersonPhone()" [disabled]="phoneParams.status == 1">
+                        <svg cIcon name="cilSync" *ngIf="phoneParams.status != 1"></svg>
+                        <c-spinner aria-hidden="true" size="sm" *ngIf="phoneParams.status == 1"></c-spinner>
+                    </button>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.birth-address' | translate }}:</c-col>
+                <c-col [md]="8">{{ personService.getPersonBirthAddress(person) }}</c-col>
+            </c-row>
+            <c-row class="mb-1">
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.reg-address' | translate }}:</c-col>
+                <c-col [md]="8">
+                    <span class="me-2">{{ personService.getPersonRegAddress(person) }}</span>
+                    <button class="me-2" cButton size="sm" variant="outline" color="dark" (click)="openRegAddressModal()"
+                            *ngIf="hasPermission(permissions.PERSON_REG_ADDRESS)">
+                        <svg cIcon name="cilTags"></svg>
+                    </button>
+
+                    <button cButton size="sm" variant="outline" color="dark" (click)="openRegAddressHistoryModal()"
+                            *ngIf="hasPermission(permissions.PERSON_REG_ADDRESS)">
+                        <svg cIcon name="cilHistory"></svg>
+                    </button>
+                </c-col>
+            </c-row>
+            <c-row class="mb-1" *ngIf="person.regDate">
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.reg-date' | translate }}:</c-col>
+                <c-col [md]="8">
+                    <span class="me-2">{{ person.regDate }}</span>
+                </c-col>
+            </c-row>
+            <c-row class="mb-1" *ngIf="person.regCloseDate">
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.reg-close-date' | translate }}:</c-col>
+                <c-col [md]="8">
+                    <span class="me-2">{{ person.regCloseDate }}</span>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.actual-address' | translate }}:</c-col>
+                <c-col [md]="8" *ngIf="!isFormMode">{{ factAddress }}</c-col>
+                <c-col [md]="8" *ngIf="isFormMode">
+                    <c-input-group>
+                        <textarea name="address" cFormControl class="fixed"
+                                  [(ngModel)]="factAddress" [disabled]="!visible[1]"></textarea>
+                        <button cButton (click)="savePersonFactAddress()"
+                                [ngClass]="{'btn-success' : visible[1], 'btn-secondary' : !visible[1]}">
+                            <svg cIcon name="cilSave" class="text-white" *ngIf="visible[1]"></svg>
+                            <svg cIcon name="cilPencil" class="text-white" *ngIf="!visible[1]"></svg>
+                        </button>
+                    </c-input-group>
+                </c-col>
+            </c-row>
+
+        </c-col>
+
+        <!-- PERSON DOC -->
+        <c-col [md]="5">
+            <table cTable borderless>
+                <tbody>
+                <tr>
+                    <td width="200px" class="opacity-75">
+                        <img cImg rounded src="./assets/images/male.png" class="profile-image img-thumbnail"
+                             *ngIf="person.sexId == 1"/>
+                        <img cImg rounded src="./assets/images/female.png" class="profile-image img-thumbnail"
+                             *ngIf="person.sexId == 2"/>
+                    </td>
+                    <td>
+                        <div *ngIf="document">
+                            <c-row>
+                                <c-col [md]="6" class="fw-medium">{{ 'document.number' | translate }}:</c-col>
+                                <c-col [md]="6">{{ document.docNumber }}</c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col [md]="6" class="fw-medium">{{ 'document.issue-date' | translate }}:
+                                </c-col>
+                                <c-col [md]="6">{{ document.docDstart }}</c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col [md]="12" class="fw-medium">{{ 'document.issue-org' | translate }}:
+                                </c-col>
+                                <c-col [md]="12">
+                                    {{ translateService.currentLang === 'kz' ? document.docIssueOrgNameRu : document.docIssueOrgNameRu }}</c-col>
+                            </c-row>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <c-callout color="info" *ngIf="attrDictionary">
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">{{ 'person-portrait.build-source' | translate }}:</c-col>
+                    <c-col [md]="8">{{ attrDictionary.name }}</c-col>
+                </c-row>
+            </c-callout>
+
+            <div class="d-flex justify-content-end">
+
+                <!-- BIR CALCULATION BUTTON -->
+                <button cButton color="success" class="text-white me-2" (click)="openBirCalculationModal()">
+<!--                    <i class="fa fa-history"></i>-->
+                    <span class="ms-1">{{ 'person-portrait.bir-calculation' | translate }}</span>
+                </button>
+
+                <!-- TIMELINE BUTTON -->
+                <button cButton color="secondary" class="text-white me-2" (click)="openPersonTimeline()"
+                        *ngIf="!isFormMode && hasPermission(permissions.PERSON_TIMELINE)">
+                    <i class="fa fa-history"></i>
+                    <span class="ms-1">{{ 'timeline.label' | translate }}</span>
+                </button>
+
+                <!-- ZAGS INFO BUTTON -->
+                <button cButton color="secondary" class="text-white" (click)="toggleCollapse(0)"
+                        *ngIf="hasPermission(permissions.PERSON_ZAGS_INFO) && zagsParams.hasData">
+                    <i class="fa"
+                       [ngClass]="{'fa-arrow-circle-down': !visible[0], 'fa-arrow-circle-up': visible[0]}"></i>
+                    <span class="ms-1">{{ 'zags-info.show-zags-info-short' | translate }}</span>
+                </button>
+
+                <!-- PERSON FORM BUTTON -->
+                <button cButton color="info" class="text-white ms-2" (click)="openPersonForm()" *ngIf="!isFormMode">
+                    <i class="fa fa-external-link-square"></i>
+                    <span class="ms-1">{{ 'person-portrait.form' | translate }}</span>
+                </button>
+
+                <!-- KANDAS PERSON FORM BUTTON -->
+                <button cButton color="info" class="text-white ms-2" (click)="openKandasPersonForm()" *ngIf="!isFormMode">
+                    <i class="fa fa-external-link-square"></i>
+                    <span class="ms-1">Индив план</span>
+                </button>
+
+                <!-- PERSON PORTRAIT BUTTON -->
+                <button cButton color="info" class="text-white ms-2" (click)="openPersonPortrait()" *ngIf="isFormMode">
+                    <i class="fa fa-address-book-o"></i>
+                    <span class="ms-1">{{ 'person-portrait.label' | translate }}</span>
+                </button>
+            </div>
+        </c-col>
+    </c-row>
+
+    <!-- ZAGS INFO -->
+    <c-card cCollapse class="mt-3" [visible]="visible[0]"
+            *ngIf="hasPermission(permissions.PERSON_ZAGS_INFO) && zagsParams.hasData">
+        <c-card-body>
+
+            <!-- PARENTS -->
+            <div class="mb-3" *ngIf="zagsParams.parents && zagsParams.parents.actNumber">
+                <div class="border-bottom border-bottom-2 border-bottom-dark text-dark mb-2 pb-1 ps-3">
+                    <strong>{{ 'zags-info.parents' | translate }}</strong>
+                </div>
+                <c-row>
+                    <c-col [md]="2">{{ zagsParams.parents.actNumber }}</c-col>
+                    <c-col [md]="2">{{ zagsParams.parents.regDate }}</c-col>
+                    <c-col [md]="4">
+                        <a target="_blank" class="link-info ms-2"
+                           [routerLink]="['/family/' + zagsParams.parents.motherIin]"
+                           (click)="utilService.navigateToFamilyPortrait(zagsParams.parents.motherIin)">
+                            {{ utilService.concat(' / ', zagsParams.parents.motherIin, zagsParams.parents.motherFullName) }}
+                        </a>
+                    </c-col>
+                    <c-col [md]="4">
+                        <a target="_blank" class="link-info ms-2"
+                           [routerLink]="['/family/' + zagsParams.parents.fatherIin]"
+                           (click)="utilService.navigateToFamilyPortrait(zagsParams.parents.fatherIin)">
+                            {{ utilService.concat(' / ', zagsParams.parents.fatherIin, zagsParams.parents.fatherFullName) }}
+                        </a>
+                    </c-col>
+                </c-row>
+            </div>
+
+            <!-- MARRIAGE -->
+            <div class="mb-3" *ngIf="zagsParams.marriageList && zagsParams.marriageList.length > 0">
+                <div class="border-bottom border-bottom-2 border-bottom-dark text-dark mb-2 pb-1 ps-3">
+                    <strong>{{ 'zags-info.marriage' | translate }}</strong>
+                </div>
+                <c-row class="mb-2" *ngFor="let marriage of zagsParams.marriageList; let idx = index"
+                       [ngClass]="{'border-top': idx > 0}">
+                    <c-col [md]="2">{{ marriage.actNumber }}</c-col>
+                    <c-col [md]="2">{{ marriage.regDate }}</c-col>
+                    <c-col [md]="4">
+                        <a target="_blank" class="link-info ms-2"
+                           [routerLink]="['/family/' + marriage.spouseIin]"
+                           (click)="utilService.navigateToFamilyPortrait(marriage.spouseIin)">
+                            {{ utilService.concat(' / ', marriage.spouseIin || '', marriage.spouseFullName || '') }}
+                        </a>
+                    </c-col>
+                    <c-col [md]="4">
+                        <c-callout color="warning" class="m-1 py-0 px-2"
+                                   *ngIf="marriage.divorceCourtActNumber">
+                            <small><span class="fw-bolder">{{ 'zags-info.has-court-act' | translate }}:</span>
+                                {{ utilService.concat(' / ', marriage.divorceCourtActNumber, marriage.divorceCourtActDate) }}
+                            </small>
+                        </c-callout>
+                        <c-callout color="warning" class="m-1 py-0 px-2"
+                                   *ngIf="marriage.deathActNumber">
+                            <small><span class="fw-bolder">{{ 'zags-info.has-death' | translate }}:</span>
+                                {{ utilService.concat(' / ', marriage.deathActNumber, marriage.deathActDate) }}
+                            </small>
+                        </c-callout>
+                        <c-callout color="warning" class="m-1 py-0 px-2"
+                                   *ngIf="marriage.divorceActNumber">
+                            <small><span class="fw-bolder">{{ 'zags-info.has-divorce' | translate }}:</span>
+                                {{ utilService.concat(' / ', marriage.divorceActNumber, marriage.divorceActDate) }}
+                            </small>
+                        </c-callout>
+                    </c-col>
+                </c-row>
+            </div>
+
+            <!-- DIVORCE -->
+            <div class="mb-3" *ngIf="zagsParams.divorceList && zagsParams.divorceList.length > 0">
+                <div class="border-bottom border-bottom-2 border-bottom-dark text-dark mb-2 pb-1 ps-3">
+                    <strong>{{ 'zags-info.divorces' | translate }}</strong>
+                </div>
+                <c-row class="mb-2" *ngFor="let divorce of zagsParams.divorceList; let idx = index"
+                       [ngClass]="{'border-top': idx > 0}">
+                    <c-col [md]="2">{{ divorce.actNumber }}</c-col>
+                    <c-col [md]="2">{{ divorce.regDate }}</c-col>
+                    <c-col [md]="4">
+                        <a target="_blank" class="link-info ms-2"
+                           [routerLink]="['/family/' + divorce.spouseIin]"
+                           (click)="utilService.navigateToFamilyPortrait(divorce.spouseIin)">
+                            {{ utilService.concat(' / ', divorce.spouseIin || '', divorce.spouseFullName || '') }}
+                        </a>
+                    </c-col>
+                </c-row>
+            </div>
+
+            <!-- CHILDREN -->
+            <div class="mb-3" *ngIf="zagsParams.birthList && zagsParams.birthList.length > 0">
+                <div class="border-bottom border-bottom-2 border-bottom-dark text-dark mb-2 pb-1 ps-3">
+                    <strong>{{ 'zags-info.children' | translate }}</strong>
+                </div>
+                <c-row class="mb-2" *ngFor="let birth of zagsParams.birthList; let idx = index"
+                       [ngClass]="{'border-top': idx > 0}">
+                    <c-col [md]="2">{{ birth.actNumber }}</c-col>
+                    <c-col [md]="2">{{ birth.regDate }}</c-col>
+                    <c-col [md]="4">
+                        <a target="_blank" class="link-info ms-2"
+                           [routerLink]="['/family/' + birth.childIin]"
+                           (click)="utilService.navigateToFamilyPortrait(birth.childIin)">
+                            {{ utilService.concat(' / ', birth.childIin, birth.childFullName) }}
+                        </a>
+                    </c-col>
+                    <c-col [md]="4">
+                        <a target="_blank" class="link-info ms-2" *ngIf="birth.fatherIin == person.iin"
+                           [routerLink]="['/family/' + birth.motherIin]"
+                           (click)="utilService.navigateToFamilyPortrait(birth.motherIin)">
+                            {{ utilService.concat(' / ', birth.motherIin, birth.motherFullName) }}
+                        </a>
+                        <a target="_blank" class="link-info ms-2" *ngIf="birth.motherIin == person.iin"
+                           [routerLink]="['/family/' + birth.fatherIin]"
+                           (click)="utilService.navigateToFamilyPortrait(birth.fatherIin)">
+                            {{ utilService.concat(' / ', birth.fatherIin, birth.fatherFullName) }}
+                        </a>
+                    </c-col>
+                </c-row>
+            </div>
+
+        </c-card-body>
+    </c-card>
+
+</div>
+
+<!-- REGISTRATION ADDRESS MODAL -->
+<app-person-reg-address-modal [eventShowModal]="showRegAddressModal"></app-person-reg-address-modal>
+
+<!-- REGISTRATION ADDRESS HISTORY MODAL -->
+<app-person-reg-address-history-modal [eventShowModal]="showRegAddressHistoryModal"></app-person-reg-address-history-modal>
+
+<!-- BIR CALCULATION MODAL -->
+<app-bir-calculation-modal [eventShowModal]="showBirCalculationModal" ></app-bir-calculation-modal>

@@ -1,0 +1,40 @@
+.tree-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.tree-select-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100% !important; /* Force the dropdown to be same width as toggle */
+    margin-top: 0.25rem !important; /* Ensure it sits right under the toggle */
+    left: 0 !important; /* Align left edge with toggle */
+}
+
+.tree-node {
+    padding: 0.3125rem 0.75rem;
+}
+
+.expand-btn {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix CoreUI dropdown positioning */
+:host ::ng-deep .dropdown-menu {
+    width: 100% !important;
+    inset: auto !important;
+    transform: none !important;
+    margin-top: 0.25rem !important;
+}
+
+:host ::ng-deep button[cDropdownToggle]::after {
+    display: none;
+}
+
+.form-select {
+    border-radius: 0.5rem;
+}

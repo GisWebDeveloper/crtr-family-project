@@ -1,0 +1,137 @@
+<!--<c-card class="mb-4" [cBorder]="'secondary'">-->
+<!--    <c-card-header>-->
+<!--        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>-->
+<!--        <strong>Трудные жизненные ситуации</strong>-->
+<!--        <span class="float-end">-->
+
+<!--        </span>-->
+
+<!--        <span class="float-end">-->
+
+<!--            <span>Скачать</span>-->
+<!--            <a role="button" class="btn btn-sm p-0  m">-->
+<!--                <i class="fa fa-file-excel-o fs-5"></i>-->
+<!--            </a>-->
+
+<!--            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">-->
+<!--                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>-->
+<!--            </a>-->
+<!--        </span>-->
+<!--    </c-card-header>-->
+<!--    <c-card-body *ngIf="visible[0]">-->
+
+<!--    </c-card-body>-->
+<!--</c-card>-->
+
+
+
+    <c-card class="mb-4" [cBorder]="'secondary'">
+        <c-card-header>
+            <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+            <strong>Трудные жизненные ситуации</strong>
+            <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+        </c-card-header>
+        <c-card-body *ngIf="visible[0]">
+
+            <table cTable small borderless striped>
+                <thead>
+                <tr class="py-1">
+                    <th colspan="8">
+                        <span class="me-3 m">№</span>
+                    </th>
+                    <th width="30%" class="text-center pe-4">Наименование ТЖС</th>
+                    <th class="text-center pe-4">Описание ТЖС</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of dictionary; let idx = index">
+                    <tr class="py-1 table-link" (click)="selectMemberPage(item)"
+                        [ngClass]="{ 'border-top': idx > 0,
+                                'bg-info': selectedTzhsId && selectedTzhsId == item.code,
+                                'text-white': selectedTzhsId && selectedTzhsId == item.code}">
+                        <td colspan="8">
+                            <span class="me-2">{{ (idx + 1) + '.' }}</span>
+                        </td>
+                        <td>{{ utilService.getLocalization(item.nameKz, item.nameRu) }}</td>
+                        <td>{{ item.descr }}</td>
+
+                        <!--                        <td colspan="2" class="table-link text-end pe-4"-->
+                        <!--                            (click)="selectCountItem(item)">{{ utilService.numberFormat(item.count) }}</td>-->
+                        <!--                        <td colspan="2" class="text-end pe-4">{{ utilService.numberFormat(item.countFam) }}</td>-->
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+        </c-card-body>
+    </c-card>
+
+
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="selectedTzhsId">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'lists' | translate }}</strong>
+<!--        <span class="float-end">-->
+<!--            <span>Скачать</span>-->
+<!--            <button cButton color="success" variant="ghost" size="sm" >-->
+<!--                <i class="fa fa-file-excel-o"></i></button>-->
+<!--        </span>-->
+    </c-card-header>
+    <c-card-body>
+
+        <!-- LIST -->
+        <table cTable striped hover *ngIf="list.length > 0">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ИИН</th>
+                <!--                <th scope="col" class="text-center">{{ 'need-actions-page.form' | translate }}</th>-->
+                <th scope="col">ФИО</th>
+                <th scope="col">Дата рождения </th>
+                <th scope="col">Адрес</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of list; let idx = index">
+                <th scope="row">{{ ((pagination.currentPage - 1) * pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>
+                    <a target="_blank" class="link-info" [routerLink]="['/family/' + item.iin]"
+                       (click)="utilService.navigateToFamilyPortrait(item.iin)">
+                        {{ item.iin }}
+                    </a>
+                </td>
+                <td>{{ utilService.getCapitalized(item.fio) }}</td>
+                <td>{{ item.birthDate }}</td>
+                <td>{{ item.address }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-alert color="warning" *ngIf="list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-card-body>
+    <c-card-footer>
+        <c-row>
+            <c-col [md]="10">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="pagination.totalItems > pagination.itemsPerPage"
+                            [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
+                            [totalItems]="pagination.totalItems" [maxSize]="pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-footer>
+</c-card>

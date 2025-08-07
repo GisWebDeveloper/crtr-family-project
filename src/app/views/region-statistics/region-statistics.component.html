@@ -1,0 +1,333 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible, 0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm (submit)="search()">
+            <c-row class="mb-4">
+                <c-col [md]="4">
+                    <c-row class="mb-2"><strong>{{'segmentation-new-page.region' | translate}}</strong></c-row>
+                    <c-row>
+                        <c-col>
+                            <ng-select id="region" name="region" bindValue="id"
+                                       [items]="dictionaryRegion"
+                                       [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                       [(ngModel)]="filter.regionId"
+                                       [clearable]="this.dictionaryRegion.length !== 1"
+                                       [searchable]="false">
+                            </ng-select>
+
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <c-col [md]="4">
+                    <c-row class="mb-2"><strong>{{'segmentation-new-page.family-type' | translate}}</strong>
+                    </c-row>
+                    <c-row>
+                        <c-col>
+                            <ng-select id="family-type" name="family-type" bindValue="value"
+                                       [items]="dictionaryFamilyType"
+                                       [(ngModel)]="filter.familyTypeIds"
+                                       [clearable]="true"
+                                       [searchable]="false"
+                                       [multiple]="true"></ng-select>
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <c-col [md]="4">
+                    <c-row class="mb-2">
+                        <strong>{{'segmentation-new-page.well-being-level' | translate}}</strong></c-row>
+                    <c-row>
+                        <c-col>
+                            <ng-select id="familyTzhs" name="familyTzhs"
+                                       [items]="dictionaryFamilyTzhsGroup"
+                                       [(ngModel)]="filter.familyTzhses"
+                                       [clearable]="true"
+                                       [searchable]="false"
+                                       [multiple]="true"></ng-select>
+                        </c-col>
+
+                    </c-row>
+                </c-col>
+
+            </c-row>
+
+            <!-- FILTER BUTTONS -->
+            <div class="d-flex justify-content-end mb-3">
+                <button cButton color="light" class="me-3" type="reset">
+                    <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                    {{ 'clear' | translate }}
+                </button>
+
+                <button cButton color="info" type="submit" class="text-white">
+                    <span class="pe-1"><svg cIcon name="cilSearch"></svg></span>
+                    {{ 'search' | translate }}
+                </button>
+            </div>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="rating">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>Статистика региона по людям</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible, 1)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[1]">
+        <h5>
+            <span class="pe-2" role="button" (click)="showModal(1)"><svg cIcon name="cilBarChart"></svg></span>
+            <strong class="pe-2">Население:</strong>
+            <span class="pe-2"><svg cIcon name="cilUser"></svg>
+                {{utilService.numberFormat(rating[1].total.cntMan)}}</span>
+            <span class="pe-2"><svg cIcon name="cilUserFemale"></svg>
+                {{utilService.numberFormat(rating[1].total.cntWoman)}}</span>
+            <span class="pe-2"><svg cIcon name="cilChild"></svg>
+                {{utilService.numberFormat(rating[1].total.cntChild)}}</span>
+            <span class="pe-2">{{ 'region-statistics.total' | translate }}:
+                {{utilService.numberFormat(rating[1].total.cntMan + rating[1].total.cntWoman)}}</span>
+        </h5>
+        <c-row class="mb-3 mt-3">
+            <c-col [md]="4">
+                <c-card [cBorder]="'secondary'" class="p-3">
+                    <strong>{{ 'region-statistics.susn' | translate }}</strong>
+
+                    <div [ngStyle]="{overflowY : 'auto', height: '550px', overflowX: 'hidden'}">
+                        <table cTable small borderless striped>
+                            <thead>
+                            <tr>
+                                <td [colSpan]="6"></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.family' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.member' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end"><i>{{ 'region-statistics.uniq' | translate }}</i>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of getSusnDictionary()">
+                                <td *ngIf="rating[item.id].regionRatingList.length > 0" [colSpan]="1"><span class="pe-2"
+                                                                                                            role="button"
+                                                                                                            (click)="showModal(item.id)"><svg
+                                    cIcon name="cilBarChart"></svg></span></td>
+                                <td [colSpan]="rating[item.id].regionRatingList.length > 0 ? 5 : 6">
+                                    <strong>{{ item.nameRu }}</strong></td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntFam) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntMem) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cnt) }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </c-card>
+            </c-col>
+            <c-col [md]="4">
+                <c-card [cBorder]="'secondary'" class="p-3">
+                    <strong>{{ 'region-statistics.risk' | translate }}</strong>
+
+                    <div [ngStyle]="{overflowY : 'auto', height: '550px', overflowX: 'hidden'}">
+                        <table cTable small borderless striped>
+                            <thead>
+                            <tr>
+                                <td [colSpan]="6"></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.family' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.member' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end"><i>{{ 'region-statistics.uniq' | translate }}</i>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of getDictionary('C05')">
+                                <td *ngIf="rating[item.id].regionRatingList.length > 0" [colSpan]="1"><span class="pe-2"
+                                                                                                            role="button"
+                                                                                                            (click)="showModal(item.id)"><svg
+                                    cIcon name="cilBarChart"></svg></span></td>
+                                <td [colSpan]="rating[item.id].regionRatingList.length > 0 ? 5 : 6">
+                                    <strong>{{ item.nameRu }}</strong></td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntFam) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntMem) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cnt) }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </c-card>
+            </c-col>
+            <c-col [md]="4">
+                <c-card [cBorder]="'secondary'" class="p-3">
+                    <strong>{{ 'region-statistics.population-employment' | translate }}</strong>
+
+                    <div [ngStyle]="{overflowY : 'auto', height: '550px', overflowX: 'hidden'}">
+                        <table cTable small borderless striped>
+                            <thead>
+                            <tr>
+                                <td [colSpan]="6"></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.family' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.member' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end"><i>{{ 'region-statistics.uniq' | translate }}</i>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of getDictionary('C02')">
+                                <td *ngIf="rating[item.id].regionRatingList.length > 0" [colSpan]="1"><span class="pe-2"
+                                                                                                            role="button"
+                                                                                                            (click)="showModal(item.id)"><svg
+                                    cIcon name="cilBarChart"></svg></span></td>
+                                <td [colSpan]="rating[item.id].regionRatingList.length > 0 ? 5 : 6">
+                                    <strong>{{ item.nameRu }}</strong></td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntFam) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntMem) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cnt) }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </c-card>
+            </c-col>
+        </c-row>
+        <c-row>
+            <c-col [md]="4">
+                <c-card [cBorder]="'secondary'" class="p-3">
+                    <strong>{{ 'region-statistics.population-statistics' | translate }}</strong>
+
+                    <div [ngStyle]="{overflowY : 'auto', height: '550px', overflowX: 'hidden'}">
+                        <table cTable small borderless striped>
+                            <thead>
+                            <tr>
+                                <td [colSpan]="6"></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.family' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.member' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end"><i>{{ 'region-statistics.uniq' | translate }}</i>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of getDictionary('C01')">
+                                <td *ngIf="rating[item.id].regionRatingList.length > 0" [colSpan]="1"><span class="pe-2"
+                                                                                                            role="button"
+                                                                                                            (click)="showModal(item.id)"><svg
+                                    cIcon name="cilBarChart"></svg></span></td>
+                                <td [colSpan]="rating[item.id].regionRatingList.length > 0 ? 5 : 6">
+                                    <strong>{{ item.nameRu }}</strong></td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntFam) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntMem) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cnt) }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </c-card>
+            </c-col>
+            <c-col [md]="4">
+                <c-card [cBorder]="'secondary'" class="p-3">
+                    <strong>{{ 'region-statistics.population-assets' | translate }}</strong>
+
+                    <div [ngStyle]="{overflowY : 'auto', height: '550px', overflowX: 'hidden'}">
+                        <table cTable small borderless striped>
+                            <thead>
+                            <tr>
+                                <td [colSpan]="6"></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.family' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end">
+                                    <i>{{ 'region-statistics.member' | translate }}</i></td>
+                                <td [colSpan]="2" class="text-end"><i>{{ 'region-statistics.uniq' | translate }}</i>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of getDictionary('C03')">
+                                <td *ngIf="rating[item.id].regionRatingList.length > 0" [colSpan]="1"><span class="pe-2"
+                                                                                                            role="button"
+                                                                                                            (click)="showModal(item.id)"><svg
+                                    cIcon name="cilBarChart"></svg></span></td>
+                                <td [colSpan]="rating[item.id].regionRatingList.length > 0 ? 5 : 6">
+                                    <strong>{{ item.nameRu }}</strong></td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntFam) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cntMem) }}</td>
+                                <td [colSpan]="2"
+                                    class="text-end">{{ utilService.numberFormat(rating[item.id].total.cnt) }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </c-card>
+            </c-col>
+            <c-col [md]="4">
+                <c-card [cBorder]="'secondary'" class="p-3">
+                    <strong>{{ 'region-statistics.population-age' | translate }}</strong>
+
+                    <div [ngStyle]="{overflowY : 'auto', height: '550px', overflowX: 'hidden'}">
+                        <table cTable small borderless striped>
+                            <thead>
+                            <tr>
+                                <td [colSpan]="2"><i>{{ 'region-statistics.age' | translate }}</i></td>
+                                <td class="text-end"><i>{{ 'region-statistics.man' | translate }}</i></td>
+                                <td class="text-end"><i>{{ 'region-statistics.woman' | translate }}</i></td>
+                                <td class="text-end"><i>{{ 'region-statistics.total' | translate }}</i></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let age of getAges()">
+                                <td *ngIf="getAgeState(age, 1) > 0 && getAgeState(age, 2) > 0" [colSpan]="1"><span
+                                    class="pe-2" role="button" (click)="showAgeModal(age)"><svg cIcon
+                                                                                                name="cilBarChart"></svg></span>
+                                </td>
+                                <td [colSpan]="getAgeState(age, 1) > 0 && getAgeState(age, 2) > 0 ? 1 : 2">
+                                    <strong>{{ age }}</strong></td>
+                                <td class="text-end">{{ utilService.numberFormat(getAgeState(age, 1)) }}</td>
+                                <td class="text-end">{{ utilService.numberFormat(getAgeState(age, 2)) }}</td>
+                                <td class="text-end">{{ utilService.numberFormat(getAgeState(age, 1) + getAgeState(age, 2)) }}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </c-card>
+            </c-col>
+        </c-row>
+    </c-card-body>
+</c-card>
+
+<app-region-statistics-graph-modal [eventShowModal]="eventShowListModal"></app-region-statistics-graph-modal>
+
+
+
+

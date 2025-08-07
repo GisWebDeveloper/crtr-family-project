@@ -1,0 +1,1011 @@
+<label class="mb-4">Цифровое рабочее место Акима</label>
+
+<div class="container-2 mb-4 shadow">
+
+    <div class="mb-4">
+        <label class="form-label">Регион</label>
+        <app-tree-select style="width: 100px"
+                         [searchable]="true"
+                         [multiSelect]="false"
+                         [selectedNodes]="selectedIds"
+                         (selectedNodesChange)="onSelectionChange($event)"
+                         [loadChildrenFn]="loadChildrenFn"
+                         placeholder="Выберите регион"
+        ></app-tree-select>
+    </div>
+
+    <div class="mb-4" *ngIf="params.stat2">
+        <c-row class="stat-row mb-2">
+            <c-col [md]="3">
+                <div class="container-1 stat-card"
+                     (click)="showGraph('cntMem', 'akim-page.stat.gbdfl', 'akim-page.stat.member', 1)"
+                     role="button" [ngClass]="{'selected-stat-card': index === 1}">
+
+                    <p class="typography-body2 grey-3 mb-2">{{ 'akim-page.stat.gbdfl' | translate}} {{ 'akim-page.stat.gbdfl-long' | translate}}</p>
+
+                    <c-row class="mb-2"
+                           [ngClass]="{'lightblue-1': index === 1, 'clear-sky': index !== 1}">
+                        <h3 class="typography-h3 mb-0">{{utilService.numberFormat(params.stat2?.mem?.cnt)}} <span
+                            class="typography-button2">{{ 'akim-page.stat.member' | translate}}</span></h3>
+                    </c-row>
+
+                    <p class="typography-body2 text-nowrap mb-0"
+                       [ngClass]="{'success': params.stat2?.mem?.changePercentage > 0,
+                                    'error': !(params.stat2?.mem?.changePercentage > 0)}">
+                        {{utilService.numberFormat(params.stat2?.mem?.changePercentage)}}%
+                        <span class="ms-1">
+                            <img
+                                [attr.src]="params.stat2?.mem?.changePercentage > 0 ? 'assets/icons/trend-up.svg' : 'assets/icons/trend-down.svg'"
+                                alt="Icon">
+                    </span>
+                    </p>
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1  stat-card "
+                     (click)="showGraph('sddOpv', 'akim-page.stat.sdd-opv', 'akim-page.stat.tenge', 2)"
+                     role="button" [ngClass]="{'selected-stat-card': index === 2}">
+                    <p class="typography-body2 grey-3 mb-2">{{ 'akim-page.stat.sdd-opv' | translate}}</p>
+
+                    <div class="d-flex justify-content-center justify-content-between mb-2">
+
+                        <div
+                            [ngClass]="{'lightblue-1': index === 2, 'clear-sky': index !== 2}">
+                            <h3 class="typography-h3 mb-0">{{utilService.numberFormat(params.stat2?.sddOpv?.cnt)}} <span
+                                class="typography-button2">{{ 'akim-page.stat.tenge' | translate}}</span></h3>
+                        </div>
+
+                        <h3 class="typography-h3 mb-0"
+                            [ngClass]="{'success': params.stat2?.sddOpv?.differenceFromParentPercentage > 0,
+                                    'error': params.stat2?.sddOpv?.differenceFromParentPercentage <= 0}">
+                            {{utilService.numberFormat(params.stat2?.sddOpv?.differenceFromParentPercentage)}}%
+                        </h3>
+                    </div>
+                    <p class="typography-body2 text-nowrap mb-0"
+                       [ngClass]="{'success': params.stat2?.sddOpv?.changePercentage > 0,
+                                    'error': !(params.stat2?.sddOpv?.changePercentage > 0)}">
+                        {{utilService.numberFormat(params.stat2?.sddOpv?.changePercentage)}}%
+                        <span class="ms-1">
+                            <img
+                                [attr.src]="params.stat2?.sddOpv?.changePercentage > 0 ? 'assets/icons/trend-up.svg' : 'assets/icons/trend-down.svg'"
+                                alt="Icon">
+                        </span>
+                    </p>
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1  stat-card "
+                     (click)="showGraph('opv', 'akim-page.stat.opv', 'akim-page.stat.member', 3)"
+                     role="button" [ngClass]="{'selected-stat-card': index === 3}">
+                    <p class="typography-body2 grey-3 mb-2">{{ 'akim-page.stat.opv' | translate}}</p>
+
+                    <div class="d-flex justify-content-center justify-content-between mb-2">
+                        <div
+                            [ngClass]="{'lightblue-1': index === 3, 'clear-sky': index !== 3}">
+                            <h3 class="typography-h3 mb-0">{{utilService.numberFormat(params.stat2?.opv?.cnt)}}
+                                <span>({{utilService.numberFormat(params.stat2?.opv?.cnt / params.stat2?.trud?.cnt * 100 )}}%) </span>
+                                <span
+                                class="typography-button2">{{ 'akim-page.stat.member' | translate}} </span>
+                            </h3>
+                        </div>
+
+                        <h3 class="typography-h3 mb-0"
+                            [ngClass]="{'success': params.stat2?.opv?.differenceFromParentPercentage > 0,
+                                    'error': params.stat2?.opv?.differenceFromParentPercentage <= 0}">
+                            {{utilService.numberFormat(params.stat2?.opv?.differenceFromParentPercentage)}}%
+                        </h3>
+                    </div>
+
+                    <p class="typography-body2 text-nowrap mb-2 "
+                       [ngClass]="{'success': params.stat2?.opv?.changePercentage > 0,
+                                    'error': !(params.stat2?.opv?.changePercentage > 0)}">
+                        {{utilService.numberFormat(params.stat2?.opv?.changePercentage)}}%
+                        <span class="ms-1">
+                            <img [attr.src]="params.stat2?.opv?.changePercentage > 0 ?
+                                                        'assets/icons/trend-up.svg' : 'assets/icons/trend-down.svg'"
+                                 alt="Icon">
+                        </span>
+                    </p>
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Кредиты', 11)"
+                     [ngClass]="{'selected-stat-card': index === 11}">
+                    <p class="typography-body2 mb-2 grey-3">Кредиты</p>
+
+                    <div class="flex-wrap">
+                        <div class="category typography-body2 mb-1">
+                            <div>
+                                Количество граждан имеющих кредиты -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.credit?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.credit?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.credit?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.credit?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.credit?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+                        <div class="category typography-body2 mb-1">
+                            <div>
+                                Количество граждан имеющих просроченную задолженность -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.creditDolg?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.creditDolg?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.creditDolg?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.creditDolg?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.creditDolg?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Население', 5)"
+                     [ngClass]="{'selected-stat-card': index === 5}">
+                    <p class="typography-body2 mb-2 grey-3">Население</p>
+
+                    <div class="stat-with-percentage mb-3">
+                        <h3 class="typography-h3"
+                            [ngClass]="{'lightblue-1': index === 5, 'clear-sky': index !== 5}"
+                            style=" margin-right: 0.75rem">{{utilService.numberFormat(params?.stat2?.mem?.cnt)}}</h3>
+
+                        <p class="typography-body2 grey-3 text-nowrap">
+                            {{utilService.numberFormat(params?.stat2?.mem?.changePercentage)}}%
+                            <span class="ms-1">
+                                <img [attr.src]="params?.stat2?.mem?.changePercentage > 0 ?
+                                                'assets/icons/trend-up-grey.svg' : 'assets/icons/trend-down-grey.svg'"
+                                     alt="Icon">
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="flex-wrap">
+                        <div class="category typography-body2 mb-1">
+<!--                            <div class="color-indicator me-2" style="background-color: var(&#45;&#45;yellow)"></div>-->
+
+                            <div>
+                                Женщины -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.woman?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.woman?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.woman?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.woman?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.woman?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+                        <div class="category typography-body2 mb-1">
+<!--                            <div class="color-indicator me-2" style="background-color: var(&#45;&#45;dark-blue2)"></div>-->
+
+                            <div>
+                                Мужчины -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.men?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.men?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.men?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.men?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.men?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+
+                        <div class="category typography-body2 mb-1">
+<!--                            <div class="color-indicator me-2" style="background-color: var(&#45;&#45;light-blue)"></div>-->
+
+                            <div>
+                                Дети -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.child?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.child?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.child?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.child?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.child?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Лица по возрасту', 7)"
+                     [ngClass]="{'selected-stat-card': index === 7}">
+                    <p class="typography-body2 grey-3 mb-2">Лица по возрасту</p>
+
+                    <c-row class="susn-stat align-items-center">
+                        <c-col class="typography-caption text-end grey-3" style="width: 20%">0 - 17</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.age_0_18?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 60%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.age_0_18?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.age_0_18?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+
+                        <c-col class="typography-caption text-end" style="color: var(--grey-3); width: 20%;">18 - 34
+                        </c-col>
+                        <c-col class="typography-state text-center"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.age_18_35?.cnt)}}</c-col>
+                        <c-col style=" width: 60%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.age_18_35?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.age_18_35?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end" style="color: var(--grey-3); width: 20%;">35 - 44
+                        </c-col>
+                        <c-col class="typography-state text-center"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.age_35_45?.cnt)}}</c-col>
+                        <c-col style=" width: 60%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.age_35_45?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.age_35_45?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end" style="color: var(--grey-3); width: 20%;">45 - 64
+                        </c-col>
+                        <c-col class="typography-state text-center"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.age_45_65?.cnt)}}</c-col>
+                        <c-col style=" width: 60%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.age_45_65?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.age_45_65?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end" style="color: var(--grey-3); width: 20%;">65 и более
+                        </c-col>
+                        <c-col class="typography-state text-center"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.age_65?.cnt)}}</c-col>
+                        <c-col style=" width: 60%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.age_65?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.age_65?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+                    </c-row>
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Занятые', 8)"
+                     [ngClass]="{'selected-stat-card': index === 8}">
+                    <p class="typography-body2 grey-3 mb-2">Занятые</p>
+
+
+                    <div class="flex-wrap">
+                        <div class="category typography-body2 mb-1">
+                            <div>
+                                Трудоспособные -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.trud?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.trud?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.trud?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.trud?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.trud?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+                        <div class="category typography-body2 mb-1">
+                            <div>
+                                ИП -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.ip?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' :  params?.stat2?.ip?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.ip?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.ip?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.ip?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+                        <div class="category typography-body2 mb-1">
+                            <div>
+                                Наемные работники -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.work?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.work?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.work?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.work?.cnt) + '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.work?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+                        <div class="category typography-body2 mb-1">
+                            <div>
+                                Безработные -
+                            </div>
+                            <div class="typography-button2 me-2">
+                                &nbsp;{{utilService.numberFormat(params?.stat2?.bezrab?.cnt)}}</div>
+                            <div class="text-nowrap"
+                                 [ngStyle]="{'color' : params?.stat2?.bezrab?.changePercentage > 0 ? 'var(--success)' : 'var(--error)'}">
+                                {{utilService.numberFormat(params?.stat2?.bezrab?.changePercentage)}}%
+                            </div>
+                        </div>
+                        <div class="stat-bar-container mb-2">
+                            <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                 [style.width]="getPercentageFromPopulation(params?.stat2?.bezrab?.cnt)+ '%'">
+                                <label
+                                    class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.bezrab?.cnt))}}
+                                    %</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Лица, относящихся к СУСН', 6)"
+                     [ngClass]="{'selected-stat-card': index === 6}">
+                    <p class="typography-body2 grey-3 mb-2">Лица, относящихся к СУСН</p>
+
+                    <div class="d-flex justify-content-center justify-content-between mb-2">
+                        <div class="stat-with-percentage mb-3">
+                            <h3 class="typography-h3"
+                                [ngClass]="{'lightblue-1': index === 6, 'clear-sky': index !== 6}"
+                                style=" margin-right: 0.75rem">{{utilService.numberFormat(params?.stat2?.susnTotal?.cnt)}}</h3>
+
+                            <p class="typography-body2 grey-3 text-nowrap">
+                                {{utilService.numberFormat(params?.stat2?.susnTotal?.changePercentage)}}%
+                                <span class="ms-1">
+                                <img [attr.src]="params?.stat2?.susnTotal?.changePercentage > 0 ?
+                                                'assets/icons/trend-up-grey.svg' : 'assets/icons/trend-down-grey.svg'"
+                                     alt="Icon">
+                            </span>
+                            </p>
+                        </div>
+
+
+                        <h3 class="typography-h3 mb-0"
+                            [ngClass]="{'success': params.stat2?.susnTotal?.differenceFromParentPercentage > 0,
+                                    'error': !(params.stat2?.susnTotal?.differenceFromParentPercentage > 0)}">
+                            {{utilService.numberFormat(params.stat2?.susnTotal?.differenceFromParentPercentage)}}%
+                        </h3>
+                    </div>
+
+                    <c-row class="susn-stat align-items-center">
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Пенсионеры'"
+                               cTooltipPlacement="bottom">
+                            Пенсионеры
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnPens?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnPens?.cnt) + '%'">
+                                    <span
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnPens?.cnt))}}
+                                        %</span>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Ветераны ВОВ, приравненные по льготам к ветеранам ВОВ, ветераны боевых дейтсвий на территории других государств'"
+                               cTooltipPlacement="bottom">
+                            Участники ВОВ
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnVov?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnVov?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnVov?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Семьи лиц, погибщих (умерших) при исполнении воин. служб. обяз.'"
+                               cTooltipPlacement="bottom">
+                            Семьи погибших (умерших) военных
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnUk?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnUk?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnUk?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Лица с инвалидностью I или II группы'"
+                               cTooltipPlacement="bottom">
+                            ЛСИ I или II группы
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnInv?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnInv?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnInv?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Семьи, воспитывающие детей с инвалидностью'"
+                               cTooltipPlacement="bottom">
+                            Семьи, воспитывающие детей с инвалидностью
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnInvChild?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnInvChild?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnInvChild?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Дети оставшиеся без попечения и сироты'"
+                               cTooltipPlacement="bottom">
+                            Сироты
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnSirot?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnSirot?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnSirot?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Многодетные семьи и награжденные многодетные матери'"
+                               cTooltipPlacement="bottom">
+                            Многодетные семьи и награжденные многодетные матери
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnMng?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnMng?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnMng?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Получатели АСП'"
+                               cTooltipPlacement="bottom">
+                            Получатели АСП
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnAsp?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnAsp?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnAsp?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-end grey-3"
+                               style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+                               [cTooltip]="'Кандасы'"
+                               cTooltipPlacement="bottom">
+                            Кандасы
+                        </c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 20%">{{utilService.numberFormat(params?.stat2?.susnKandas?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 40%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.susnKandas?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.susnKandas?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+
+                        <!--                        <c-col class="typography-caption text-end"-->
+                        <!--                               [cTooltip]="'Семьи, воспитывающих детей с инвалидностью'"-->
+                        <!--                               cTooltipPlacement="bottom" style="color: var(&#45;&#45;grey-3); width: 40%;-->
+                        <!--                        white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Семьи, воспитывающих детей с-->
+                        <!--                            инвалидностью-->
+                        <!--                        </c-col>-->
+                        <!--                        <c-col class="typography-state text-center" style="color: #1C1C1C; width: 20%">13 567</c-col>-->
+                        <!--                        <c-col style=" width: 40%">-->
+                        <!--                            <div class="stat-bar-container">-->
+                        <!--                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"-->
+                        <!--                                     style="width: 20%;">20%-->
+                        <!--                                    &lt;!&ndash;                            <label class="stat-percentage typography-state text-center">79%</label>&ndash;&gt;-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </c-col>-->
+                    </c-row>
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Здравоохранение', 9)"
+                     [ngClass]="{'selected-stat-card': index === 9}">
+                    <p class="typography-body2 grey-3 mb-2">Здравоохранение</p>
+
+                    <c-row class="susn-stat align-items-center">
+                        <c-col class="typography-caption text-start grey-3" style="width: 20%">Застраховано</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 30%">{{utilService.numberFormat(params?.stat2?.osms?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 50%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.osms?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.osms?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-start grey-3" style="width: 20%">Прикрепоение</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 30%">{{utilService.numberFormat(params?.stat2?.rpn?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 50%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.rpn?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.rpn?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                    </c-row>
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1 h-100" role="button" (click)="showGraph2('cntMem', 'Образование', 10)"
+                     [ngClass]="{'selected-stat-card': index === 10}">
+                    <p class="typography-body2 mb-2 grey-3">Образование</p>
+
+                    <div class="d-flex justify-content-center justify-content-between mb-2">
+                        <div class="stat-with-percentage mb-3">
+                            <h3 class="typography-h3"
+                                [ngClass]="{'lightblue-1': index === 10, 'clear-sky': index !== 10}"
+                                style=" margin-right: 0.75rem">{{utilService.numberFormat(params?.stat2?.obrazTotal?.cnt)}}</h3>
+
+                            <p class="typography-body2 grey-3 text-nowrap">
+                                {{utilService.numberFormat(params?.stat2?.obrazTotal?.changePercentage)}}%
+                                <span class="ms-1">
+                                <img [attr.src]="params?.stat2?.obrazTotal?.changePercentage > 0 ?
+                                                'assets/icons/trend-up-grey.svg' : 'assets/icons/trend-down-grey.svg'"
+                                     alt="Icon">
+                            </span>
+                            </p>
+                        </div>
+
+                        <h3 class="typography-h3 mb-0"
+                            [ngClass]="{'success': params.stat2?.obrazTotal?.differenceFromParentPercentage > 0,
+                                    'error': !(params.stat2?.obrazTotal?.differenceFromParentPercentage > 0)}">
+                            {{utilService.numberFormat(params.stat2?.obrazTotal?.differenceFromParentPercentage)}}%
+                        </h3>
+                    </div>
+
+                    <c-row class="susn-stat align-items-center">
+                        <c-col class="typography-caption text-start grey-3" style="width: 20%">Школа</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 30%">{{utilService.numberFormat(params?.stat2?.school?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 50%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.school?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.school?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-start grey-3" style="width: 20%">Дошкольные</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 30%">{{utilService.numberFormat(params?.stat2?.sadik?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 50%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.sadik?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.sadik?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-start grey-3" style="width: 20%">ТиПО</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 30%">{{utilService.numberFormat(params?.stat2?.tipo?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 50%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.tipo?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.tipo?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+
+                        <c-col class="typography-caption text-start grey-3" style="width: 20%">Университет</c-col>
+                        <c-col class="typography-state text-center black"
+                               style="color: #1C1C1C; width: 30%">{{utilService.numberFormat(params?.stat2?.univer?.cnt)}}
+                        </c-col>
+                        <c-col style=" width: 50%">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar typography-state d-flex align-items-center justify-content-center"
+                                     [style.width]="getPercentageFromPopulation(params?.stat2?.univer?.cnt) + '%'">
+                                    <label
+                                        class="stat-percentage typography-state text-center">{{utilService.numberFormat(getPercentageFromPopulation(params?.stat2?.univer?.cnt))}}
+                                        %</label>
+                                </div>
+                            </div>
+                        </c-col>
+                    </c-row>
+
+                </div>
+            </c-col>
+
+            <c-col [md]="3">
+                <div class="container-1  stat-card"
+                     (click)="showGraph('zu', 'akim-page.stat.zu', 'akim-page.stat.member', 4)"
+                     role="button" [ngClass]="{'selected-stat-card': index === 4}">
+                    <p class="typography-body2 grey-3 mb-2">{{ 'akim-page.stat.zu' | translate}} {{ 'akim-page.stat.zu-small' | translate}}</p>
+
+                    <div class="d-flex justify-content-center justify-content-between mb-2">
+                        <div
+                            [ngClass]="{'lightblue-1': index === 4, 'clear-sky': index !== 4}">
+                            <h3 class="typography-h3 mb-0">{{utilService.numberFormat(params.stat2?.zu?.cnt)}}
+                                <span>({{utilService.numberFormat(params.stat2?.zu?.cnt / params.stat2?.mem?.cnt * 100 )}}%) </span>
+                                <span
+                                    class="typography-button2">{{ 'akim-page.stat.member' | translate}}</span></h3>
+                        </div>
+
+                        <h3 class="typography-h3 mb-0"
+                            [ngClass]="{'success': params.stat2?.zu?.differenceFromParentPercentage > 0,
+                                    'error': !(params.stat2?.zu?.differenceFromParentPercentage > 0)}">
+                            {{utilService.numberFormat(params.stat2?.zu?.differenceFromParentPercentage)}}%
+                        </h3>
+                    </div>
+
+                    <p class="typography-body2 text-nowrap mb-2 "
+                       [ngClass]="{'success': params.stat2?.zu?.changePercentage > 0,
+                                    'error': !(params.stat2?.zu?.changePercentage > 0)}">
+                        {{utilService.numberFormat(params.stat2?.zu?.changePercentage)}}%
+                        <span class="ms-1">
+                            <img
+                                [attr.src]="params.stat2?.zu?.changePercentage > 0 ? 'assets/icons/trend-up.svg' : 'assets/icons/trend-down.svg'"
+                                alt="Icon">
+                        </span>
+                    </p>
+                </div>
+            </c-col>
+        </c-row>
+    </div>
+
+    <h5 class="typography-subtitle mb-4">{{ graphLabel | translate }}</h5>
+
+    <c-button-group class="mb-4">
+        <button cButton class="btn-primary" type="submit" variant="outline" (click)="this.type = 'WEEKLY'">
+            Неделя
+        </button>
+        <button cButton class="btn-primary" type="submit" variant="outline" (click)="this.type = 'MONTHLY'">
+            Месяц
+        </button>
+        <button cButton class="btn-primary" type="submit" variant="outline" (click)="this.type = 'YEARLY'">
+            Год
+        </button>
+    </c-button-group>
+
+    <!--    todo minor fixing charJs-->
+    <c-row *ngIf="[1, 2, 3, 4].includes(index)">
+        <app-akim-stat-graph [type]="type" [eventShowGraph]='eventShowGraph'></app-akim-stat-graph>
+    </c-row>
+
+    <c-row *ngIf="[5, 6, 7, 8, 9, 10, 11].includes(index)">
+        <app-akim-demographics-graph [type]="type" [eventShowGraph]='eventShowGraph2'></app-akim-demographics-graph>
+    </c-row>
+
+</div>
+
+
+<div class="container-1 mb-4">
+    <!--    todo   maybe something better than d-flex align-items-center-->
+    <div class="d-flex align-items-center mb-3">
+        <div (click)="filterOpen = !filterOpen" role="button" class="d-flex align-items-center">
+            <img class="icon-16 me-1"
+                 [attr.src]="filterOpen ? 'assets/icons/close-small.svg' : 'assets/icons/filter.svg'" alt="Icon">
+            <label role="button" class="typography-button2 me-2" style="color: var(--lightblue1);">Фильтр</label>
+        </div>
+        <!--            todo vertical divider too long-->
+        <div class="vertical-divider align-self-sm-stretch me-2"></div>
+        <!--todo input width and clear icon -->
+        <input [(ngModel)]="params.iin" class="me-2" aria-describedby="search-iin" aria-label="Search by IIN"
+               cFormControl id="iin"
+               maxlength="12"
+               name="iin" name="iin"
+               placeholder="{{ 'iin' | translate }}"/>
+        <div class="d-flex flex-column">
+            <!--                    <button cButton class="text-white" color="info" type="submit">-->
+            <!--                    todo переделать -->
+            <button cButton class="btn-primary" type="submit" (click)="search()">
+                {{ 'search' | translate }}
+            </button>
+        </div>
+    </div>
+
+    <!--        todo checkbox background image add error and col size -->
+    <div *ngIf="filterOpen" class="container-1 filter-card mb-3">
+        <c-row class="filter-container">
+            <c-col *ngFor="let item of filters; let idx = index" [md]="3">
+                <div class="d-flex align-items-center h-100">
+                    <div class="d-flex align-self-center">
+                        <input [(ngModel)]="item.checked" class="check-input" type="checkbox" id="myCheckbox-{{idx}}">
+                    </div>
+                    <label class="typography-body2 ms-2" for="myCheckbox-{{idx}}">{{ item.label | translate}}</label>
+                </div>
+            </c-col>
+        </c-row>
+    </div>
+
+    <hr class="mb-3">
+
+    <div *ngIf="params.list && params.list.length > 0">
+        <c-row class="typography-body1 mb-3" style="line-height: 100%">
+            <c-col [md]="6">{{ 'lists' | translate }}</c-col>
+            <c-col [md]="6" class="text-end">
+                <!--            todo add hover-->
+                <div role="button" class="flex-row-reverse align-items-end">
+                    <label class="typography-button2 me-1" role="button"
+                           style="color: var(--lightblue1);">Скачать</label>
+                    <img class="icon-16" src="assets/icons/download.svg" alt="Icon">
+                </div>
+            </c-col>
+        </c-row>
+        <!--    <p class="typography-body1" style="line-height: 100%">-->
+        <!--        Список <span class="text"></span>-->
+        <!--    </p>-->
+
+        <div class="table-responsive mb-3">
+            <!--            <table cTable bordered hover small id="table-benefit">-->
+            <!--        todo cell width-->
+            <table *ngIf="params.list.length > 0" class="striped-rounded-corners">
+                <thead class="text-center align-middle">
+                <tr class="text-center align-middle">
+                    <th rowspan="2">#</th>
+                    <th rowspan="2">{{ 'akim-page.member.cnt1' | translate}}</th>
+                    <th rowspan="2">{{ 'akim-page.member.cnt2' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(3)">{{ 'akim-page.member.cnt3' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(4)">{{ 'akim-page.member.cnt4' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(5)">{{ 'akim-page.member.cnt5' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(6)">{{ 'akim-page.member.cnt6' | translate}}</th>
+                    <th colspan="2" *ngIf="showColumn(7)">{{ 'akim-page.member.cnt7' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(10)">{{ 'akim-page.member.cnt10' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(11)">{{ 'akim-page.member.cnt11' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(12)">{{ 'akim-page.member.cnt12' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(13)">{{ 'akim-page.member.cnt13' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(14)">{{ 'akim-page.member.cnt14' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(15)">{{ 'akim-page.member.cnt15' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(16)">{{ 'akim-page.member.cnt16' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(17)">{{ 'akim-page.member.cnt17' | translate}}</th>
+                    <th rowspan="2" *ngIf="showColumn(18)">{{ 'akim-page.member.cnt18' | translate}}</th>
+                </tr>
+
+                <tr class="text-center align-middle">
+                    <th *ngIf="showColumn(7)">{{ 'akim-page.member.cnt8' | translate}}</th>
+                    <th *ngIf="showColumn(7)">{{ 'akim-page.member.cnt9' | translate}}</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of params.list; let idx = index">
+                    <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                    <td>
+                        <a (click)="utilService.navigateToFamilyPortrait(item.headIin)"
+                           [routerLink]="['/family/' + item.headIin]" class="link-info"
+                           target="_blank">
+                            {{ item.headIin }}
+                        </a>
+                    </td>
+                    <th>{{utilService.getCapitalized(item.fio)}}</th>
+                    <th *ngIf="showColumn(3)">{{item.adrS}}</th>
+                    <th *ngIf="showColumn(4)">{{item.phone | phone}}</th>
+                    <th *ngIf="showColumn(5)">{{item.adr}}</th>
+                    <th *ngIf="showColumn(6)">{{item.medOrgName}}</th>
+                    <th *ngIf="showColumn(7)"></th>
+                    <th *ngIf="showColumn(7)">{{item.lph}}</th>
+                    <th *ngIf="showColumn(10)"></th>
+                    <th *ngIf="showColumn(11)">{{item.grst}}</th>
+                    <th *ngIf="showColumn(12)"></th>
+                    <th *ngIf="showColumn(13)"></th>
+                    <th *ngIf="showColumn(14)"></th>
+                    <th *ngIf="showColumn(15)"></th>
+                    <th *ngIf="showColumn(16)"></th>
+                    <th *ngIf="showColumn(17)"></th>
+                    <th *ngIf="showColumn(18)"></th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!--    TODO pagination new component is preferred-->
+        <c-row>
+            <c-col [md]="10">
+                <pagination (pageChanged)="changePage($event.page)"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [boundaryLinks]="true"
+                            [itemsPerPage]="params.pagination.itemsPerPage" [maxSize]="params.pagination.maxSize"
+                            [totalItems]="params.pagination.totalItems" class="pagination-sm mb-0"
+                            firstText="&laquo;" lastText="&raquo;" nextText="&rsaquo;"
+                            previousText="&lsaquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </div>
+
+    <div *ngIf="!params.list || params.list.length === 0"
+         class="image-wrapper d-flex flex-column justify-content-center align-items-center h-100 w-100">
+        <img class="mb-3" src="assets/images/no-results.png" alt="Icon">
+        <p class="typography-body1 grey-3">
+            Не найдено
+        </p>
+    </div>
+
+</div>
+<!--d-flex flex-column justify-content-center h-100 w-100-->

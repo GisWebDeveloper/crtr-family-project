@@ -1,0 +1,14 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && personSourceList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.social-payments' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="8">{{ 'person-portrait.payment-source' | translate }}</c-col>
+        <c-col [md]="2" class="text-center">{{ 'person-portrait.payment-date' | translate }}</c-col>
+    </c-row>
+    <c-row class="border-top mb-1" *ngFor="let ps of personSourceList; let idx = index">
+        <c-col [md]="8"><span class="me-2">{{ (idx + 1) + '.' }}</span>
+            {{ ps.source.code + ' - ' + ps.source.nameRu }}</c-col>
+        <c-col [md]="2" class="text-center">{{ ps.sumLastDate }}</c-col>
+    </c-row>
+</div>

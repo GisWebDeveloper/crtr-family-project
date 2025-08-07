@@ -1,0 +1,123 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><i class="fa fa-address-book-o"></i></span>
+        <strong>{{ 'family-portrait.family-meri' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0] && selectedIIn">
+
+        <div>
+            <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+                <c-row>
+                    <c-col [md]="12">
+                        <strong>{{ 'family-portrait.needed-meri' | translate }}</strong>
+                    </c-col>
+                </c-row>
+            </div>
+
+<!--            <app-table [tableId]="'needed'" [eventSearchStatusStat]="eventSearchStatusStat3"></app-table>-->
+
+            <div class="table-responsive">
+                <table cTable small bordered hover>
+                    <thead>
+                    <tr class="text-center align-middle">
+<!--                        <th  [ngClass]="{'region-column': cell.cap.toUpperCase() === 'РЕГИОН',-->
+<!--                                                                                                                       'value-column': (cell.cap.toUpperCase() !== 'РЕГИОН'-->
+<!--                                                                                                                       && cell.cap.toUpperCase() != '#'-->
+<!--                                                                                                                       && cell.cap.toUpperCase() != '№') }"-->
+<!--                            [style.width]="cell.percentage ? cell.percentage + '%' : 'auto'">-->
+<!--                            {{cell.cap}}-->
+<!--                        </th>-->
+                        <th>№</th>
+                        <th>Код</th>
+                        <th>Наименование меры</th>
+                        <th>Результат верификации</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+<!--                    <tr class="text-center" *ngIf="available.asp">-->
+<!--&lt;!&ndash;                        <td *ngFor="let cell of row; let i = index" [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">&ndash;&gt;-->
+<!--&lt;!&ndash;                            {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}&ndash;&gt;-->
+<!--&lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--                        <td>1</td>-->
+<!--                        <td class="text-nowrap">1006</td>-->
+<!--                        <td class="text-start">Назначение адресной социальной помощи</td>-->
+<!--                        <td role="button" (click)="openQuestionModal(1)">75%</td>-->
+<!--                    </tr>-->
+<!--                    <tr class="text-center" *ngIf="available.jp">-->
+<!--                        &lt;!&ndash;                        <td *ngFor="let cell of row; let i = index" [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--                        <td>{{available.asp ? 2 : 1}}</td>-->
+<!--                        <td class="text-nowrap">1007</td>-->
+<!--                        <td class="text-start">Назначение жилищной помощи</td>-->
+<!--                        <td role="button" (click)="openQuestionModal(2)">85%</td>-->
+<!--                    </tr>-->
+
+                    <ng-container *ngIf="available.necessity && available.necessity.length > 0">
+                    <tr class="text-center" *ngFor="let item of available.necessity; let idx = index">
+                        <!--                        <td *ngFor="let cell of row; let i = index" [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">-->
+                        <!--                            {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}-->
+                        <!--                        </td>-->
+<!--                        <td>{{((!available.js && !available.asp) ? 1 : (available.js && available.asp) ? 3 : 2) + 1 + idx}}</td>-->
+                        <td>{{1 + idx}}</td>
+                        <td class="text-nowrap">{{item.code}}</td>
+                        <td class="text-start">{{item.nameRu}}</td>
+                        <td role="button" (click)="openQuestionModal(1)">{{70 + idx}}%</td>
+                    </tr>
+                    </ng-container>
+
+                    </tbody>
+                    <tfoot cTableColor="dark">
+<!--                    <tr class="fw-bolder text-center">-->
+<!--                        <th *ngFor="let cell of table.total; let i = index"-->
+<!--                            [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">-->
+<!--                            {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}-->
+<!--                        </th>-->
+<!--                    </tr>-->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+            <c-row>
+                <c-col [md]="12">
+                    <strong>{{ 'family-portrait.active-meri' | translate }}</strong>
+                    <span class="float-end">
+                    <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(2)">
+                        <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[2], 'fa-angle-up': visible[2]}"></i>
+                    </a>
+                    </span>
+                </c-col>
+            </c-row>
+        </div>
+
+        <app-table [tableId]="'new'" *ngIf="visible[2]" [eventSearchStatusStat]="eventSearchStatusStat"></app-table>
+
+
+
+
+        <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+            <c-row>
+                <c-col [md]="12">
+                    <strong>{{ 'family-portrait.finish-meri' | translate }}</strong>
+                    <span class="float-end">
+                        <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(1)">
+                            <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i>
+                        </a>
+                    </span>
+                </c-col>
+            </c-row>
+        </div>
+
+        <app-table *ngIf="visible[1]" [tableId]="'finished'"  [eventSearchStatusStat]="eventSearchStatusStat2"></app-table>
+
+    </c-card-body>
+</c-card>
+
+<app-family-meri-questions [eventShowModal]="eventShowModal"></app-family-meri-questions>

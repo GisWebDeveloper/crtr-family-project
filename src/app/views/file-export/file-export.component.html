@@ -1,0 +1,56 @@
+<c-container breakpoint="lg" class="h-auto">
+    <c-card class="mb-4" [cBorder]="'secondary'">
+        <c-card-header>
+            <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+            <strong>Данные по людям</strong>
+        </c-card-header>
+        <c-card-body>
+            <!--            <ngx-dropzone style="justify-content: center" (change)="onSelect($event)" [multiple]="false" [accept]="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">-->
+            <!--                <ngx-dropzone-label>Выберите/Перетащите файл</ngx-dropzone-label>-->
+            <!--                <ngx-dropzone-preview *ngIf="selectedFile" [removable]="true" (removed)="onRemove()">-->
+            <!--                    <ngx-dropzone-label>{{selectedFile.name}}</ngx-dropzone-label>-->
+            <!--                </ngx-dropzone-preview>-->
+            <!--            </ngx-dropzone>-->
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" cForm>
+                <div class="mb-3">
+                    <label cLabel for="file">Выбор файла</label>
+                    <input cFormControl cFormControl id="file" type="file" formControlName="file" (change)="onFileChange($event)"
+                           [accept]="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" />
+                    <span class="text-danger"
+                          *ngIf="(formControl['file'].touched || submitted) && formControl['file'].errors">
+                        Файл не загружен
+                    </span>
+                </div>
+
+                <div class="mb-3">
+                    <label cLabel for="reason">Причина выгрузки</label>
+                    <input cFormControl id="reason" type="text" formControlName="reason" minlength="10" maxlength="90"/>
+
+                    <span class="text-danger"
+                          *ngIf="(formControl['reason'].touched || submitted) && formControl['reason'].errors">
+                        Причина выгрузки не меньше 10 букв
+                        , не более 90
+                    </span>
+                </div>
+
+                <div class="d-flex justify-content-end mb-3">
+                    <div  *ngIf="!hasUploadedFile">
+                        <button cButton color="light" (click)="resetField()" class="me-3">
+                            <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                            {{ 'clear' | translate }}
+                        </button>
+                        <button [disabled]="form.invalid" cButton color="info"
+                                class="text-white" type="submit">Отправить
+                        </button>
+                    </div>
+
+                    <button *ngIf="hasUploadedFile" cButton color="info" class="text-white" (click)="downloadResult()">
+                        Скачать
+                    </button>
+                </div>
+            </form>
+
+        </c-card-body>
+    </c-card>
+</c-container>

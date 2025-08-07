@@ -1,0 +1,46 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm>
+            <div class="btn-group d-flex" role="group">
+                <ng-container *ngFor="let item of dictionaryRankingTypes">
+                    <input type="radio" class="btn-check" name="ranking-type" [value]="item.code"
+                           [(ngModel)]="ratingType"/>
+                    <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                           [ngClass]="{'text-white': ratingType == item.code}" (click)="setFilterValue(item.code)">
+                        {{ item.nameRu }}
+                    </label>
+                </ng-container>
+            </div>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'stat-page.label' | translate }}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2"
+               (click)="reportService.exportTableToExcel('report-table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body [ngSwitch]="ratingType">
+        <ng-container *ngFor="let item of dictionaryRankingTypes">
+            <app-dynamic-table *ngSwitchCase="item.code" [tableHeaderConfig]="tableHeadersService.getTableHeader(item.code)"
+                               [ratingType]="getRatingType()"></app-dynamic-table>
+        </ng-container>
+    </c-card-body>
+
+</c-card>

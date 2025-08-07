@@ -1,0 +1,55 @@
+<c-modal id="statListModal" size="xl" alignment="center"
+         [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>{{ params.procedureInfo.nameRu }}</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <table cTable striped hover *ngIf="params.list.length > 0">
+            <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">{{ 'administration-page.db-update.log.package-name' | translate }}</th>
+                <th scope="col">{{ 'administration-page.db-update.log.procedure-name' | translate }}</th>
+                <th scope="col">{{ 'administration-page.db-update.log.message' | translate }}</th>
+                <th scope="col">{{ 'administration-page.db-update.log.start-date' | translate }}</th>
+                <th scope="col">{{ 'administration-page.db-update.log.end-date' | translate }}</th>
+                <th scope="col">{{ 'administration-page.db-update.log.duration' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params.list; let idx = index">
+                <td>{{ item.packageName }}</td>
+                <td>{{ item.procName }}</td>
+                <td>{{ item.message }}</td>
+                <td>{{ item.dateBegin }}</td>
+                <td>{{ item.dateEnd }}</td>
+                <td>{{ item.durationText }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-row>
+            <c-col [md]="10">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
+                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+
+        <c-alert color="warning" *ngIf="params.list.length == 0">{{ 'warnings.no-data-found' | translate }}</c-alert>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button color="secondary" (click)="toggleModal()" cButton>{{ 'close' | translate }}</button>
+    </c-modal-footer>
+</c-modal>

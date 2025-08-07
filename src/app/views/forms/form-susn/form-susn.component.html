@@ -1,0 +1,393 @@
+<div class="mb-2" *ngIf="monitoringSusn">
+
+    <div class="mb-4">
+        <c-row>
+            <c-col [md]="7">
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Организация-исполнитель</c-col>
+                    <c-col [md]="8">{{monitoringSusn.organization}}</c-col>
+                </c-row>
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Исполнитель</c-col>
+                    <c-col [md]="8">{{utilService.getCapitalized(monitoringSusn.fullName)}}</c-col>
+                </c-row>
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Дата создания задания</c-col>
+                    <c-col [md]="8">{{monitoringSusn.createDate.split(" ")[0]}}</c-col>
+                </c-row>
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Создатель задания</c-col>
+                    <c-col [md]="8">{{monitoringSusn.taskCreator}}</c-col>
+                </c-row>
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Комментарии</c-col>
+                    <c-col [md]="8">{{monitoringSusn.comment}}</c-col>
+                </c-row>
+            </c-col>
+        </c-row>
+    </div>
+
+    <div class="mb-4" *ngIf="monitoringSusn">
+        <c-row class="ms-auto">
+            <!--            <table cTable striped>-->
+            <table cTable small bordered hover>
+                <thead>
+                <tr class="py-1">
+                    <th width="2%">№</th>
+                    <th width="49%" class="text-center">Вопрос</th>
+                    <th width="49%" class="text-center">Ответ</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr class="py-1">
+                    <td>1</td>
+                    <td>{{'individual-plan.susn.a22' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a22)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>2</td>
+                    <td>{{'individual-plan.susn.a23' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a23)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>3</td>
+                    <td>{{'individual-plan.susn.a24' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a24)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>4</td>
+                    <td>{{'individual-plan.susn.a37' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a37)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>5</td>
+                    <td>{{'individual-plan.susn.a25' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a25)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>6</td>
+                    <td>{{'individual-plan.susn.a39' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a39)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>7</td>
+                    <td>{{'individual-plan.susn.a26' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a26)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>8</td>
+                    <td>{{'individual-plan.susn.a41' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a41)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>9</td>
+                    <td>{{'individual-plan.susn.a27' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a27)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>10</td>
+                    <td>{{'individual-plan.susn.a43' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a43)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>11</td>
+                    <td>{{'individual-plan.susn.a28' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a28)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>12</td>
+                    <td>{{'individual-plan.susn.a45' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a45)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>13</td>
+                    <td>{{'individual-plan.susn.a29' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a29)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>14</td>
+                    <td>{{'individual-plan.susn.a47' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a47)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>15</td>
+                    <td>{{'individual-plan.susn.a30' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a30)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>16</td>
+                    <td>{{'individual-plan.susn.a49' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a49)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>17</td>
+                    <td>{{'individual-plan.susn.a31' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a31)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>18</td>
+                    <td>{{'individual-plan.susn.a51' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a51)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>19</td>
+                    <td>{{'individual-plan.susn.a32' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a32)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>20</td>
+                    <td>{{'individual-plan.susn.a53' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a53)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>21</td>
+                    <td>{{'individual-plan.susn.a33' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a33)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>22</td>
+                    <td>{{'individual-plan.susn.a55' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a55)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>23</td>
+                    <td>{{'individual-plan.susn.a34' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a34)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>24</td>
+                    <td>{{'individual-plan.susn.a57' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a57)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>25</td>
+                    <td>{{'individual-plan.susn.a35' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a35)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>26</td>
+                    <td>{{'individual-plan.susn.a59' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a59)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>27</td>
+                    <td>{{'individual-plan.susn.a60' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a60)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>28</td>
+                    <td>{{'individual-plan.susn.a61' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a61)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>29</td>
+                    <td>{{'individual-plan.susn.a62' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a62)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>30</td>
+                    <td>{{'individual-plan.susn.a63' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a63)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>31</td>
+                    <td>{{'individual-plan.susn.a64' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a64)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>32</td>
+                    <td>{{'individual-plan.susn.a65' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a65)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>33</td>
+                    <td>{{'individual-plan.susn.a66' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a66)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>34</td>
+                    <td>{{'individual-plan.susn.a67' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a67)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>35</td>
+                    <td>{{'individual-plan.susn.a68' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a68)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>36</td>
+                    <td>{{'individual-plan.susn.a36' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a36)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>37</td>
+                    <td>{{'individual-plan.susn.a38' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a38)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>38</td>
+                    <td>{{'individual-plan.susn.a40' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a40)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>39</td>
+                    <td>{{'individual-plan.susn.a42' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a42)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>40</td>
+                    <td>{{'individual-plan.susn.a44' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a44)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>41</td>
+                    <td>{{'individual-plan.susn.a46' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a46)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>42</td>
+                    <td>{{'individual-plan.susn.a48' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a48)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>43</td>
+                    <td>{{'individual-plan.susn.a50' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a50)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>44</td>
+                    <td>{{'individual-plan.susn.a52' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a52)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>45</td>
+                    <td>{{'individual-plan.susn.a54' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a54)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>46</td>
+                    <td>{{'individual-plan.susn.a56' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a56)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>47</td>
+                    <td>{{'individual-plan.susn.a58' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a58)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>48</td>
+                    <td>{{'individual-plan.susn.a69' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a69)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>49</td>
+                    <td>{{'individual-plan.susn.a70' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a70)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>50</td>
+                    <td>{{'individual-plan.susn.a71' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a71)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>51</td>
+                    <td>{{'individual-plan.susn.a72' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a72)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>52</td>
+                    <td>{{'individual-plan.susn.a73' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a73)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>53</td>
+                    <td>{{'individual-plan.susn.a74' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a74)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>54</td>
+                    <td>{{'individual-plan.susn.a75' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a75)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>55</td>
+                    <td>{{'individual-plan.susn.a76' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a76)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>56</td>
+                    <td>{{'individual-plan.susn.a77' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a77)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>57</td>
+                    <td>{{'individual-plan.susn.a78' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a78)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>58</td>
+                    <td>{{'individual-plan.susn.a79' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a79)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>59</td>
+                    <td>{{'individual-plan.susn.a80' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a80)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>60</td>
+                    <td>{{'individual-plan.susn.a81' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a81)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>61</td>
+                    <td>{{'individual-plan.susn.a82' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a82)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>62</td>
+                    <td>{{'individual-plan.susn.a83' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a83)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>63</td>
+                    <td>{{'individual-plan.susn.a84' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a84)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>64</td>
+                    <td>{{'individual-plan.susn.a85' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a85)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>65</td>
+                    <td>{{'individual-plan.susn.a86' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a86)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>66</td>
+                    <td>{{'individual-plan.susn.a87' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a87)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>67</td>
+                    <td>{{'individual-plan.susn.a88' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a88)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>68</td>
+                    <td>{{'individual-plan.susn.a89' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a89)}}</td>
+                </tr>
+                <tr class="py-1">
+                    <td>69</td>
+                    <td>{{'individual-plan.susn.a90' | translate}}</td>
+                    <td>{{getValue(monitoringSusn.a90)}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </c-row>
+    </div>
+
+</div>

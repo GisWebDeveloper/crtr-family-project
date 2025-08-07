@@ -1,0 +1,19 @@
+<c-nav variant="tabs">
+    <a [cTabContent]="tabContent"  [tabPaneIdx]="0" cNavLink [active]="true">
+        {{ 'asp-page.report-tab' | translate }}
+    </a>
+    <a *ngIf="hasPermission(permissions.ASP_APPLICANT_LIST)" [cTabContent]="tabContent"  [tabPaneIdx]="1" cNavLink>
+        {{ 'asp-page.list-tab' | translate }}
+    </a>
+</c-nav>
+
+<c-tab-content #tabContent="cTabContent">
+    <c-tab-pane class="pt-3">
+        <app-asp-report></app-asp-report>
+    </c-tab-pane>
+
+    <c-tab-pane class="pt-3">
+        <app-asp-list></app-asp-list>
+    </c-tab-pane>
+
+</c-tab-content>

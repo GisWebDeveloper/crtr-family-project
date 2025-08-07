@@ -1,0 +1,71 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><i class="fa fa-history"></i></span>
+        <strong>{{ 'timeline.label' | translate }}</strong>
+    </c-card-header>
+    <c-card-body>
+
+        <!-- BUTTONS -->
+        <div class="d-flex justify-content-end mb-3">
+            <button cButton color="info" class="text-white" (click)="openPersonPortrait()">
+                <i class="fa fa-address-book-o"></i>
+                <span class="ms-1">{{ 'person-portrait.label' | translate }}</span>
+            </button>
+        </div>
+
+        <c-container [fluid]>
+            <div class="timeline-centered">
+                <div class="timeline-entry" *ngFor="let tm of timelineList; let idx = index"
+                     [ngClass]="{'left-aligned' : idx % 2 == 0}">
+                    <div class="timeline-entry-inner">
+                        <div class="timeline-time">
+                            <div class="fw-medium">{{ getDateDescription(tm.date) }}</div>
+                        </div>
+                        <div class="timeline-icon" [ngClass]="{
+                            'bg-success': getTimelineType(tm) === 'SUCCESS', 'bg-info': getTimelineType(tm) === 'INFO',
+                            'bg-primary': getTimelineType(tm) === 'PRIMARY', 'bg-warning': getTimelineType(tm) === 'WARN',
+                            'bg-danger': getTimelineType(tm) === 'DANGER'}">
+                            <i class="fa font-24" [ngClass]="{
+                                'fa-address-card': ['UDL', 'PSP'].includes(tm.code.toUpperCase()),
+                                'fa-birthday-cake': ['BIRTH'].includes(tm.code.toUpperCase()),
+                                'fa-blind': ['PENSIA', 'PENSIA_NEED'].includes(tm.code.toUpperCase()),
+                                'fa-book': ['SHKOLA', 'SHKOLA_NEED'].includes(tm.code.toUpperCase()),
+                                'fa-briefcase': ['UL', 'IP'].includes(tm.code.toUpperCase()),
+                                'fa-calendar': ['BIRTHREGDATE'].includes(tm.code.toUpperCase()),
+                                'fa-car': ['DV'].includes(tm.code.toUpperCase()),
+                                'fa-check-circle': ['CH_BIRTH', 'CH_UHOD', 'MAMA_BIRTH', 'MAMA_UHOD', 'MNGDET'].includes(tm.code.toUpperCase()),
+                                'fa-child': ['SADIK', 'SADIK_NEED'].includes(tm.code.toUpperCase()),
+                                'fa-edit': ['CONTR', 'SUBCONTR'].includes(tm.code.toUpperCase()),
+                                'fa-exclamation-triangle': ['CH_BIRTH_NEED', 'CH_UHOD_NEED',].includes(tm.code.toUpperCase()),
+                                'fa-graduation-cap': ['VUZ', 'VUZ_END', 'PTU', 'PTU_END'].includes(tm.code.toUpperCase()),
+                                'fa-home': ['NEDV'].includes(tm.code.toUpperCase()),
+                                'fa-wheelchair': ['INV'].includes(tm.code.toUpperCase())}"></i>
+                        </div>
+                        <div class="timeline-label">
+                            <c-callout class="my-0" [ngClass]="{
+                                'callout-success': getTimelineType(tm) === 'SUCCESS', 'callout-info': getTimelineType(tm) === 'INFO',
+                                'callout-primary': getTimelineType(tm) === 'PRIMARY', 'callout-warning': getTimelineType(tm) === 'WARN',
+                                'callout-danger': getTimelineType(tm) === 'DANGER'}">
+                                <div class="d-flex justify-content-between"
+                                     [ngClass]="{'flex-row-reverse': idx % 2 == 0}">
+                                    <div>
+                                        <div class="fw-medium" [ngClass]="{'text-end': idx % 2 == 0}">
+                                            {{ tm.timelineDictionary ? tm.timelineDictionary.nameRu : tm.code }}
+                                        </div>
+                                        <div>{{ tm.description }}</div>
+                                    </div>
+                                    <div class="fw-medium text-dark text-nowrap" *ngIf="getAgeDescription(tm.age)"
+                                         [ngClass]="{'me-2': idx % 2 == 0}">
+                                        <i class="fa fa-hourglass-end me-2"></i>
+                                        <small>{{ getAgeDescription(tm.age) }}</small>
+                                    </div>
+                                </div>
+                            </c-callout>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c-container>
+
+    </c-card-body>
+</c-card>

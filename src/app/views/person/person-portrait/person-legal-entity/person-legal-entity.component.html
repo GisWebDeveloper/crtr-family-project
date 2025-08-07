@@ -1,0 +1,63 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && legalEntityList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.legal-entity' | translate }}</strong>
+    </div>
+
+    <c-row class="mb-2" *ngFor="let ps of legalEntityList; let idx = index" [ngClass]="{'border-top': idx > 0}">
+        <c-col [md]="8">
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'nomination' | translate }}</c-col>
+                <c-col [md]="8">{{ translateService.currentLang === 'kz' ? ps.fullNameKz : ps.fullNameRu }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.legal-entity.reg-date' | translate }}</c-col>
+                <c-col [md]="8">{{ ps.regActionDate }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.legal-entity.org-form' | translate }}</c-col>
+                <c-col [md]="8">
+                    {{ translateService.currentLang === 'kz' ? ps.orgFormNameKz : ps.orgFormNameRu }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">
+                    {{ 'person-portrait.legal-entity.ownership-form' | translate }}</c-col>
+                <c-col [md]="8">
+                    {{ translateService.currentLang === 'kz' ? ps.ownershipFormNameKz : ps.ownershipFormNameRu }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.legal-entity.oked' | translate }}</c-col>
+                <c-col [md]="8">{{ translateService.currentLang === 'kz' ? ps.okedNameKz : ps.okedNameRu }}</c-col>
+            </c-row>
+        </c-col>
+        <c-col [md]="4">
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.bin' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.bin }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">
+                    {{ 'person-portrait.legal-entity.amount-founders' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.countAll }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">
+                    {{ 'person-portrait.legal-entity.amount-real-estate' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.cntNedv }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">
+                    {{ 'person-portrait.legal-entity.amount-transport' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.cntDv }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.legal-entity.amount-grst' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.cntGrst }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.legal-entity.amount-lph' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.cntLph }}</c-col>
+            </c-row>
+        </c-col>
+    </c-row>
+
+</div>

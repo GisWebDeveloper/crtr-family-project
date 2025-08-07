@@ -1,0 +1,95 @@
+<div *ngIf="countId !== 1061">
+    <c-card>
+        <c-card-header>
+            <strong>Анкетирование</strong>
+            <span class="float-end">
+            <span>{{ 'kandas.download' | translate }}</span>
+            <button cButton color="success" variant="ghost" size="sm"
+                    (click)="reportService.exportTableToExcel('statistics1')">
+                <i class="fa fa-file-excel-o"></i></button>
+        </span></c-card-header>
+        <c-card-body>
+            <c-row class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+                <c-row>
+                    <c-col [md]="10">
+                        <strong>{{ count.nameRu }}</strong>
+                    </c-col>
+                </c-row>
+            </c-row>
+
+            <table cTable small borderless id="statistics1" striped>
+                <thead>
+                <tr>
+                    <th width="75%"> Наименование меры</th>
+                    <th width="6.25%" class="fw-medium text-center">{{ 'kandas.rejected' | translate }}</th>
+                    <th width="6.25%" class="fw-medium text-center">{{ 'kandas.no-needed' | translate }}</th>
+                    <th width="6.25%" class="fw-medium text-center">{{ 'kandas.in-progress' | translate }}</th>
+                    <th width="6.25%" class="fw-medium text-center">{{ 'kandas.approved' | translate }}</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of kandasMonitorStat; let id = index">
+                    <td width="75%" class="fw-medium">{{(id + 1) + '. ' + item.nameRu}}</td>
+                    <td role="button" width="6.25%" class="fw-medium text-center"
+                        (click)="showListModal(item.id, item.nameRu, 4)">{{item.cnt1}}</td>
+                    <td role="button" width="6.25%" class="fw-medium text-center"
+                        (click)="showListModal(item.id, item.nameRu, 3)">{{item.cnt2}}</td>
+                    <td role="button" width="6.25%" class="fw-medium text-center"
+                        (click)="showListModal(item.id, item.nameRu, 5)">{{item.cnt3}}</td>
+                    <td role="button" width="6.25%" class="fw-medium text-center"
+                        (click)="showListModal(item.id, item.nameRu, 1, true)">{{item.cnt4}}</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </c-card-body>
+    </c-card>
+</div>
+
+<div *ngIf="countId === 1061">
+    <c-card>
+        <c-card-header>
+            <strong>Анкетирование</strong>
+            <span class="float-end">
+            <span>{{ 'kandas.download' | translate }}</span>
+            <button cButton color="success" variant="ghost" size="sm"
+                    (click)="reportService.exportTableToExcel('statistics2')">
+                <i class="fa fa-file-excel-o"></i></button>
+        </span></c-card-header>
+        <c-card-body>
+            <c-row class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+                <c-row>
+                    <c-col [md]="10">
+                        <strong>{{ count.nameRu }}</strong>
+                    </c-col>
+                </c-row>
+            </c-row>
+
+            <table cTable small borderless id="statistics2" striped>
+                <thead>
+                <tr>
+                    <th width="75%"> Наименование меры</th>
+                    <th width="8.3%" class="fw-medium text-center">{{ 'kandas.yes' | translate }}</th>
+                    <th width="8.3%" class="fw-medium text-center">{{ 'kandas.no' | translate }}</th>
+                    <th width="8.4%" class="fw-medium text-center">{{ 'kandas.has-answer' | translate }}</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of kandasMonitorStat; let id = index">
+                    <td width="75%" class="fw-medium">{{(id + 1) + '. ' + item.nameRu}}</td>
+                    <td role="button" width="8.3%" class="fw-medium text-center">{{item.cnt1}}</td>
+                    <td role="button" width="8.3%" class="fw-medium text-center">{{item.cnt2}}</td>
+                    <td role="button" width="8.4%" class="fw-medium text-center">{{item.cnt3}}</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </c-card-body>
+    </c-card>
+</div>
+
+<app-kandas-list-modal [eventShowListModal]="eventShowListModal"></app-kandas-list-modal>

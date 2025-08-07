@@ -1,0 +1,115 @@
+<!-- CATEGORY BENEFIT -->
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="reportMigrationList.length > 0">
+    <c-card-header>
+        <strong>{{ 'report-page.migration.label' | translate }}</strong>
+        <span class="float-end">
+             <span>Скачать</span>
+             <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('table-benefit')">
+                 <i class="fa fa-file-excel-o fs-5"></i>
+             </a>
+         </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="table-benefit">
+                <thead class="text-center align-middle table-header">
+                <tr class="text-center align-middle">
+                    <th scope="col">#</th>
+                    <th scope="col" class="region-column">{{ 'stat-page.region' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col2' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col3' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col4' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col5' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col6' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col7' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col8' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col9' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col10' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col11' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col12' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col13' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col14' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col15' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col16' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col17' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col18' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col19' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col20' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col21' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col22' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col23' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col24' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.migration.col25' | translate }}</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of reportMigrationList; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">{{ utilService.getLocalization(item.state.nameKz, item.state.nameRu) }}</td>
+                        <td>{{ utilService.numberFormat(item.col2) }}</td>
+                        <td>{{ utilService.numberFormat(item.col3) }}</td>
+                        <td>{{ utilService.numberFormat(item.col4) }}</td>
+                        <td>{{ utilService.numberFormat(item.col5) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 6)">{{ utilService.numberFormat(item.col6) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 7)">{{ utilService.numberFormat(item.col7) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 8)">{{ utilService.numberFormat(item.col8) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 9)">{{ utilService.numberFormat(item.col9) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 10)">{{ utilService.numberFormat(item.col10) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 11)">{{ utilService.numberFormat(item.col11) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 12)">{{ utilService.numberFormat(item.col12) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 13)">{{ utilService.numberFormat(item.col13) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 14)">{{ utilService.numberFormat(item.col14) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 15)">{{ utilService.numberFormat(item.col15) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 16)">{{ utilService.numberFormat(item.col16) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 17)">{{ utilService.numberFormat(item.col17) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 18)">{{ utilService.numberFormat(item.col18) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 19)">{{ utilService.numberFormat(item.col19) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 20)">{{ utilService.numberFormat(item.col20) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 21)">{{ utilService.numberFormat(item.col21) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 22)">{{ utilService.numberFormat(item.col22) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 23)">{{ utilService.numberFormat(item.col23) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 24)">{{ utilService.numberFormat(item.col24) }}</td>
+                        <td role="button" (click)="showListModal(item.state, 25)">{{ utilService.numberFormat(item.col25) }}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <tr class="text-center">
+                    <td></td>
+                    <td class="text-start">{{ reportTotal.col1 }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col2) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col3) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col4) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col5) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col6) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col7) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col8) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col9) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col10) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col11) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col12) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col13) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col14) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col15) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col16) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col17) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col18) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col19) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col20) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col21) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col22) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col23) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col24) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.col25) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+
+
+<app-report-migration-list-modal [eventShowListModal]="eventShowListModal"></app-report-migration-list-modal>

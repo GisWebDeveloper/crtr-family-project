@@ -1,0 +1,59 @@
+<div class="table-responsive" *ngIf="data.length > 0">
+    <table cTable bordered hover small id="report-table">
+        <thead class="text-center align-middle table-header">
+        <tr *ngFor="let row of tableHeaderConfig.rows">
+            <th *ngFor="let cell of row.cells" [attr.colspan]="cell.colspan" [attr.rowspan]="cell.rowspan"
+                [ngClass]="cell.class">
+                {{ (cell.label + '') | translate }}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngIf="stateTotal">
+            <tr class="text-center fw-medium" cTableColor="dark">
+                <td></td>
+                <td class="text-start">{{ utilService.getLocalization(stateTotal.region.nameKz, stateTotal.region.nameRu)}}</td>
+                <td *ngFor="let property of getCntProperties()"
+                    [attr.role]="tableHeaderConfig.showModalColumns?.includes(property) ? 'button' : null"
+                    (click)="tableHeaderConfig.showModalColumns?.includes(property) ? showListModal(stateTotal.region) : null">
+                    {{ tableHeaderConfig.numberFormatColumns.includes(property) ?
+                    utilService.numberFormat(utilService.getObjectFieldValue(stateTotal, property)) :
+                    utilService.getObjectFieldValue(stateTotal, property) }}</td>
+            </tr>
+        </ng-container>
+        <ng-container *ngFor="let row of stateList; let idx = index">
+            <tr class="text-center">
+                <td class="px-2">{{ idx + 1 }}</td>
+                <td class="text-start" role="button"
+                    (click)="selectStatRegion(row)">{{ utilService.getLocalization(row.region.nameKz, row.region.nameRu) }}</td>
+
+                <td *ngFor="let property of getCntProperties()"
+                    [attr.role]="tableHeaderConfig.showModalColumns?.includes(property) ? 'button' : null"
+                    (click)="tableHeaderConfig.showModalColumns?.includes(property) ? showListModal(row.region) : null">
+                    {{ tableHeaderConfig.numberFormatColumns.includes(property) ?
+                    utilService.numberFormat(utilService.getObjectFieldValue(row, property)) :
+                    utilService.getObjectFieldValue(row, property)}}
+                </td>
+            </tr>
+            <ng-container *ngIf="selectedState?.region?.id === row.region.id && regionList.length > 0">
+                <tr class="text-center" *ngFor="let statChild of regionList"
+                    [ngClass]="{'table-info': selectedState && statChild.region.id == selectedState.region.id}">
+                    <td></td>
+                    <td class="text-start ps-5" role="button" (click)="selectStatRegion(statChild)">
+                        {{ utilService.getLocalization(statChild.region.nameKz, statChild.region.nameRu) }}</td>
+                    <td *ngFor="let property of getCntProperties()"
+                        [attr.role]="tableHeaderConfig.showModalColumns?.includes(property) ? 'button' : null"
+                        (click)="tableHeaderConfig.showModalColumns?.includes(property) ? showListModal(statChild.region) : null"
+                        [cTableColor]="tableHeaderConfig.colorDataColumn?.includes(property) && utilService.getObjectFieldValue(statChild, property) > 1 ? 'dark' : undefined">
+                        {{ tableHeaderConfig.numberFormatColumns.includes(property) ?
+                        utilService.numberFormat(utilService.getObjectFieldValue(statChild, property)) :
+                        utilService.getObjectFieldValue(statChild, property)}}
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+        </tbody>
+    </table>
+</div>
+
+<app-report-rating-list-modal [eventShowListModal]="eventShowListModal"></app-report-rating-list-modal>

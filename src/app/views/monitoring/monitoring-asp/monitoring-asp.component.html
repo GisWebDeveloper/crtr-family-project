@@ -1,0 +1,153 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'menu.monitoring-asp' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible, 0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+        <!--
+        <span class="float-end">
+            <button cButton color="success" variant="ghost" size="sm" (click)="downloadReport()">
+                <i class="fa fa-file-excel-o"></i></button>
+        </span>-->
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <table cTable hover small *ngIf="regionASPList.length > 0">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">{{ 'need-actions-page.region' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.asp-current' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.asp-wrong' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let item of regionASPList; let idx = index">
+                <tr [hidden]="item.isHidden"
+                    [ngClass]="{'table-info': item.regionId == params.regionId}">
+                    <td role="button" (click)="selectStatRegion(item)">
+                        <span [ngClass]="{'ps-5': item.level === 2}">
+                            {{ translateService.currentLang === 'kz' ? item.regionNameKz : item.regionNameRu }}</span>
+                    </td>
+                    <td class="text-center">
+                        <a [attr.role]="hasPermission(permissions.MONITORING_ASP_LIST) ? 'button' : null"
+                           (click)="hasPermission(permissions.MONITORING_ASP_LIST) ? getStatPersonList(item, 1) : null">
+                            {{ utilService.numberFormat(item.cntAsp) }}
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a [attr.role]="hasPermission(permissions.MONITORING_ASP_LIST) ? 'button' : null"
+                           (click)="hasPermission(permissions.MONITORING_ASP_LIST) ? getStatPersonList(item, 2) : null">
+                            {{ utilService.numberFormat(item.cntNotAsp) }}
+                        </a>
+                    </td>
+                </tr>
+            </ng-container>
+            </tbody>
+            <tfoot cTableColor="dark">
+            <tr class="fw-bolder">
+                <td>{{ 'total' | translate }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cntAsp) }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cntNotAsp) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.countId && params.list.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'lists' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible,1)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[2], 'fa-angle-up': visible[2]}"></i>
+            </a>
+        </span>
+        <!--
+        <span class="float-end">
+            <button cButton color="success" variant="ghost" size="sm" (click)="downloadReport()">
+                <i class="fa fa-file-excel-o"></i></button>
+        </span>-->
+    </c-card-header>
+    <c-card-body *ngIf="visible[1]">
+        <c-callout color="info">
+            {{ getRegionDescription(params.statItem) }}
+            <span *ngIf="params.countId == 1"> / {{ 'monitoring-page.asp-current' | translate }} </span>
+            <span *ngIf="params.countId == 2"> / {{ 'monitoring-page.asp-wrong' | translate }} </span>
+        </c-callout>
+
+        <table cTable striped hover *ngIf="params.list.length > 0" bordered>
+            <thead>
+            <tr class="text-center align-middle">
+                <th scope="col" rowspan="2">#</th>
+                <th scope="col" rowspan="2">{{ 'monitoring-page.asp.app-number' | translate }}</th>
+                <th scope="col" rowspan="2">{{ 'need-actions-page.full-name' | translate }}</th>
+                <th scope="col" colspan="2">{{ 'monitoring-page.asp.count-member' | translate }}</th>
+                <th scope="col" rowspan="2" style="min-width: 80px">
+                    {{ 'monitoring-page.asp.sdd' | translate }}</th>
+                <th scope="col" rowspan="2" style="min-width: 80px">
+                    {{ 'monitoring-page.asp.real-estate' | translate }}</th>
+                <th scope="col" rowspan="2" style="min-width: 80px">
+                    {{ 'monitoring-page.asp.transport' | translate }}</th>
+                <th scope="col" rowspan="2">{{ 'monitoring-page.asp.description' | translate }}</th>
+            </tr>
+            <tr class="text-center">
+                <th scope="col" class="text-nowrap">{{ 'monitoring-page.asp.count-app' | translate }}</th>
+                <th scope="col" class="text-nowrap" style="min-width: 80px">
+                    {{ 'monitoring-page.asp.count-fc' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params.list; let idx = index">
+                <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                <td class="text-center">{{ item.appId }}</td>
+                <td>
+                    <a target="_blank" class="link-info" [routerLink]="['/family/' + item.iin]" (click)="utilService.navigateToFamilyPortrait(item.iin)">
+                        {{ utilService.concat(' / ', item.iin, item.fullName) }}
+                    </a>
+                </td>
+                <td class="text-center">{{ item.memCountAsp }}</td>
+                <td class="text-center">{{ item.memCountSk }}</td>
+                <td class="text-center">
+                    <i class="fa"
+                       [ngClass]="{'fa-check-square-o': item.validSdd == 1, 'fa-square-o': item.validSdd == 0}"></i>
+                </td>
+                <td class="text-center">
+                    <i class="fa"
+                       [ngClass]="{'fa-check-square-o': item.validRe == 1, 'fa-square-o': item.validRe == 0}"></i>
+                </td>
+                <td class="text-center">
+                    <i class="fa"
+                       [ngClass]="{'fa-check-square-o': item.validTr == 1, 'fa-square-o': item.validTr == 0}"></i>
+                </td>
+                <td>{{ item.reasonDesc }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-alert color="warning" *ngIf="params.list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-card-body>
+    <c-card-footer *ngIf="visible[1]">
+        <c-row>
+            <c-col [md]="10">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
+                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-footer>
+</c-card>

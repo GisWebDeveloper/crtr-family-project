@@ -1,0 +1,218 @@
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="reportList.length > 0 && listCntId.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong *ngIf="reportCategory">
+            {{ utilService.getLocalization(reportCategory.nameKz, reportCategory.nameRu) }}</strong>
+        <span class="float-end" *ngIf="reportList.length > 0">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('report-table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="report-table">
+                <thead class="text-center align-middle table-header">
+                <tr>
+                    <th scope="col" rowspan="2">#</th>
+                    <th scope="col" rowspan="2" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-3' | translate }}</th>
+                    <th scope="col" colspan="4"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-4-5-6-7' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-8' | translate }}</th>
+                    <th scope="col" colspan="3"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-9-10-11' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-12' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-13' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-14' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-15' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-16' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-17' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-18' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-19' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-20' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-21' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-22' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-23' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-24' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-25' | translate }}</th>
+                    <th scope="col" rowspan="2"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-26' | translate }}</th>
+                </tr>
+
+                <tr>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-4' | translate }}</th>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-5' | translate }}</th>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-6' | translate }}</th>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-7' | translate }}</th>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-9' | translate }}</th>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-10' | translate }}</th>
+                    <th scope="col"
+                        class="value-column">{{ 'gov-agency-page.dynamic.mior.neet.cnt-11' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of reportList; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">
+                            {{ utilService.getLocalization(item.region.nameKz, item.region.nameRu) }}
+                        </td>
+                        <td (click)="containsCntId(303) ? showListModal(303, item.region) : null"
+                            [attr.role]="containsCntId(303) ? 'button' : null">{{ utilService.numberFormat(item.cnt3) }}</td>
+                        <td (click)="containsCntId(304) ? showListModal(304, item.region) : null"
+                            [attr.role]="containsCntId(304) ? 'button' : null">{{ utilService.numberFormat(item.cnt4) }}</td>
+                        <td (click)="containsCntId(305) ? showListModal(305, item.region) : null"
+                            [attr.role]="containsCntId(305) ? 'button' : null">{{ utilService.numberFormat(item.cnt5) }}</td>
+                        <td (click)="containsCntId(306) ? showListModal(306, item.region) : null"
+                            [attr.role]="containsCntId(306) ? 'button' : null">{{ utilService.numberFormat(item.cnt6) }}</td>
+                        <td (click)="containsCntId(307) ? showListModal(307, item.region) : null"
+                            [attr.role]="containsCntId(307) ? 'button' : null">{{ utilService.numberFormat(item.cnt7) }}</td>
+                        <td (click)="containsCntId(308) ? showListModal(308, item.region) : null"
+                            [attr.role]="containsCntId(308) ? 'button' : null">{{ utilService.numberFormat(item.cnt8) }}</td>
+                        <td (click)="containsCntId(309) ? showListModal(309, item.region) : null"
+                            [attr.role]="containsCntId(309) ? 'button' : null">{{ utilService.numberFormat(item.cnt9) }}</td>
+                        <td (click)="containsCntId(310) ? showListModal(310, item.region) : null"
+                            [attr.role]="containsCntId(310) ? 'button' : null">{{ utilService.numberFormat(item.cnt10) }}</td>
+                        <td (click)="containsCntId(311) ? showListModal(311, item.region) : null"
+                            [attr.role]="containsCntId(311) ? 'button' : null">{{ utilService.numberFormat(item.cnt11) }}</td>
+                        <td (click)="containsCntId(312) ? showListModal(312, item.region) : null"
+                            [attr.role]="containsCntId(312) ? 'button' : null">{{ utilService.numberFormat(item.cnt12) }}</td>
+                        <td (click)="containsCntId(313) ? showListModal(313, item.region) : null"
+                            [attr.role]="containsCntId(313) ? 'button' : null">{{ utilService.numberFormat(item.cnt13) }}</td>
+                        <td (click)="containsCntId(314) ? showListModal(314, item.region) : null"
+                            [attr.role]="containsCntId(314) ? 'button' : null">{{ utilService.numberFormat(item.cnt14) }}</td>
+                        <td (click)="containsCntId(315) ? showListModal(315, item.region) : null"
+                            [attr.role]="containsCntId(315) ? 'button' : null">{{ utilService.numberFormat(item.cnt15) }}</td>
+                        <td (click)="containsCntId(316) ? showListModal(316, item.region) : null"
+                            [attr.role]="containsCntId(316) ? 'button' : null">{{ utilService.numberFormat(item.cnt16) }}</td>
+                        <td (click)="containsCntId(317) ? showListModal(317, item.region) : null"
+                            [attr.role]="containsCntId(317) ? 'button' : null">{{ utilService.numberFormat(item.cnt17) }}</td>
+                        <td (click)="containsCntId(318) ? showListModal(318, item.region) : null"
+                            [attr.role]="containsCntId(318) ? 'button' : null">{{ utilService.numberFormat(item.cnt18) }}</td>
+                        <td (click)="containsCntId(319) ? showListModal(319, item.region) : null"
+                            [attr.role]="containsCntId(319) ? 'button' : null">{{ utilService.numberFormat(item.cnt19) }}</td>
+                        <td (click)="containsCntId(320) ? showListModal(320, item.region) : null"
+                            [attr.role]="containsCntId(320) ? 'button' : null">{{ utilService.numberFormat(item.cnt20) }}</td>
+                        <td (click)="containsCntId(321) ? showListModal(321, item.region) : null"
+                            [attr.role]="containsCntId(321) ? 'button' : null">{{ utilService.numberFormat(item.cnt21) }}</td>
+                        <td (click)="containsCntId(322) ? showListModal(322, item.region) : null"
+                            [attr.role]="containsCntId(322) ? 'button' : null">{{ utilService.numberFormat(item.cnt22) }}</td>
+                        <td (click)="containsCntId(323) ? showListModal(323, item.region) : null"
+                            [attr.role]="containsCntId(323) ? 'button' : null">{{ utilService.numberFormat(item.cnt23) }}</td>
+                        <td (click)="containsCntId(324) ? showListModal(324, item.region) : null"
+                            [attr.role]="containsCntId(324) ? 'button' : null">{{ utilService.numberFormat(item.cnt24) }}</td>
+                        <td (click)="containsCntId(325) ? showListModal(325, item.region) : null"
+                            [attr.role]="containsCntId(325) ? 'button' : null">{{ utilService.numberFormat(item.cnt25) }}</td>
+                        <td (click)="containsCntId(326) ? showListModal(326, item.region) : null"
+                            [attr.role]="containsCntId(326) ? 'button' : null">{{ utilService.numberFormat(item.cnt26) }}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ 'total' | translate }}</td>
+                    <td (click)="containsCntId(303) ? showListModal(303) : null"
+                        [attr.role]="containsCntId(303) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt3) }}</td>
+                    <td (click)="containsCntId(304) ? showListModal(304) : null"
+                        [attr.role]="containsCntId(304) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt4) }}</td>
+                    <td (click)="containsCntId(305) ? showListModal(305) : null"
+                        [attr.role]="containsCntId(305) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt5) }}</td>
+                    <td (click)="containsCntId(306) ? showListModal(306) : null"
+                        [attr.role]="containsCntId(306) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt6) }}</td>
+                    <td (click)="containsCntId(307) ? showListModal(307) : null"
+                        [attr.role]="containsCntId(307) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt7) }}</td>
+                    <td (click)="containsCntId(308) ? showListModal(308) : null"
+                        [attr.role]="containsCntId(308) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt8) }}</td>
+                    <td (click)="containsCntId(309) ? showListModal(309) : null"
+                        [attr.role]="containsCntId(309) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt9) }}</td>
+                    <td (click)="containsCntId(310) ? showListModal(310) : null"
+                        [attr.role]="containsCntId(310) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt10) }}</td>
+                    <td (click)="containsCntId(311) ? showListModal(311) : null"
+                        [attr.role]="containsCntId(311) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt11) }}</td>
+                    <td (click)="containsCntId(312) ? showListModal(312) : null"
+                        [attr.role]="containsCntId(312) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt12) }}</td>
+                    <td (click)="containsCntId(313) ? showListModal(313) : null"
+                        [attr.role]="containsCntId(313) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt13) }}</td>
+                    <td (click)="containsCntId(314) ? showListModal(314) : null"
+                        [attr.role]="containsCntId(314) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt14) }}</td>
+                    <td (click)="containsCntId(315) ? showListModal(315) : null"
+                        [attr.role]="containsCntId(315) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt15) }}</td>
+                    <td (click)="containsCntId(316) ? showListModal(316) : null"
+                        [attr.role]="containsCntId(316) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt16) }}</td>
+                    <td (click)="containsCntId(317) ? showListModal(317) : null"
+                        [attr.role]="containsCntId(317) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt17) }}</td>
+                    <td (click)="containsCntId(318) ? showListModal(318) : null"
+                        [attr.role]="containsCntId(318) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt18) }}</td>
+                    <td (click)="containsCntId(319) ? showListModal(319) : null"
+                        [attr.role]="containsCntId(319) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt19) }}</td>
+                    <td (click)="containsCntId(320) ? showListModal(320) : null"
+                        [attr.role]="containsCntId(320) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt20) }}</td>
+                    <td (click)="containsCntId(321) ? showListModal(321) : null"
+                        [attr.role]="containsCntId(321) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt21) }}</td>
+                    <td (click)="containsCntId(322) ? showListModal(322) : null"
+                        [attr.role]="containsCntId(322) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt22) }}</td>
+                    <td (click)="containsCntId(323) ? showListModal(323) : null"
+                        [attr.role]="containsCntId(323) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt23) }}</td>
+                    <td (click)="containsCntId(324) ? showListModal(324) : null"
+                        [attr.role]="containsCntId(324) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt24) }}</td>
+                    <td (click)="containsCntId(325) ? showListModal(325) : null"
+                        [attr.role]="containsCntId(325) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt25) }}</td>
+                    <td (click)="containsCntId(326) ? showListModal(326) : null"
+                        [attr.role]="containsCntId(326) ? 'button' :
+                        null">{{ utilService.numberFormat(reportTotal.cnt26) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+
+<app-gov-agency-report-dynamic-list [eventShowListModal]="eventShowListModal"></app-gov-agency-report-dynamic-list>

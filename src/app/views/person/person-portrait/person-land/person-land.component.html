@@ -1,0 +1,17 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && landList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.land' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="5">{{ 'person-portrait.real-estate.address' | translate }}</c-col>
+        <c-col [md]="3">{{ 'nomination' | translate }}</c-col>
+        <c-col [md]="2">{{ 'person-portrait.real-estate.area-total' | translate }}</c-col>
+        <c-col [md]="2" class="text-center">{{ 'person-portrait.real-estate.reg-date' | translate }}</c-col>
+    </c-row>
+    <c-row class="border-top mb-1" *ngFor="let ps of landList; let idx = index">
+        <c-col [md]="5"><span class="me-2">{{ (idx + 1) + '.' }}</span>{{ ps.address }}</c-col>
+        <c-col [md]="3">{{ ps.objectEndUse }}</c-col>
+        <c-col [md]="2">{{ ps.squareTotal + ' ' + ps.measUnit }}</c-col>
+        <c-col [md]="2" class="text-center">{{ ps.regDate }}</c-col>
+    </c-row>
+</div>

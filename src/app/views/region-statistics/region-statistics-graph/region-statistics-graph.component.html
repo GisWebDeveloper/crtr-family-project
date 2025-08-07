@@ -1,0 +1,20 @@
+<canvas *ngIf="type !== 'age'"
+    baseChart
+    class="chart"
+    [data]="barChartData"
+    [type]="barChartType"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+>
+</canvas>
+
+<canvas *ngIf="type === 'age'"
+        baseChart
+        class="chart"
+        [data]="barAgeChartData"
+        [type]="barChartType"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+>
+</canvas>
+

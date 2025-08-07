@@ -1,0 +1,170 @@
+<c-container breakpoint="lg" class="h-auto">
+    <c-card class="mb-4" [cBorder]="'secondary'">
+        <c-card-header>
+            <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+            <strong>{{ 'need-actions-page.stat' | translate }}</strong>
+            <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible, 0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+        </c-card-header>
+        <c-card-body *ngIf="visible[0]">
+
+            <c-row *ngIf="countStatList.length > 0">
+                <c-col [md]="8"></c-col>
+                <c-col [md]="4">
+                    <table cTable small class="my-0">
+                        <thead class="text-center">
+                        <tr class="align-middle">
+                            <th>{{ 'need-actions-page.total' | translate }}</th>
+                            <th width="25%">{{ 'need-actions-page.assigned' | translate }}</th>
+                            <th width="25%">{{ 'need-actions-page.assigning' | translate }}</th>
+                            <th width="25%">{{ 'need-actions-page.current-count' | translate }}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </c-col>
+            </c-row>
+
+            <c-row class="bg-light fw-medium py-1" *ngIf="countStatList.length > 0">
+                <c-col [md]="8">{{ 'total' | translate }}</c-col>
+                <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(countStatTotal.count1) }}</c-col>
+                <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(countStatTotal.count2) }}</c-col>
+                <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(countStatTotal.count3) }}</c-col>
+                <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(countStatTotal.count5) }}</c-col>
+            </c-row>
+
+            <ng-container *ngFor="let item of countStatList; let idx = index">
+                <c-row class="py-1" [ngClass]="{ 'border-top': idx > 0}">
+                    <c-col [md]="8">
+                        <span class="me-2">{{ (idx + 1) + '.' }}</span>
+                        {{ utilService.getLocalization(item.countDictionary.nameKz, item.countDictionary.nameRu) }}
+                    </c-col>
+                    <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(item.count1) }}</c-col>
+                    <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(item.count2) }}</c-col>
+                    <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(item.count3) }}</c-col>
+                    <c-col [md]="1" class="text-end pe-4">{{ utilService.numberFormat(item.count5) }}</c-col>
+                </c-row>
+            </ng-container>
+        </c-card-body>
+    </c-card>
+
+    <c-card *ngIf="hasPermission(permissions.MONITORING_NEED_ACTIONS_LIST)" class="mb-4" [cBorder]="'secondary'">
+        <c-card-header>
+            <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+            <strong>{{ 'filter' | translate }}</strong>
+            <span class="float-end">
+                <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,1)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i>
+            </a>
+        </span>
+        </c-card-header>
+        <c-card-body *ngIf="visible[1]">
+            <form cForm (submit)="search()" novalidate>
+                <c-row class="mb-2">
+                    <c-col [md]="10">
+                        <c-row class="mb-1">
+                            <c-col>
+                                <ng-select id="count" name="count" bindValue="code"
+                                           [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                           [items]="dictionaryCount" [(ngModel)]="params.countCode" [clearable]="false">
+                                </ng-select>
+                            </c-col>
+                        </c-row>
+                        <c-row class="my-2">
+                            <c-col [md]="2">{{ 'iin' | translate }}</c-col>
+                            <c-col [md]="3">
+                                <input type="text" name="iin" id="iin" cFormControl maxlength="12"
+                                       [(ngModel)]="params.iin"/>
+                            </c-col>
+                            <c-col [md]="2" class="text-center">{{ 'stat-page.status' | translate }}</c-col>
+                            <c-col [md]="5">
+                                <ng-select id="status" name="status" bindValue="code"
+                                           [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                           [items]="dictionaryStatus" [(ngModel)]="params.statusCode"
+                                           [clearable]="false">
+                                    <ng-template ng-option-tmp let-item="item" let-index="index"
+                                                 let-search="searchTerm">
+                                        <div>{{item.code + ' - ' + utilService.getLocalization(item.nameKz, item.nameRu) }}</div>
+                                    </ng-template>
+                                </ng-select>
+                            </c-col>
+                        </c-row>
+                    </c-col>
+                    <c-col [md]="2">
+                        <div class="d-flex flex-column">
+                            <button cButton color="info" type="submit" class="text-white"
+                                    [disabled]="!params.countCode">
+                                <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                                {{ 'search' | translate }}
+                            </button>
+                            <button cButton color="light" type="reset" class="mt-2">
+                                <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                                {{ 'clear' | translate }}
+                            </button>
+                        </div>
+                    </c-col>
+                </c-row>
+            </form>
+        </c-card-body>
+    </c-card>
+</c-container>
+
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.list.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'lists' | translate }}</strong>
+    </c-card-header>
+    <c-card-body>
+        <table cTable striped hover>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ 'need-actions-page.region' | translate }}</th>
+                <th scope="col">{{ 'need-actions-page.full-name' | translate }}</th>
+                <th scope="col">{{ 'need-actions-page.address' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.need-actions.status' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params.list; let idx = index">
+                <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>{{ utilService.getRegionDescription(item.region, item.regionState) }}</td>
+                <td>{{ utilService.concat(' / ', item.iin, item.fullName) }}</td>
+                <td>{{ item.address }}</td>
+                <td>
+                    <span *ngIf="item.statusDictionary">
+                        {{ utilService.getLocalization(item.statusDictionary.nameKz, item.statusDictionary.nameRu) }}
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-alert color="warning" *ngIf="params.formSubmitted && params.list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-card-body>
+    <c-card-footer>
+        <c-row>
+            <c-col [md]="10">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
+                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-footer>
+</c-card>

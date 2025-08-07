@@ -1,0 +1,94 @@
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="reportList.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong *ngIf="reportCategory">
+            {{ utilService.getLocalization(reportCategory.nameKz, reportCategory.nameRu) }}</strong>
+        <span class="float-end" *ngIf="reportList.length > 0">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('report-table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="report-table">
+                <thead class="text-center align-middle table-header">
+                <tr>
+                    <th scope="col" rowspan="2">#</th>
+                    <th scope="col" rowspan="2" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ getFieldDescription('total') }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ getFieldDescription('total-unemployed') }}</th>
+                    <th scope="col" colspan="5" class="value-column">{{ 'report-page.from' | translate }}</th>
+                </tr>
+                <tr>
+                    <th scope="col" class="value-column">{{ 'report-page.employables.A' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.employables.B' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.employables.C' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.employables.D' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.employables.E' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of reportList; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">
+                            {{ utilService.getLocalization(item.region.nameKz, item.region.nameRu) }}
+                        </td>
+                        <td>{{ utilService.numberFormat(item.cnt1) }}</td>
+                        <td>{{ utilService.numberFormat(item.cnt2) }}</td>
+                        <td>
+                            <a role="button"
+                               (click)="showListModal(item.region, 503, 'report-page.employables.A')">
+                                {{ utilService.numberFormat(item.cnt3) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a role="button"
+                               (click)="showListModal(item.region, 504, 'report-page.employables.B')">
+                                {{ utilService.numberFormat(item.cnt4) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a role="button"
+                               (click)="showListModal(item.region, 505, 'report-page.employables.C')">
+                                {{ utilService.numberFormat(item.cnt5) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a role="button"
+                               (click)="showListModal(item.region, 506, 'report-page.employables.D')">
+                                {{ utilService.numberFormat(item.cnt6) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a role="button"
+                               (click)="showListModal(item.region, 507, 'report-page.employables.E')">
+                                {{ utilService.numberFormat(item.cnt7) }}
+                            </a>
+                        </td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ 'total' | translate }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt1) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt2) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt3) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt4) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt5) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt6) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt7) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+
+<app-report-employables-list-modal [eventShowListModal]="eventShowListModal"></app-report-employables-list-modal>

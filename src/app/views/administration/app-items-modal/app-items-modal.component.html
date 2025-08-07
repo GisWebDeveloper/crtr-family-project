@@ -1,0 +1,75 @@
+<c-modal id="appItemsModal" size="lg" [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>{{ 'administration-page.app-items.app-item' | translate }}</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <form cForm (submit)="save()">
+        <c-modal-body *ngIf="appItem">
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="id">{{ 'id' | translate }}</label>
+                <c-col [md]="3">
+                    <input type="text" id="id" name="id" cFormControl disabled [(ngModel)]="appItem.id"/>
+                </c-col>
+            </c-row>
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="parentId">
+                    {{ 'administration-page.app-items.parent-id' | translate }}</label>
+                <c-col [md]="3">
+                    <input type="text" id="parentId" name="parentId" cFormControl maxlength="10"
+                           [(ngModel)]="appItem.parentId"/>
+                </c-col>
+            </c-row>
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="code">
+                    {{ 'code' | translate }}<span class="text-danger"> *</span></label>
+                <c-col [md]="8">
+                    <input type="text" id="code" name="code" cFormControl required maxlength="30"
+                           [(ngModel)]="appItem.code"/>
+                </c-col>
+            </c-row>
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="name">
+                    {{ 'nomination' | translate }}<span class="text-danger"> *</span></label>
+                <c-col [md]="8">
+                    <input type="text" id="name" name="name" cFormControl required maxlength="100"
+                           [(ngModel)]="appItem.nameRu"/>
+                </c-col>
+            </c-row>
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="type">
+                    {{ 'type' | translate }}<span class="text-danger"> *</span></label>
+                <c-col [md]="8">
+                    <ng-select id="type" name="type" bindValue="id" bindLabel="nameRu" required
+                               [items]="dictionaryAppItemTypeList" [(ngModel)]="appItem.appItemTypeId"
+                               [clearable]="false">
+                    </ng-select>
+                </c-col>
+            </c-row>
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="dateFrom">
+                    {{ 'administration-page.app-items.date-from' | translate }}
+                    <span class="text-danger"> *</span></label>
+                <c-col [md]="3">
+                    <input type="date" id="dateFrom" name="dateFrom" cFormControl required
+                           [(ngModel)]="appItem.dateFrom"/>
+                </c-col>
+            </c-row>
+            <c-row class="mb-2">
+                <label cLabel="col" class="col-md-4" for="dateTo">
+                    {{ 'administration-page.app-items.date-to' | translate }}</label>
+                <c-col [md]="3">
+                    <input type="date" id="dateTo" name="dateTo" cFormControl [(ngModel)]="appItem.dateTo"/>
+                </c-col>
+            </c-row>
+        </c-modal-body>
+        <c-modal-footer>
+            <button type="submit" color="success" class="text-white" cButton>
+                <svg cIcon name="cilSave"></svg>
+                {{ 'save' | translate }}
+            </button>
+            <button color="secondary" (click)="toggleModal()" cButton>
+                {{ 'close' | translate }}
+            </button>
+        </c-modal-footer>
+    </form>
+</c-modal>

@@ -1,0 +1,7 @@
+<canvas baseChart
+        [type]="'line'"
+        [datasets]="datasets"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>

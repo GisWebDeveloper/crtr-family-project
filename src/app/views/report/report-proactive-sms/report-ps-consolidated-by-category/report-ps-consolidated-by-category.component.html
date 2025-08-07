@@ -1,0 +1,165 @@
+<!-- FILTER -->
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm novalidate (submit)="search()">
+            <c-row class="mb-2">
+                <c-col [md]="2">
+                    <ng-select id="year" name="year" [items]="dictionaryYear" [(ngModel)]="filter.year"
+                               [clearable]="false">
+                    </ng-select>
+                </c-col>
+                <c-col [md]="2">
+                    <div class="d-flex flex-column">
+                        <button type="submit" class="text-white" color="info" cButton
+                                [disabled]="!filter.year">
+                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                            {{ 'search' | translate }}
+                        </button>
+                    </div>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="reportList.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'report-page.proactive-sms.label-consolidated-by-category' | translate }}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2"
+               (click)="reportService.exportTableToExcel('table-consolidated-category')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="table-consolidated-category">
+                <thead class="text-center align-middle table-header">
+                <tr>
+                    <th scope="col" rowspan="2">#</th>
+                    <th scope="col" rowspan="2" class="region-column">
+                        {{ 'report-page.need-actions.category' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.total' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.waiting-response' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.waiting-requisites' | translate }}</th>
+                    <th scope="col" colspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.not-replied' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.on-approval' | translate }}</th>
+                    <th scope="col" colspan="4" class="value-column">
+                        {{ 'report-page.proactive-sms.assigned' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.declined' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">
+                        {{ 'report-page.proactive-sms.repeat-sms' | translate }}</th>
+                </tr>
+                <tr>
+                    <th scope="col" class="value-column">{{ 'report-page.amount' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.proportion' | translate }}</th>
+                    <th scope="col" class="value-column">
+                        {{ 'report-page.proactive-sms.assigned-proactive' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.proportion' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.proactive-sms.other-source' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'report-page.total' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of reportList; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">{{ utilService.getLocalization(item.category.nameKz, item.category.nameRu) }}</td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 301, 'report-page.proactive-sms.total') : null">
+                                {{ utilService.numberFormat(item.cnt1) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 302, 'report-page.proactive-sms.waiting-response') : null">
+                                {{ utilService.numberFormat(item.cnt2) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 303, 'report-page.proactive-sms.waiting-requisites') : null">
+                                {{ utilService.numberFormat(item.cnt3) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 304, 'report-page.proactive-sms.not-replied') : null">
+                                {{ utilService.numberFormat(item.cnt4) }}
+                            </a>
+                        </td>
+                        <td>{{ utilService.numberFormat(item.pers1) }}</td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 305, 'report-page.proactive-sms.on-approval') : null">
+                                {{ utilService.numberFormat(item.cnt5) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 306, 'report-page.proactive-sms.assigned') : null">
+                                {{ utilService.numberFormat(item.cnt6) }}
+                            </a>
+                        </td>
+                        <td>{{ utilService.numberFormat(item.pers2) }}</td>
+                        <td>{{ utilService.numberFormat(item.cnt7) }}</td>
+                        <td>{{ utilService.numberFormat(item.cnt8) }}</td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 309, 'report-page.proactive-sms.declined') : null">
+                                {{ utilService.numberFormat(item.cnt9) }}
+                            </a>
+                        </td>
+                        <td>
+                            <a [attr.role]="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? 'button' : null"
+                               (click)="hasPermission(permissions.REPORT_PROACTIVE_SMS_LIST) ? showListModal(item.category, 310, 'report-page.proactive-sms.repeat-sms') : null">
+                                {{ utilService.numberFormat(item.cnt10) }}
+                            </a>
+                        </td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ 'total' | translate }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt1) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt2) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt3) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt4) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.pers1) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt5) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt6) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.pers2) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt7) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt8) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt9) }}</td>
+                    <td>{{ utilService.numberFormat(reportTotal.cnt10) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+
+<app-report-ps-list-modal [eventShowListModal]="eventShowListModal"></app-report-ps-list-modal>
+<app-report-ps-with-sms-list-modal [eventShowListModal]="eventShowListWithSmsModal"></app-report-ps-with-sms-list-modal>

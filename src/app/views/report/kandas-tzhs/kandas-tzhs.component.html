@@ -1,0 +1,169 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm novalidate (submit)="search()">
+            <c-row class="mb-2">
+                <c-col [md]="6">
+                    <c-row class="mb-2"><strong>{{'segmentation-new-page.region' | translate}}</strong></c-row>
+                    <c-row>
+                        <c-col>
+                            <ng-select id="region" name="region" bindValue="id"
+                                       [items]="dictionaryDistrict"
+                                       [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                       [(ngModel)]="filter.districtId"
+                                       [clearable]="!(this.dictionaryDistrict.length === 1 || filter.regionId)"
+                                       [searchable]="false"
+                                       (ngModelChange)="getRegionDictionary()">
+                            </ng-select>
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <c-col [md]="6">
+                    <c-row class="mb-2"><strong>{{'segmentation-new-page.district' | translate}}</strong>
+                    </c-row>
+                    <c-row>
+                        <c-col>
+                            <ng-select id="district" name="district" bindValue="id"
+                                       [items]="dictionaryRegion"
+                                       [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                       [(ngModel)]="filter.regionId"
+                                       [clearable]="this.dictionaryRegion.length !== 1"
+                                       [searchable]="false"></ng-select>
+                        </c-col>
+                    </c-row>
+                </c-col>
+                <!--                <c-col [md]="2">-->
+                <!--                    <div class="d-flex flex-column">-->
+                <!--                        <button type="submit" class="text-white" color="info" cButton [disabled]="!reportCategory">-->
+                <!--                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>-->
+                <!--                            {{ 'search' | translate }}-->
+                <!--                        </button>-->
+                <!--                    </div>-->
+                <!--                </c-col>-->
+            </c-row>
+
+            <!-- FILTER BUTTONS -->
+            <div class="d-flex justify-content-end mb-3">
+                <button cButton color="light" (click)="resetFilters()" class="me-3">
+                    <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                    {{ 'clear' | translate }}
+                </button>
+
+                <button cButton color="info" type="submit" class="text-white">
+                    <span class="pe-1"><svg cIcon name="cilSearch"></svg></span>
+                    {{ 'search' | translate }}
+                </button>
+            </div>
+        </form>
+    </c-card-body>
+</c-card>
+
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="dictionary && dates && data">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ getTableLabel() | translate}}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2"
+               (click)="reportService.exportTableToExcel('report-table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <table cTable bordered hover small id="report-table">
+            <thead class="text-center align-middle table-header">
+            <tr>
+                <th [rowSpan]="4">
+                    #
+                </th>
+                <th [rowSpan]="4" width="25%">
+                    {{ 'kandas-tzhs.category' | translate}}
+                </th>
+                <ng-container *ngFor="let date of dates; let idx = index">
+                    <th [colSpan]="idx === 0 ? 4 : 7"> {{ 'на ' + date + " год"}}</th>
+                </ng-container>
+            </tr>
+            <tr>
+                <ng-container *ngFor="let date of dates; let idx = index">
+                    <th [colSpan]="3">
+                        {{ 'kandas-tzhs.tzhs-family' | translate}}
+                    </th>
+                    <th [rowSpan]="3">
+                        {{ 'kandas-tzhs.total' | translate}}
+                    </th>
+
+                    <ng-container *ngIf="idx !== 0">
+                        <th [colSpan]="3">
+                            {{ 'kandas-tzhs.tzhs-family-difference' | translate}}
+                        </th>
+                    </ng-container>
+                </ng-container>
+            </tr>
+            <tr>
+                <ng-container *ngFor="let date of dates; let idx = index">
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <ng-container *ngIf="idx !== 0">
+                        <th>C</th>
+                        <th>D</th>
+                        <th>E</th>
+                    </ng-container>
+                </ng-container>
+            </tr>
+            <tr>
+                <ng-container *ngFor="let date of dates; let idx = index">
+                    <th>{{ 'kandas-tzhs.member-short' | translate}}</th>
+                    <th>{{ 'kandas-tzhs.member-short' | translate}}</th>
+                    <th>{{ 'kandas-tzhs.member-short' | translate}}</th>
+                    <ng-container *ngIf="idx !== 0">
+                        <th>{{ 'kandas-tzhs.member-short' | translate}}</th>
+                        <th>{{ 'kandas-tzhs.member-short' | translate}}</th>
+                        <th>{{ 'kandas-tzhs.member-short' | translate}}</th>
+                    </ng-container>
+                </ng-container>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" *ngFor="let item of filteredDictionary; let idx = index">
+                <ng-container *ngIf="data.data[item.id]">
+                    <td class="px-2">{{ idx + 1 }}</td>
+
+<!--                    kandas-->
+                    <td class="text-start" *ngIf="[1].includes(item.id)"><strong>{{ utilService.getLocalization(item.nameKz, item.nameRu) }}</strong></td>
+<!--                    asp parameters-->
+                    <td class="text-start ps-5" *ngIf="[12, 13].includes(item.id)">{{ utilService.getLocalization(item.nameKz, item.nameRu) }}</td>
+<!--                    others-->
+                    <td class="text-start" *ngIf="![1, 12, 13].includes(item.id)">{{ utilService.getLocalization(item.nameKz, item.nameRu) }}</td>
+
+                    <ng-container *ngFor="let date of dates; let jdx = index">
+
+                        <td>{{getValue(item.id, date, 'C') !== undefined ? utilService.numberFormat(getValue(item.id, date, 'C')) : ''}}</td>
+                        <td>{{getValue(item.id, date, 'D') !== undefined ? utilService.numberFormat(getValue(item.id, date, 'D')) : ''}}</td>
+                        <td>{{getValue(item.id, date, 'E') !== undefined ? utilService.numberFormat(getValue(item.id, date, 'E')) : ''}}</td>
+                        <td>{{getValue(item.id, date, 'V') !== undefined ? utilService.numberFormat(getValue(item.id, date, 'V')) : ''}}</td>
+
+                        <ng-container *ngIf="jdx > 0">
+                            <td>{{getValueDifference(item.id, jdx, 'C') !== undefined ? utilService.numberFormat(getValueDifference(item.id, jdx, 'C')) : ''}}</td>
+                            <td>{{getValueDifference(item.id, jdx, 'D') !== undefined ? utilService.numberFormat(getValueDifference(item.id, jdx, 'D')) : ''}}</td>
+                            <td>{{getValueDifference(item.id, jdx, 'E') !== undefined ? utilService.numberFormat(getValueDifference(item.id, jdx, 'E')) : ''}}</td>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </tr>
+            </tbody>
+        </table>
+    </c-card-body>
+
+</c-card>

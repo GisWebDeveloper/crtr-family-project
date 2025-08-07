@@ -1,0 +1,434 @@
+/* You can add global styles to this file, and also import other style files */
+// If you want to override variables do it here
+@import "variables";
+
+$enable-ltr: true;
+$enable-rtl: true;
+
+// Import styles with default layout.
+@import "~@coreui/coreui/scss/coreui";
+
+// Import Chart.js custom tooltips styles
+@import "~@coreui/chartjs/scss/coreui-chartjs";
+
+// perfect scrollbar theming for use with [perfectScrollbar] directive
+//@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+@import "layout";
+
+// Some temp fixes
+@import "fixes";
+
+// Prism.js
+@import "examples";
+
+// If you want to add something do it here
+@import "custom";
+
+:root {
+    --cui-body-font-size: 1rem;
+    //--cui-body-font-family: 'Roboto';
+    --cui-body-color: var(--grey-1);
+}
+
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.container-2 {
+    border: solid;
+    border-radius: 1rem;
+    border-width: 1px;
+    border-color: var(--grey6);
+    background: white;
+    padding: 1.5rem;
+}
+
+.container-1 {
+    border: solid;
+    border-radius: 1rem;
+    border-width: 1px;
+    border-color: var(--grey6);
+    background: white;
+    padding: 1rem;
+}
+
+.shadow {
+    box-shadow: var(--modal-shadow);
+}
+
+// _typography.scss
+.typography-h1 {
+    font-size: $font-size-h1;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-120;
+}
+
+.typography-h2 {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-120;
+}
+
+.typography-h3 {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-120;
+}
+
+.typography-title {
+    font-size: $font-size-title;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-120;
+}
+
+.typography-subtitle {
+    font-size: $font-size-subtitle;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-120;
+}
+
+.typography-body1 {
+    font-size: $font-size-body1;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-140;
+}
+
+.typography-body2 {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-120;
+}
+
+.typography-button {
+    font-size: $font-size-button;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-140;
+}
+
+.typography-caption {
+    font-size: $font-size-caption;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-120;
+}
+
+.typography-overline {
+    font-size: $font-size-overline;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-120;
+}
+
+.typography-overline {
+    font-size: $font-size-overline;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-120;
+}
+
+
+.typography-button2 {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-120;
+}
+
+.typography-state {
+    font-size: $font-size-state;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-120;
+}
+
+//colors
+.grey-3 {
+    color: var(--grey-3);
+}
+
+.dark-blue {
+    color: var(--dark-blue)
+}
+
+.black {
+    color: #1C1C1C;
+}
+
+.clear-sky {
+    color: var(--clear-sky);
+}
+
+.lightblue-1 {
+    color: var(--lightblue1);
+}
+
+.error {
+    color: var(--error);
+}
+
+.success {
+    color: var(--success);
+}
+
+.btn {
+    @extend .typography-button2;
+    border-width: 1px;
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 0px 0px #00000005;
+    padding: 0.46875rem 1rem;
+
+}
+
+.btn-primary {
+    background-color: var(--lightblue1);
+    border-color: var(--lightblue1);
+
+    color: white;
+
+    transition: all 100ms linear;
+
+    &:hover,
+    &:focus {
+        background-color: var(--blue);
+        border-color: var(--blue);
+
+        color: white;
+
+        animation-timing-function: linear;
+        animation-duration: 100ms;
+    }
+
+    &:disabled {
+        background-color: var(--grey6);
+        border-color: var(--grey5);
+
+        color: var(--grey4);
+    }
+
+    &:active,
+    &:focus {
+        box-shadow: 0px 2px 0px 0px #00000005 !important;
+    }
+}
+
+.btn-outline-primary {
+    font-size: $font-size-body2;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-120;
+
+    background-color: white;
+    border-color: var(--grey6);
+    color: var(--grey-1);
+
+    &:hover,
+    &:focus {
+        background-color: var(--lightblue6);
+        border-color: var(--lightblue6);
+
+        color: var(--lightblue1);
+
+        animation-timing-function: linear;
+        animation-duration: 100ms;
+    }
+
+    //&:disabled {
+    //    background-color: var(--grey6);
+    //    border-color: var(--grey5);
+    //
+    //    color: var(--grey4);
+    //}
+
+    &:active,
+    &:focus {
+        box-shadow: 0px 2px 0px 0px #00000005 !important;
+    }
+
+}
+
+//input text
+input.form-control {
+    @extend .typography-body2;
+    width: auto;
+    border: 1px solid var(--grey6);
+    padding: 0.46875rem 0.75rem ;
+}
+
+//checkbox
+.check-input {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0;
+    vertical-align: center;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid var(--grey4);
+    appearance: none;
+    color-adjust: exact; // Keep themed appearance for print
+    @include transition($form-check-transition);
+
+    &[type="checkbox"] {
+        @include border-radius(0.25rem);
+        //padding: 0.25rem 0.215rem 0.2781rem 0.1875rem;
+    }
+    //
+    //&[type="radio"] {
+    //    // stylelint-disable-next-line property-disallowed-list
+    //    border-radius: $form-check-radio-border-radius;
+    //}
+    //
+    //&:active {
+    //    filter: $form-check-input-active-filter;
+    //}
+    //
+    //&:focus {
+    //    border-color: $form-check-input-focus-border;
+    //    outline: 0;
+    //    box-shadow: $form-check-input-focus-box-shadow;
+    //}
+    //
+    &:checked {
+        background-color: var(--lightblue1);
+        border-color: var(--lightblue1);
+
+        //&[type="checkbox"] {
+        //    @if $enable-gradients {
+        //        background-image: url("/assets/icons/check.svg"), var(--#{$variable-prefix}gradient);
+        //    } @else {
+        //        background-image: url("/assets/icons/check.svg");
+        //    }
+        //}
+
+        &[type="checkbox"] {
+            @if $enable-gradients {
+                background-image: var(--#{$variable-prefix}form-check-input-checked-bg-image, escape-svg($form-check-input-checked-bg-image)), var(--#{$variable-prefix}gradient);
+            } @else {
+                background-image: var(--#{$variable-prefix}form-check-input-checked-bg-image, escape-svg($form-check-input-checked-bg-image));
+            }
+        }
+
+
+        &[type="radio"] {
+            @if $enable-gradients {
+                background-image: var(--#{$variable-prefix}form-check-radio-checked-bg-image, escape-svg($form-check-radio-checked-bg-image)), var(--#{$variable-prefix}gradient);
+            } @else {
+                background-image: var(--#{$variable-prefix}form-check-radio-checked-bg-image, escape-svg($form-check-radio-checked-bg-image));
+            }
+        }
+    }
+    //
+    //&[type="checkbox"]:indeterminate {
+    //    background-color: $form-check-input-indeterminate-bg-color;
+    //    border-color: $form-check-input-indeterminate-border-color;
+    //
+    //    @if $enable-gradients {
+    //        background-image: var(--#{$variable-prefix}form-check-input-indeterminate-bg-image, escape-svg($form-check-input-indeterminate-bg-image)), var(--#{$variable-prefix}gradient);
+    //    } @else {
+    //        background-image: var(--#{$variable-prefix}form-check-input-indeterminate-bg-image, escape-svg($form-check-input-indeterminate-bg-image));
+    //    }
+    //}
+    //
+    //&:disabled {
+    //    pointer-events: none;
+    //    filter: none;
+    //    opacity: $form-check-input-disabled-opacity;
+    //}
+    //
+    //// Use disabled attribute in addition of :disabled pseudo-class
+    //// See: https://github.com/twbs/bootstrap/issues/28247
+    //&[disabled],
+    //&:disabled {
+    //    ~ .form-check-label {
+    //        opacity: $form-check-label-disabled-opacity;
+    //    }
+    //}
+}
+
+.hr {
+    color: var(--grey6);
+}
+
+
+table.striped-rounded-corners {
+    // Change these properties
+    $border: 1px solid var(--grey5);
+    --border: #{$border};
+    border-radius: 0.5rem;
+
+    // Don't change these properties
+    border-spacing: 0;
+    border-collapse: separate;
+    border: var(--border);
+    overflow: hidden;
+
+    // Apply a border to the right of all but the last column
+    th:not(:last-child),
+    td:not(:last-child) {
+        border-right: var(--border);
+    }
+
+    // Apply a border to the bottom of all but the last row
+    > thead > tr:not(:last-child) > th,
+    > thead > tr:not(:last-child) > td,
+    > tbody > tr:not(:last-child) > th,
+    > tbody > tr:not(:last-child) > td,
+    > tfoot > tr:not(:last-child) > th,
+    > tfoot > tr:not(:last-child) > td,
+    > tr:not(:last-child) > td,
+    > tr:not(:last-child) > th,
+    > thead:not(:last-child),
+    > tbody:not(:last-child),
+    > tfoot:not(:last-child) {
+        border-bottom: var(--border);
+    }
+
+    > thead > tr > th,
+    > thead > tr > td,
+    > tbody > tr > th,
+    > tbody > tr > td {
+        padding: 0.5rem 0.5rem;
+    }
+
+    > thead > tr > th,
+    > thead > tr > td {
+        font-size: $font-size-caption;
+        font-weight: $font-weight-medium;
+        line-height: $line-height-140;
+    }
+
+    > tbody > tr > th,
+    > tbody > tr > td {
+        font-size: $font-size-caption;
+        font-weight: $font-weight-regular;
+        line-height: $line-height-140;
+    }
+
+     //Striped body styling
+    > tbody > tr {
+        &:nth-child(even) {
+            background-color: var(--grey6);
+        }
+
+        &:nth-child(odd) {
+            background-color: inherit;
+        }
+
+        // Hover effect
+        &:hover {
+            background-color: $lightblue20;
+        }
+    }
+}
+
+.icon-16 {
+    width: 1rem;
+    height: 1rem;
+}
+
+
+
+
+

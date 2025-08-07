@@ -1,0 +1,51 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><i class="fa fa-address-book-o"></i></span>
+        <strong>{{ 'forms.person.label' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+
+        <!-- Общие сведения -->
+        <app-person-general-info [isFormMode]="true"
+                                 [hasAdminPermissions]="false"
+                                 [showGeneralInfo]="eventShowGeneralInfo"></app-person-general-info>
+
+        <!-- Подтверждение нуждаемости в мерах -->
+        <app-form-need-actions [hasAdminPermissions]="hasAdminPermissions"
+                               [showFormNeedActions]="eventShowFormNeedActions"></app-form-need-actions>
+
+        <app-form-asp-applicant [hasAdminPermissions]="hasAdminPermissions"
+                               [showFormNeedActions]="eventShowFormAspApplicant"></app-form-asp-applicant>
+
+        <!-- Подтверждение данных МОН -->
+        <app-form-mon [hasAdminPermissions]="hasAdminPermissions"
+                      [eventShowFormMON]="eventShowFormMON"></app-form-mon>
+
+        <!-- Подтверждение данных МинФин -->
+        <app-form-mf [hasAdminPermissions]="hasAdminPermissions"
+                     [eventShowFormMF]="eventShowFormMF"></app-form-mf>
+
+        <!-- Подтверждение данных МИОР -->
+        <app-form-mior [hasAdminPermissions]="hasAdminPermissions"
+                       [eventShowFormMIOR]="eventShowFormMIOR"></app-form-mior>
+
+        <!-- Подтверждение данных МЗ -->
+        <app-form-mz [hasAdminPermissions]="hasAdminPermissions"
+                     [eventShowFormMZ]="eventShowFormMZ"></app-form-mz>
+
+        <app-form-x-category [hasAdminPermissions]="hasAdminPermissions"
+                             [eventShowFormXCategory]="eventShowFormXCategory"></app-form-x-category>
+
+        <app-form-d-category [hasAdminPermissions]="hasAdminPermissions"
+                             [eventShowFormDCategory]="eventShowFormDCategory"></app-form-d-category>
+
+        <app-form-e-category [hasAdminPermissions]="hasAdminPermissions"
+                             [eventShowFormECategory]="eventShowFormECategory"></app-form-e-category>
+
+    </c-card-body>
+</c-card>

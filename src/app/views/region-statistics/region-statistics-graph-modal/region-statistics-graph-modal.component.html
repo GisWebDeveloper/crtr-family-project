@@ -1,0 +1,98 @@
+<c-modal id="statListModal" size="xl" alignment="center"
+         [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Графика</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <c-carousel [dark]="true" [interval]="0">
+            <c-carousel-indicators></c-carousel-indicators>
+            <c-carousel-inner>
+                <c-carousel-item  class="outer-container">
+                    <app-region-statistics-graph [eventGetData]="eventGetData" class="inner-element"></app-region-statistics-graph>
+                </c-carousel-item>
+                <c-carousel-item class="outer-container">
+                    <table cTable small bordered hover id="statistics"
+                           *ngIf="data">
+                        <thead>
+                        <tr class="text-center align-middle">
+                            <th scope="col">{{ 'stat-page.region' | translate }}</th>
+                            <ng-container *ngIf="type==='population'">
+                                <th scope="col">{{ 'region-statistics.man' | translate }}</th>
+                                <th scope="col">{{ 'region-statistics.woman' | translate }}</th>
+                                <th scope="col">{{ 'region-statistics.child' | translate }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="type==='uniq'">
+                                <th scope="col">{{ 'region-statistics.family' | translate }}</th>
+                                <th scope="col">{{ 'region-statistics.member' | translate }}</th>
+                                <th scope="col">{{ 'region-statistics.uniq' | translate }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="type==='age'">
+                                <th scope="col">{{ 'region-statistics.man' | translate }}</th>
+                                <th scope="col">{{ 'region-statistics.woman' | translate }}</th>
+                            </ng-container>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <ng-container *ngIf="type !== 'age'">
+                            <ng-container *ngFor="let dict of data.regionRatingList">
+                                <tr class="text-center">
+                                    <td class="text-start">
+                                        {{ utilService.getLocalization(dict.regionNameKz, dict.regionNameRu) }}
+                                    </td>
+                                    <ng-container *ngIf="type==='population'">
+                                        <td>{{dict.cntMan}}</td>
+                                        <td>{{dict.cntWoman}}</td>
+                                        <td>{{dict.cntChild}}</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="type==='uniq'">
+                                        <td>{{dict.cntFam}}</td>
+                                        <td>{{dict.cntMem}}</td>
+                                        <td>{{dict.cnt}}</td>
+                                    </ng-container>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-container *ngIf="type === 'age'">
+                            <ng-container *ngFor="let dict of manAge.regionRatingList; let i = index">
+                                <tr class="text-center">
+                                    <td class="text-start">
+                                        {{ utilService.getLocalization(dict.regionNameKz, dict.regionNameRu) }}
+                                    </td>
+                                    <td>{{getAgeStat(dict)}}</td>
+                                    <td>{{getAgeStat(womanAge.regionRatingList[i])}}</td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                        </tbody>
+                        <tfoot cTableColor="dark">
+                        <tr class="text-center fw-medium">
+                            <td class="text-start">{{ 'total' | translate }}</td>
+                            <ng-container *ngIf="type==='population'">
+                                <td>{{ data.total.cntMan}}</td>
+                                <td>{{ data.total.cntWoman}}</td>
+                                <td>{{ data.total.cntChild}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="type==='uniq'">
+                                <td>{{data.total.cntFam}}</td>
+                                <td>{{data.total.cntMem}}</td>
+                                <td>{{data.total.cnt}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="type==='age'">
+                                <td>{{getAgeStat(data.manAge.total)}}</td>
+                                <td>{{getAgeStat(data.womanAge.total)}}</td>
+                            </ng-container>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </c-carousel-item>
+            </c-carousel-inner>
+
+        </c-carousel>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button color="secondary" (click)="toggleModal()" cButton>{{ 'close' | translate }}</button>
+    </c-modal-footer>
+</c-modal>

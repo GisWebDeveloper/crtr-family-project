@@ -1,0 +1,30 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible">
+        <form cForm novalidate (submit)="search()">
+            <c-row class="mb-2">
+                <c-col [md]="10">
+                    <ng-select id="report" name="report" [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                               [items]="dictionaryReport" [(ngModel)]="reportCategory" [clearable]="false">
+                    </ng-select>
+                </c-col>
+                <c-col [md]="2">
+                    <div class="d-flex flex-column">
+                        <button type="submit" class="text-white" color="info" cButton [disabled]="!reportCategory">
+                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                            {{ 'search' | translate }}
+                        </button>
+                    </div>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>

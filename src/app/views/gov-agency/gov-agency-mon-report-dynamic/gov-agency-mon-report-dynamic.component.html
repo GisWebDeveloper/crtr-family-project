@@ -1,0 +1,17 @@
+<!-- FILTER -->
+<app-gov-agency-mon-report-search [dictionaryReport]="dictionaryReport"
+                                  (selectedReportCategory)="setReportCategory($event)"></app-gov-agency-mon-report-search>
+
+<!-- REPORT -->
+<app-gov-agency-mon-report-dynamic-garden
+    *ngIf="reportCategory && reportCategory.code == govAgencyService.getMONListGardenCode()"
+    [reportCategory]="reportCategory"
+    (showList)="showListModal($event)"></app-gov-agency-mon-report-dynamic-garden>
+
+<app-gov-agency-mon-report-dynamic-school
+    *ngIf="reportCategory && reportCategory.code == govAgencyService.getMONListSchoolCode()"
+    [reportCategory]="reportCategory"
+    (showList)="showListModal($event)"></app-gov-agency-mon-report-dynamic-school>
+
+<!--modal list-->
+<app-gov-agency-report-dynamic-list [eventShowListModal]="eventShowListModal"></app-gov-agency-report-dynamic-list>

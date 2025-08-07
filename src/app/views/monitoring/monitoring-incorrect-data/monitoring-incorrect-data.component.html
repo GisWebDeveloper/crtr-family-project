@@ -1,0 +1,124 @@
+<c-container breakpoint="lg" class="h-auto">
+    <c-card class="mb-4" [cBorder]="'secondary'">
+        <c-card-header>
+            <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+            <strong>{{ 'monitoring-page.incorrect-data.label' | translate }}</strong>
+            <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+        </c-card-header>
+        <c-card-body *ngIf="visible[0]">
+            <ng-container *ngFor="let item of countStatList; let idx = index">
+                <c-row class="py-1" role="button"
+                       [ngClass]="{ 'border-top': idx > 0,
+                                'table-link': true,
+                                'bg-light': idx % 2 == 1 && !(params.countItem  && params.countItem.id == item.id),
+                                'bg-info': params.countItem  && params.countItem.id == item.id,
+                                'text-white': params.countItem  && params.countItem.id == item.id}"
+                       (click)="selectCountItem(item)">
+
+                    <c-col [md]="2" class="text-nowrap pe-4">
+                        <div class="float-start me-2">{{ (idx + 1) + '.' }}</div>
+                        <div class="float-end">{{ utilService.numberFormat(item.count) }}</div>
+                    </c-col>
+                    <c-col [md]="10">
+                        {{ utilService.getLocalization(item.nameKz, item.nameRu) }}
+                    </c-col>
+                </c-row>
+            </ng-container>
+
+        </c-card-body>
+    </c-card>
+</c-container>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.countItem">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'lists' | translate }}</strong>
+
+<!--        <span class="float-end">-->
+<!--            <span>Скачать</span>-->
+<!--            <button cButton color="success" variant="ghost" size="sm">-->
+<!--                <i class="fa fa-file-excel-o"></i></button>-->
+<!--        </span>-->
+    </c-card-header>
+    <c-card-body>
+
+        <c-callout color="info">
+            {{ utilService.getLocalization(params.countItem.nameKz, params.countItem.nameRu) }}
+        </c-callout>
+
+
+        <!-- LIST -->
+        <table cTable striped hover *ngIf="params.list.length > 0 && params.countItem.id === 1">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.double-iin.full-name' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.double-iin.birth-date' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.double-iin.first-iin' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.double-iin.second-iin' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params.list; let idx = index">
+                <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>{{ utilService.getCapitalized(item.surname + ' ' + item.firstname + ' ' + (item.secondname ? item.secondname : '')) }}</td>
+                <!--                <td class="text-center">-->
+                <td>{{ item.birthDate }}</td>
+                <td>{{ item.firstIIN }}</td>
+                <td>{{ item.secondIIN }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table cTable striped hover *ngIf="params.list.length > 0 && params.countItem.id === 2">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.invalid-document.full-name' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.invalid-document.birth-date' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.invalid-document.iin' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.invalid-document.doc-start-date' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.incorrect-data.invalid-document.doc-end-date' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params.list; let idx = index">
+                <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>{{ utilService.getCapitalized(item.surname + ' ' + item.firstname + ' ' + (item.secondname ? item.secondname : '')) }}</td>
+                <!--                <td class="text-center">-->
+                <td>{{ item.birthDate }}</td>
+                <td>{{ item.iin }}</td>
+                <td>{{ item.documentBeginDate }}</td>
+                <td>{{ item.documentEndDate }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-alert color="warning" *ngIf="params.list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-card-body>
+    <c-card-footer>
+        <c-row>
+            <c-col [md]="10">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
+                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-footer>
+</c-card>

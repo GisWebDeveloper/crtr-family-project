@@ -1,0 +1,98 @@
+<!-- CATEGORY BENEFIT -->
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="categoryListBenefit.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'report-page.need-actions.label-consolidated-category-benefit' | translate }}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('table-benefit')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="table-benefit">
+                <thead class="text-center align-middle table-header">
+                <tr>
+                    <th scope="col" rowspan="4">#</th>
+                    <th scope="col" rowspan="4" class="region-column">
+                        {{ 'report-page.need-actions.category' | translate }}</th>
+                    <th scope="col" rowspan="4" class="value-column">{{ 'report-page.total' | translate }}</th>
+                    <th scope="col" colspan="14" class="value-column">{{ 'report-page.from' | translate }}</th>
+                </tr>
+                <tr>
+                    <th scope="col" rowspan="3"
+                        class="value-column">{{ 'report-page.need-actions.processed' | translate }}</th>
+                    <th scope="col" rowspan="3" class="value-column">
+                        {{ 'report-page.need-actions.processed-percentage' | translate }}</th>
+                    <th scope="col" colspan="11" class="value-column">{{ 'report-page.from' | translate }}</th>
+                    <th scope="col" rowspan="3" class="value-column">
+                        {{ 'report-page.need-actions.not-processed' | translate }}</th>
+                </tr>
+                <tr>
+                    <th scope="col" rowspan="2" class="value-column">{{ 'report-page.need-actions.y' | translate }}</th>
+                    <th scope="col" colspan="4" class="value-column">{{ 'report-page.from' | translate }}</th>
+                    <th scope="col" rowspan="2" class="value-column">{{ 'report-page.need-actions.n' | translate }}</th>
+                    <th scope="col" colspan="5" class="value-column">{{ 'report-page.from' | translate }}</th>
+                </tr>
+                <tr>
+                    <th scope="col" class="value-column">{{ getTranslateKey('y100', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('y200', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('y300', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('y400', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('n100', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('n200', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('n300', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('n400', false) | translate }}</th>
+                    <th scope="col" class="value-column">{{ getTranslateKey('n500', false) | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of categoryListBenefit; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">{{ utilService.getLocalization(item.category.nameKz, item.category.nameRu) }}</td>
+                        <td>{{ utilService.numberFormat(item.total) }}</td>
+                        <td>{{ utilService.numberFormat(item.processed) }}</td>
+                        <td>{{ utilService.numberFormat(item.processedPercentage) }}</td>
+                        <td>{{ utilService.numberFormat(item.y) }}</td>
+                        <td>{{ utilService.numberFormat(item.y100) }}</td>
+                        <td>{{ utilService.numberFormat(item.y200) }}</td>
+                        <td>{{ utilService.numberFormat(item.y300) }}</td>
+                        <td>{{ utilService.numberFormat(item.y400) }}</td>
+                        <td>{{ utilService.numberFormat(item.n) }}</td>
+                        <td>{{ utilService.numberFormat(item.n100) }}</td>
+                        <td>{{ utilService.numberFormat(item.n200) }}</td>
+                        <td>{{ utilService.numberFormat(item.n300) }}</td>
+                        <td>{{ utilService.numberFormat(item.n400) }}</td>
+                        <td>{{ utilService.numberFormat(item.n500) }}</td>
+                        <td>{{ utilService.numberFormat(item.notProcessed) }}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ 'total' | translate }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.total) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.processed) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.processedPercentage) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.y) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.y100) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.y200) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.y300) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.y400) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.n) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.n100) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.n200) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.n300) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.n400) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.n500) }}</td>
+                    <td>{{ utilService.numberFormat(categoryTotalBenefit.notProcessed) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>

@@ -1,0 +1,98 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><i class="fa fa-address-book-o"></i></span>
+        <strong>{{ 'person-portrait.label' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+
+        <!-- Общие сведения -->
+        <app-person-general-info [isFormMode]="false"
+                                 [hasAdminPermissions]="hasAdminPermissions"
+                                 [showGeneralInfo]="eventShowGeneralInfo"></app-person-general-info>
+
+        <!-- Социальные статусы -->
+        <app-person-social-status [displayPersonalInfo]="displayPersonalInfo"
+                                  [showSocialStatus]="eventShowSocialStatus"></app-person-social-status>
+
+        <!-- Социальные выплаты -->
+        <app-person-social-payment [displayPersonalInfo]="displayPersonalInfo"
+                                   [showSocialPayment]="eventShowSocialPayment"></app-person-social-payment>
+
+        <!-- Образование -->
+        <app-person-education [displayPersonalInfo]="displayPersonalInfo"
+                              [showEducation]="eventShowEducation"></app-person-education>
+
+        <!-- Навыки -->
+        <app-person-skill [displayPersonalInfo]="displayPersonalInfo"
+                          [showSkill]="eventShowSkill"></app-person-skill>
+
+        <!-- Медицинское прикрепление -->
+        <app-person-medical-attachment [displayPersonalInfo]="displayPersonalInfo"
+                                       [showMedicalAttachment]="eventShowMedicalAttachment"></app-person-medical-attachment>
+
+        <!-- Доходы -->
+        <app-person-income [displayPersonalInfo]="displayPersonalInfo"
+                           [showIncome]="eventShowIncome" [showScholarShip]="eventShowScholarship"></app-person-income>
+
+        <!-- Трудовые договора -->
+        <app-person-hr [displayPersonalInfo]="displayPersonalInfo"
+                       [showHR]="eventShowHR"></app-person-hr>
+
+        <!-- Индивидуальный предприниматель -->
+        <app-person-individual-entrepreneur [displayPersonalInfo]="displayPersonalInfo"
+                                            [showIndividualEntrepreneur]="eventShowIndividualEntrepreneur"></app-person-individual-entrepreneur>
+
+        <!-- Учредитель юр. лица -->
+        <app-person-legal-entity [displayPersonalInfo]="displayPersonalInfo"
+                                 [showLegalEntity]="eventShowLegalEntity"></app-person-legal-entity>
+
+        <!-- Недвижимое имущество -->
+        <app-person-real-estate [displayPersonalInfo]="displayPersonalInfo"
+                                [showRealEstate]="eventShowRealEstate"></app-person-real-estate>
+
+        <!-- Транспорт -->
+        <app-person-transport [displayPersonalInfo]="displayPersonalInfo"
+                              [showTransport]="eventShowTransport"></app-person-transport>
+
+        <!-- Сельскохозяйственная техника -->
+        <app-person-agricultural-machinery [displayPersonalInfo]="displayPersonalInfo"
+                                           [showAgriculturalMachinery]="eventShowAgriculturalMachinery"></app-person-agricultural-machinery>
+
+        <!-- Сельскохозяйственные животные -->
+        <app-person-farm-animal [displayPersonalInfo]="displayPersonalInfo"
+                                [showFarmAnimal]="eventShowFarmAnimal"></app-person-farm-animal>
+
+        <!-- Земельные участки -->
+        <app-person-land [displayPersonalInfo]="displayPersonalInfo"
+                         [showLand]="eventShowLand"></app-person-land>
+
+        <!-- Алименты -->
+        <app-person-alimony [displayPersonalInfo]="displayPersonalInfo"
+                            [showAlimony]="eventShowAlimony"></app-person-alimony>
+
+        <!-- Трудоустройства -->
+        <app-person-employment [displayPersonalInfo]="displayPersonalInfo"
+                               [showEmployment]="eventShowEmployment"></app-person-employment>
+
+<!--        &lt;!&ndash; Участие в боевых действиях &ndash;&gt;-->
+<!--        <app-person-military-actions [displayPersonalInfo]="displayPersonalInfo"-->
+<!--                                     [showMilitaryActions]="eventShowMilitaryActions"></app-person-military-actions>-->
+
+        <!-- Государственные меры -->
+        <app-person-gov-measure [displayPersonalInfo]="displayPersonalInfo"
+                                [showGovMeasure]="eventShowGovMeasure"></app-person-gov-measure>
+
+        <app-person-meri-ipar [displayPersonalInfo]="displayPersonalInfo"
+                              [showMeriIpar]="eventShowMeriIpar"></app-person-meri-ipar>
+
+<!--        Уплаченные налоги-->
+        <app-person-tax [displayPersonalInfo]="displayPersonalInfo"
+                              [showTax]="eventShowTax"></app-person-tax>
+
+    </c-card-body>
+</c-card>

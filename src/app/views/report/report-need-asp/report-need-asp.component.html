@@ -1,0 +1,24 @@
+<c-nav variant="tabs">
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink [active]="true">
+        {{ 'report-page.need-actions.tab-consolidated-category' | translate }}
+    </a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink>
+        {{ 'report-page.need-actions.tab-region' | translate }}
+    </a>
+</c-nav>
+
+<c-tab-content #tabContent="cTabContent">
+
+    <!-- 0. Своднный отчет по категориям -->
+    <c-tab-pane class="pt-3">
+        <app-report-need-asp-consolidated></app-report-need-asp-consolidated>
+    </c-tab-pane>
+
+    <!-- 1. Отчет по фильтрам -->
+    <c-tab-pane class="pt-3">
+        <app-report-need-asp-by-region [dictionaryCount]="dictionaryCount"></app-report-need-asp-by-region>
+    </c-tab-pane>
+
+</c-tab-content>
+
+

@@ -1,0 +1,74 @@
+<!-- Подтверждение данных МОН -->
+<div class="mb-4" *ngIf="countMemberList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'forms.gov-mf.label-confirmation' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="4">{{ 'nomination' | translate }}</c-col>
+        <c-col [md]="4">{{ 'forms.confirmation' | translate }}</c-col>
+        <c-col [md]="4">{{ 'forms.description' | translate }}</c-col>
+    </c-row>
+    <c-row class="border-top mb-1" *ngFor="let cm of countMemberList; let idx = index">
+        <c-col [md]="4">
+            <c-row>
+                <c-col>
+                    {{ translateService.currentLang === 'kz' ? cm.countDictionary.nameKz : cm.countDictionary.nameRu }}
+                </c-col>
+            </c-row>
+            <c-row *ngIf="cm.description">
+                <c-col class="text-danger fw-medium">
+                    <div *ngFor="let desc of utilService.stringToArray(cm.description)">
+                        <i class="fa fa-caret-right"></i> {{ desc }}</div>
+                </c-col>
+            </c-row>
+        </c-col>
+        <c-col [md]="4" class="pt-1">
+            <ng-select id="action" name="action" bindValue="code" bindLabel="nameRu" [items]="dictionaryActionIP"
+                       [(ngModel)]="cm.actionCode" [clearable]="true"
+                       *ngIf="cm.countDictionary.code == govAgencyService.getMFListIPCode()">
+            </ng-select>
+        </c-col>
+        <c-col [md]="4" class="pt-1">
+            <textarea cFormControl id="actionDescription" name="actionDescription" sizing="sm" maxlength="500"
+                      [(ngModel)]="cm.actionDescription"></textarea>
+        </c-col>
+    </c-row>
+    <c-row>
+        <c-col>
+            <div class="d-flex justify-content-end mt-3">
+                <button cButton color="success" class="text-white" (click)="saveCountMemberAction()">
+                    <svg cIcon name="cilSave"></svg>
+                    {{ 'save' | translate }}
+                </button>
+            </div>
+        </c-col>
+    </c-row>
+</div>
+
+<!-- История подтверждений -->
+<div class="mb-4" *ngIf="countMemberActionList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'forms.label-history' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="4">{{ 'nomination' | translate }}</c-col>
+        <c-col [md]="4">{{ 'forms.confirmation' | translate }}</c-col>
+        <c-col [md]="4">{{ 'forms.description' | translate }}</c-col>
+    </c-row>
+    <ng-container *ngFor="let cma of countMemberActionList; let idx = index">
+        <c-row class="border-top mb-1">
+            <c-col [md]="4">
+                {{ translateService.currentLang === 'kz' ? cma.countDictionary.nameKz : cma.countDictionary.nameRu }}</c-col>
+            <c-col [md]="4">{{ getCountDictionaryName(cma.countDictionary.code, cma.actionCode) }}</c-col>
+            <c-col [md]="4">{{ cma.actionDescription }}</c-col>
+        </c-row>
+        <c-row class="mb-1">
+            <c-col [md]="4" class="text-end">
+                <strong>{{ 'forms.contributed' | translate }}: </strong>
+                <span class="ms-3">{{ cma.userName }}</span>
+            </c-col>
+            <c-col [md]="4">{{ cma.dateEntry }}</c-col>
+            <c-col [md]="4"><span *ngIf="hasAdminPermissions">{{ cma.userPhone }}</span></c-col>
+        </c-row>
+    </ng-container>
+</div>

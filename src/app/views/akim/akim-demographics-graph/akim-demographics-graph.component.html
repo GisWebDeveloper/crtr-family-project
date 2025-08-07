@@ -1,0 +1,96 @@
+<div *ngIf="labelParameters?.index">
+    <div *ngIf="labelParameters.index === 5">
+        <canvas baseChart
+                [datasets]="datasetsPopulation"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+    <div *ngIf="labelParameters.index === 6">
+        <canvas baseChart #canvasSusn *ngIf="showChart"
+                [datasets]="datasetsSusn"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+    <div *ngIf="labelParameters.index === 7">
+        <canvas baseChart
+                [datasets]="datasetsAge"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+    <div *ngIf="labelParameters.index === 8">
+        <canvas baseChart
+                [datasets]="datasetsZanyat"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+    <div *ngIf="labelParameters.index === 9">
+        <canvas baseChart
+                [datasets]="datasetsZdrav"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+    <div *ngIf="labelParameters.index === 10">
+        <canvas baseChart
+                [datasets]="datasetsObraz"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+    <div *ngIf="labelParameters.index === 11">
+        <canvas baseChart
+                [datasets]="datasetsCredit"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="true"
+                [type]="'line'"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+</div>
+
+<!--<canvas baseChart-->
+<!--        [datasets]="datasetsPopulation"-->
+<!--        [labels]="lineChartLabels"-->
+<!--        [options]="lineChartOptions"-->
+<!--        [legend]="true"-->
+<!--        [type]="'line'"-->
+<!--        (chartHover)="chartHovered($event)"-->
+<!--        (chartClick)="chartClicked($event)">-->
+<!--</canvas>-->

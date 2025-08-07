@@ -1,0 +1,20 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && transportList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.transport' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="4">{{ 'nomination' | translate }}</c-col>
+        <c-col [md]="3">{{ 'person-portrait.transport.model' | translate }}</c-col>
+        <c-col [md]="2">{{ 'person-portrait.transport.reg-number' | translate }}</c-col>
+        <c-col [md]="1">{{ 'person-portrait.transport.year' | translate }}</c-col>
+        <c-col [md]="2" class="text-center">{{ 'person-portrait.transport.reg-date' | translate }}</c-col>
+    </c-row>
+    <c-row class="border-top mb-1" *ngFor="let ps of transportList; let idx = index">
+        <c-col [md]="4"><span class="me-2">{{ (idx + 1) + '.' }}</span>
+            {{ translateService.currentLang === 'kz' ? ps.nameKz : ps.nameRu }}</c-col>
+        <c-col [md]="3">{{ ps.autoModel }}</c-col>
+        <c-col [md]="2">{{ ps.autoRegNum }}</c-col>
+        <c-col [md]="1">{{ ps.autoYear }}</c-col>
+        <c-col [md]="2" class="text-center">{{ ps.dateFrom }}</c-col>
+    </c-row>
+</div>

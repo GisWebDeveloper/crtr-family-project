@@ -1,0 +1,151 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm (submit)="search()">
+            <div class="btn-group d-flex" role="group">
+                <input type="radio" class="btn-check" name="stat-type" value="POPULATION" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'POPULATION'}" (click)="setFilterValue('POPULATION')">
+                    {{ 'stat-page.labels.population' | translate }}
+                </label>
+
+                <input type="radio" class="btn-check" name="stat-type" value="FAMILY-TYPE" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'FAMILY-TYPE'}" (click)="setFilterValue('FAMILY-TYPE')">
+                    {{ 'stat-page.labels.family-type' | translate }}
+                </label>
+
+                <input type="radio" class="btn-check" name="stat-type" value="TZHS-STATUS" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'TZHS-STATUS'}" (click)="setFilterValue('TZHS-STATUS')">
+                    {{ 'stat-page.labels.welfare-level' | translate }}
+                </label>
+
+                <input type="radio" class="btn-check" name="stat-type" value="MEMBER-COUNT" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'MEMBER-COUNT'}" (click)="setFilterValue('MEMBER-COUNT')">
+                    {{ 'stat-page.labels.member-count' | translate }}
+                </label>
+
+                <input type="radio" class="btn-check" name="stat-type" value="CHILD-COUNT" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'CHILD-COUNT'}" (click)="setFilterValue('CHILD-COUNT')">
+                    {{ 'stat-page.labels.child-count' | translate }}
+                </label>
+
+                <input type="radio" class="btn-check" name="stat-type" value="INCOME-PM" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'INCOME-PM'}" (click)="setFilterValue('INCOME-PM')">
+                    {{ 'stat-page.labels.income-pm' | translate }}
+                </label>
+
+                <input type="radio" class="btn-check" name="stat-type" value="SUSN" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'SUSN'}" (click)="setFilterValue('SUSN')">
+                    {{ 'stat-page.labels.susn' | translate }}
+                </label>
+
+                <!--
+                <input type="radio" class="btn-check" name="stat-type" value="CHILD-MONITORING" [(ngModel)]="statType"/>
+                <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                       [ngClass]="{'text-white': statType == 'CHILD-MONITORING'}"
+                       (click)="setFilterValue('CHILD-MONITORING')">
+                    {{ 'stat-page.labels.child-monitoring' | translate }}
+                </label>-->
+
+            </div>
+
+            <!-- TZHS STATUS FILTER -->
+            <c-row class="mt-3" *ngIf="statType == 'TZHS-STATUS'">
+                <c-col [md]="9">
+                    <c-row class="mb-2">
+                        <c-col [md]="2">{{ 'stat-page.status' | translate }}</c-col>
+                        <c-col [md]="10">
+                            <ng-select id="status" name="status"
+                                       [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                       [items]="categoryDictionary" [(ngModel)]="status" [clearable]="true">
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                    <div>{{item.code + ' - ' + utilService.getLocalization(item.nameKz, item.nameRu)}}</div>
+                                </ng-template>
+                            </ng-select>
+                        </c-col>
+                    </c-row>
+                </c-col>
+                <c-col [md]="3">
+                    <div class="d-flex justify-content-end">
+                        <button cButton color="light" type="reset">
+                            <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                            {{ 'clear' | translate }}
+                        </button>
+
+                        <button cButton color="info" type="submit" class="text-white ms-3">
+                            <span class="pe-1"><svg cIcon name="cilSearch"></svg></span>
+                            {{ 'search' | translate }}
+                        </button>
+                    </div>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'stat-page.label' | translate }}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2"
+               (click)="tabNumber === 0 ?
+               reportService.exportTableToExcel('table-main-statistics') : reportService.exportTableToExcel('table-main-statistics-' + tabNumber)">
+<!--            <a role="button" class="btn btn-sm p-0 ms-2"-->
+<!--               (click)="reportService.exportTableToExcel('table-main-statistics')">-->
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+
+        <!-- CHILD COUNT -->
+        <app-stat-main-child-count [statChildDictionary]="statChildDictionary"
+                                   *ngIf="statType == 'CHILD-COUNT'"></app-stat-main-child-count>
+
+        <!-- CHILD MONITORING -->
+        <!--
+        <app-stat-main-child-monitoring [statChildPathDictionary]="statChildPathDictionary"
+                                        *ngIf="statType == 'CHILD-MONITORING'"></app-stat-main-child-monitoring>-->
+
+        <!-- FAMILY TYPE -->
+        <app-stat-main-family-type [familyTypeDictionary]="familyTypeDictionary"
+                                   *ngIf="statType == 'FAMILY-TYPE'"></app-stat-main-family-type>
+
+        <!-- INCOME PM -->
+        <app-stat-main-income-pm [incomePmDictionary]="incomePmDictionary"
+                                 *ngIf="statType == 'INCOME-PM'"></app-stat-main-income-pm>
+
+        <!-- FAMILY MEMBER COUNT -->
+        <app-stat-main-member-count [statMemberDictionary]="statMemberDictionary"
+                                    *ngIf="statType == 'MEMBER-COUNT'"></app-stat-main-member-count>
+
+        <!-- POPULATION -->
+        <app-stat-main-population [statPopulationDictionary]="statPopulationDictionary"
+                                  *ngIf="statType == 'POPULATION'"></app-stat-main-population>
+
+        <!-- SUSN -->
+        <app-stat-main-susn [statSusnDictionary]="statSusnDictionary" *ngIf="statType == 'SUSN'"></app-stat-main-susn>
+
+        <!-- TZHS STATUS -->
+        <app-stat-tzhs-status [eventSearchStatusStat]="eventSearchStatusStat"
+                              (tabChanged)="onTabNumberChange($event)"
+                              *ngIf="statType == 'TZHS-STATUS'"></app-stat-tzhs-status>
+
+    </c-card-body>
+</c-card>

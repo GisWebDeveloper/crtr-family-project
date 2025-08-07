@@ -1,0 +1,372 @@
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="family">
+    <c-card-header>
+        <span class="pe-2"><i class="fa fa-id-card-o"></i></span>
+        <strong>{{ 'family-portrait.label' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <c-row [gutter]="{gx: 5}">
+            <!-- Состав семьи -->
+            <c-col [md]="3">
+                <div class="scroll-body" style="max-height: 55vh;">
+                    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-1 pb-1 ps-3">
+                        <strong>{{ 'family-portrait.headers.family-composition' | translate }}</strong>
+                    </div>
+                    <div class="table-link py-2" *ngFor="let familyMember of familyMemberList; let idx = index"
+                         [ngClass]="{'border-top': idx > 0, 'fw-bold': familyMember.iin == selectedFMIIIN}"
+                         (click)="selectFamilyMember(familyMember.iin)">
+                        <i class="fa fa-star" *ngIf="familyMember.isHead"></i>
+                        <i class="fa fa-user-o" *ngIf="!familyMember.isHead && !familyMember.isChild"></i>
+                        <span *ngIf="!familyMember.isHead && familyMember.isChild"><svg cIcon name="cilChild"></svg></span>
+<!--                        <i class="fa fa-child" *ngIf="!familyMember.isHead && familyMember.isChild"></i>-->
+                        <span class="ms-2"
+                              *ngIf="authService.getUserId() !== authService.DEMO_USER_ID">{{ familyMember.fullName }}</span>
+                        <span class="ms-2" *ngIf="authService.getUserId() === authService.DEMO_USER_ID">
+                            <i class="fa fa-asterisk text-dark"
+                               *ngFor="let i of [0, 1, 2, 3, 4]"></i>
+                        </span>
+                    </div>
+                </div>
+            </c-col>
+
+            <c-col [md]="9">
+                <div class="scroll-body" style="max-height: 55vh; overflow-x: hidden !important;">
+                    <c-row [gutter]="{gx: 5}" *ngIf="family && family.familyQuality">
+
+                        <!-- Общие сведения -->
+                        <c-col [md]="5">
+                            <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-1 pb-1 ps-3">
+                                <c-row>
+                                    <c-col [md]="10">
+                                        <strong>{{ 'family-portrait.headers.general-info' | translate }}</strong>
+                                    </c-col>
+                                    <c-col [md]="2" class="text-end pe-3" *ngIf="hasAdminPermissions">
+                                        <a role="button" (click)="downloadFamilyCard()">
+                                            <i class="fa fa-file-pdf-o"></i></a>
+                                    </c-col>
+                                </c-row>
+                            </div>
+                            <c-row>
+                                <c-col [md]="10" class="fw-medium">{{ 'family-portrait.member-amount' | translate }}:
+                                </c-col>
+                                <c-col [md]="2" class="text-center">{{ family.familyQuality.cntMem }}</c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col [md]="10" class="fw-medium">{{ 'family-portrait.child-amount' | translate }}:
+                                </c-col>
+                                <c-col [md]="2" class="text-center">{{ family.familyQuality.cntChild }}</c-col>
+                            </c-row>
+                            <!--                            <c-row>-->
+                            <!--                                <c-col [md]="10" class="fw-medium">{{ 'family-portrait.family-category' | translate }}:-->
+                            <!--                                </c-col>-->
+                            <!--                                <c-col [md]="2" class="text-center"-->
+                            <!--                                       [ngStyle]="{'color': utilService.getTzhsLevelColor(family.familyQuality.tzhsDictionary.id), 'background-color': utilService.getTzhsLevelColor(family.familyQuality.tzhsDictionary.id, true)}">-->
+                            <!--                                    <strong>{{ family.familyQuality.tzhsDictionary.nameRu }} {{ family.familyQuality.tzhsDictionary.id }}</strong>-->
+                            <!--                                </c-col>-->
+                            <!--                            </c-row>-->
+                            <c-row>
+                                <c-col [md]="10" class="fw-medium">{{ 'family-portrait.family-category' | translate }}:
+                                </c-col>
+                                <c-col [md]="2" class="position-relative"
+                                       [ngStyle]="{'color': utilService.getTzhsSduLevelColor(family.familyQuality.tzhsSdu), 'background-color': utilService.getTzhsSduLevelColor(family.familyQuality.tzhsSdu, true)}">
+                                    <div class="text-center">
+                                        <strong role="button" (click)="openTzhsPointsModal()">{{ family.familyQuality.tzhsSdu }}</strong>
+                                    </div>
+                                    <div class="position-absolute top-0 end-0">
+                                        <span class="pe-2" role="button" (click)="openTzhsHistoryGraphModal()">
+                                            <svg cIcon name="cilChartLine"></svg>
+                                        </span>
+                                    </div>
+                                </c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col [md]="12" class="fw-medium">{{ 'family-portrait.address' | translate }}:</c-col>
+                                <c-col [md]="12">{{ address  }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="addressActual">
+                                <c-col [md]="12" class="fw-medium">{{ 'family-portrait.actual-address' | translate }}:
+                                </c-col>
+                                <c-col [md]="12">{{ addressActual }}</c-col>
+                            </c-row>
+                        </c-col>
+
+                        <!-- Доход за квартал -->
+                        <c-col [md]="5">
+                            <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-1 pb-1 ps-3">
+                                <strong>{{ 'family-portrait.headers.income' | translate }}</strong>
+                            </div>
+                            <div *ngIf="displayPersonalInfo">
+                                <c-row>
+                                    <c-col [md]="8" class="fw-medium">{{ 'family-portrait.income.salary' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.incomeOop) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.salaryArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row>
+                                    <c-col [md]="8" class="fw-medium">
+                                        {{ 'family-portrait.income.social-payments' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat((family.familyQuality.incomeCbd || 0) + (family.familyQuality.incomeAsp || 0)) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.socPaymentArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality.incomeStip > 0">
+                                    <c-col [md]="8" class="fw-medium">
+                                        {{ 'family-portrait.income.scholarship' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.incomeStip) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.sddArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality.incomeEsp > 0">
+                                    <c-col [md]="8" class="fw-medium">{{ 'family-portrait.income.esp' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.incomeEsp) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.sddArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality.incomeLph > 0">
+                                    <c-col [md]="8" class="fw-medium">{{ 'family-portrait.income.lph' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.incomeLph) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.sddArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row>
+                                    <c-col [md]="8" class="fw-medium">{{ 'family-portrait.income.sdd' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.sdd) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.sddArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality.sddAsp">
+                                    <c-col [md]="8" class="fw-medium">{{ 'family-portrait.income.sd-asp' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.sddAsp * family.familyQuality.cntMem * 3) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-asterisk text-dark"
+                                               *ngFor="let i of incomeParams.sddArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality.sddAsp">
+                                    <c-col [md]="8" class="fw-medium">
+                                        {{ 'family-portrait.income.sdd-asp' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="4" class="text-end pe-4">
+                                        <span *ngIf="incomeParams.display">
+                                            {{ utilService.numberFormat(family.familyQuality.sddAsp) }}
+                                        </span>
+                                        <span *ngIf="!incomeParams.display">
+                                            <i class="fa fa-star text-dark" *ngFor="let i of incomeParams.sddArray"></i>
+                                        </span>
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality && family.familyQuality.familyPm">
+                                    <c-col [md]="4" class="fw-medium">{{ 'family-portrait.income.label' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="8" class="text-end pe-4">
+                                        {{ translateService.currentLang === 'kz' ? family.familyQuality.familyPm.nameKz : family.familyQuality.familyPm.nameRu }}</c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality?.incomeTotal !== 0 && family.familyQuality?.incomeOop">
+                                    <c-col [md]="4" class="fw-medium">{{ 'family-portrait.income.income-oop' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="8" class="text-end pe-4" *ngIf="family.familyQuality?.incomeTotal !== 0 && family.familyQuality?.incomeOop">
+                                        {{ utilService.numberFormat(100 * family.familyQuality.incomeOop / family.familyQuality.incomeTotal) }}%
+                                    </c-col>
+                                </c-row>
+                                <c-row *ngIf="family.familyQuality?.incomeTotal !== 0 && family.familyQuality?.incomeCbd">
+                                    <c-col [md]="4" class="fw-medium">{{ 'family-portrait.income.income-cbd' | translate }}:
+                                    </c-col>
+                                    <c-col [md]="8" class="text-end pe-4" *ngIf="family.familyQuality?.incomeTotal !== 0 && family.familyQuality?.incomeCbd">
+                                        {{ utilService.numberFormat(100 * family.familyQuality.incomeCbd / family.familyQuality.incomeTotal) }}%
+                                    </c-col>
+                                </c-row>
+                            </div>
+                        </c-col>
+
+                        <!-- Рекомендации -->
+                        <!--                        <c-col [md]="2">-->
+                        <!--                            <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-1 pb-1 ps-3">-->
+                        <!--                                <strong>{{ 'family-portrait.headers.recommendation' | translate }}</strong>-->
+                        <!--                            </div>-->
+                        <!--                            <c-row *ngIf="family.familyQuality.sddAsp != null && family.familyQuality.sddAsp >= 0">-->
+                        <!--                                <c-col class="fw-medium">-->
+                        <!--                                    <i class="fa fa-check-square"></i>-->
+                        <!--                                    {{ 'family-portrait.recommendation.asp' | translate }}</c-col>-->
+                        <!--                            </c-row>-->
+                        <!--                            <c-row *ngIf="family.familyQuality.needEdu == 1">-->
+                        <!--                                <c-col class="fw-medium">-->
+                        <!--                                    <i class="fa fa-check-square"></i>-->
+                        <!--                                    {{ 'family-portrait.recommendation.education' | translate }}</c-col>-->
+                        <!--                            </c-row>-->
+                        <!--                            <c-row *ngIf="family.familyQuality.needNedv == 1">-->
+                        <!--                                <c-col class="fw-medium">-->
+                        <!--                                    <i class="fa fa-check-square"></i>-->
+                        <!--                                    {{ 'family-portrait.recommendation.real-estate' | translate }}</c-col>-->
+                        <!--                            </c-row>-->
+                        <!--                            <c-row *ngIf="family.familyQuality.needMed == 1">-->
+                        <!--                                <c-col class="fw-medium">-->
+                        <!--                                    <i class="fa fa-check-square"></i>-->
+                        <!--                                    {{ 'family-portrait.recommendation.health-insurance' | translate }}</c-col>-->
+                        <!--                            </c-row>-->
+                        <!--                            <c-row *ngIf="family.familyQuality.needEmp == 1">-->
+                        <!--                                <c-col class="fw-medium">-->
+                        <!--                                    <i class="fa fa-check-square"></i>-->
+                        <!--                                    {{ 'family-portrait.recommendation.employment' | translate }}</c-col>-->
+                        <!--                            </c-row>-->
+                        <!--                        </c-col>-->
+                    </c-row>
+
+                    <c-row [gutter]="{gx: 5}" class="mt-3" *ngIf="family && family.familyQuality">
+                        <!-- Активы семьи -->
+                        <c-col [md]="5">
+                            <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-1 pb-1 ps-3">
+                                <strong>{{ 'family-portrait.headers.assets' | translate }}</strong>
+                            </div>
+                            <c-row *ngIf="family.familyQuality.cntNedv > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.real-estate-living' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntNedv }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntNedvCom > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.real-estate-commercial' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntNedvCom }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntLand > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.land' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntLand }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntDv > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.transport' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntDv }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntDvCom > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.transport-commercial' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntDvCom }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntGrst > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.transport-grst' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntGrst }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntEmp > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.employees-amount' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntEmp }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntCbd > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.soc-pay-recipient' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntCbd }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntIp > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.ip-presence' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntIp }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="family.familyQuality.cntUl > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.too-presence' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ family.familyQuality.cntUl }}</c-col>
+                            </c-row>
+                            <c-row *ngIf="familyLphList && familyLphList.length > 0">
+                                <c-col [md]="10" class="fw-medium">
+                                    {{ 'family-portrait.assets.farm-animals' | translate }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ familyLphList.length }}</c-col>
+                            </c-row>
+                            <c-row *ngFor="let lph of familyLphList">
+                                <c-col [md]="10" class="fw-medium">
+                                    <svg cIcon name="cilMinus" class="mx-2"></svg>
+                                    {{ lph.animalKindName }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ lph.count }}</c-col>
+                            </c-row>
+
+                            <!-- Риски -->
+                            <div class="mt-3" *ngIf="riskList.length > 0">
+                                <div
+                                    class="border-bottom border-bottom-2 border-bottom-danger text-danger mb-1 pb-1 ps-3">
+                                    <strong>{{ 'family-portrait.headers.risks' | translate }}</strong>
+                                </div>
+                                <c-row class="fw-medium mb-1" *ngFor="let risk of riskList; let idx = index"
+                                       [ngClass]="{'bg-light': idx % 2 == 1}">
+                                    <c-col>{{ risk }}</c-col>
+                                </c-row>
+                            </div>
+                        </c-col>
+
+                        <!-- Социальные статусы (кол-во человек) -->
+                        <c-col [md]="7">
+                            <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-1 pb-1 ps-3">
+                                <strong>{{ 'family-portrait.headers.social-statuses' | translate }}</strong>
+                            </div>
+                            <c-row class="mb-1" *ngFor="let st of familyStatusList; let idx = index"
+                                   [ngClass]="{'bg-light': idx % 2 == 1}">
+                                <c-col [md]="10" class="fw-medium">{{ st.status.nameRu }}</c-col>
+                                <c-col [md]="2" class="text-end pe-4">{{ st.cnt }}</c-col>
+                            </c-row>
+                        </c-col>
+                    </c-row>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-body>
+</c-card>
+
+<app-family-tzhs-history-graph [eventShowModal]="eventShowGraphModal"></app-family-tzhs-history-graph>
+
+<app-family-tzhs-points-modal [eventShowModal]="eventShowTzhsPointsModal"></app-family-tzhs-points-modal>
+
+<app-family-meri *ngIf="hasPermission(permissions.FAMILY_MERI)" [iin]="eventShowIin"></app-family-meri>
+
+<!-- Портрет человека -->
+<app-person-portrait [displayPersonalInfo]="displayPersonalInfo"
+                     [showPersonPortrait]="eventShowPersonPortrait"></app-person-portrait>

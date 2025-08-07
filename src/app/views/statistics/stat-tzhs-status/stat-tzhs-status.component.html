@@ -1,0 +1,34 @@
+<div *ngIf="userRoleService.hasPermission(permissions.TZHS_TABS)">
+    <c-nav variant="tabs">
+        <a [cTabContent]="tabContent" [tabPaneIdx]="0" cNavLink [active]="true" (click)="onTabChange(0)">
+            {{ 'stat-page.table' | translate }}
+        </a>
+        <a [cTabContent]="tabContent" [tabPaneIdx]="1" cNavLink (click)="onTabChange(2)">
+            {{ 'stat-page.table' | translate }} {{' 2'}}
+        </a>
+        <a [cTabContent]="tabContent" [tabPaneIdx]="2" cNavLink (click)="onTabChange(3)">
+            {{ 'stat-page.table' | translate }} {{' Разница'}}
+        </a>
+    </c-nav>
+
+    <c-tab-content #tabContent="cTabContent">
+        <c-tab-pane class="pt-3">
+            <app-stat-tzhs-status-sdu-table [statusDictionary]="statusDictionary"></app-stat-tzhs-status-sdu-table>
+        </c-tab-pane>
+
+        <c-tab-pane class="pt-3">
+            <app-stat-tzhs-status-two-table
+                [statusDictionary]="statusDictionary"></app-stat-tzhs-status-two-table>
+        </c-tab-pane>
+
+        <c-tab-pane class="pt-3">
+            <app-stat-tzhs-status-sdu-two-difference-table
+                [statusDictionary]="statusDictionary"></app-stat-tzhs-status-sdu-two-difference-table>
+            <!--        <app-stat-tzhs-status-sdu-two-difference-table></app-stat-tzhs-status-sdu-two-difference-table>-->
+        </c-tab-pane>
+    </c-tab-content>
+</div>
+
+<div *ngIf="!userRoleService.hasPermission(permissions.TZHS_TABS)">
+    <app-stat-tzhs-status-sdu-table [statusDictionary]="statusDictionary"></app-stat-tzhs-status-sdu-table>
+</div>

@@ -1,0 +1,30 @@
+<div class="table-responsive">
+    <table cTable small bordered hover [id]="tableId ? tableId : 'table'" *ngIf="table">
+        <thead>
+        <tr *ngFor="let row of table.headerRows" class="text-center align-middle">
+            <th *ngFor="let cell of row" [attr.colspan]="cell.colspan" [attr.rowspan]="cell.rowspan" [ngClass]="{'region-column': cell.cap.toUpperCase() === 'РЕГИОН',
+                                                                                                                       'value-column': (cell.cap.toUpperCase() !== 'РЕГИОН'
+                                                                                                                       && cell.cap.toUpperCase() != '#'
+                                                                                                                       && cell.cap.toUpperCase() != '№') }"
+            [style.width]="cell.percentage ? cell.percentage + '%' : 'auto'">
+                {{cell.cap}}
+            </th>
+        </tr>
+        </thead>
+        <tbody *ngIf="table.rows">
+        <tr class="text-center" *ngFor="let row of table.rows">
+            <td *ngFor="let cell of row; let i = index" [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">
+                {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}
+            </td>
+        </tr>
+        </tbody>
+        <tfoot cTableColor="dark">
+        <tr class="fw-bolder text-center">
+            <th *ngFor="let cell of table.total; let i = index"
+                [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">
+                {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,53 @@
+<c-card class="mb-4" [cBorder]="'secondary'" [hidden]="!isPageLoaded">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilAlignLeft"></svg></span>
+        <strong>{{ 'search-page.label' | translate }}</strong>
+    </c-card-header>
+    <c-card-body>
+        <c-alert color="warning" *ngIf="personList.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+
+        <table cTable striped hover *ngIf="personList.length > 0">
+            <thead>
+            <tr class="align-middle">
+                <th scope="col">#</th>
+                <th scope="col">{{ 'region' | translate }}</th>
+                <th scope="col">{{ 'iin-full-name' | translate }}</th>
+                <th scope="col">{{ 'address' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of personList; let idx = index">
+                <th scope="row">{{ ((pagination.currentPage - 1) * pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>{{ utilService.getRegionName(item.stateName, item.regionName) }}</td>
+                <td>
+                    <a target="_blank" class="link-info" [routerLink]="['/family/' + item.iin]" (click)="utilService.navigateToFamilyPortrait(item.iin)">
+                        {{ utilService.concat(' / ', item.iin, item.fullName) }}
+                    </a>
+                </td>
+                <td>{{ item.address }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-row *ngIf="personList.length > 0">
+            <c-col [md]="8">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="pagination.totalItems > pagination.itemsPerPage"
+                            [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
+                            [totalItems]="pagination.totalItems" [maxSize]="pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="4">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+
+    </c-card-body>
+</c-card>

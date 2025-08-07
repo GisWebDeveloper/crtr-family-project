@@ -1,0 +1,68 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'menu.monitoring-asp-potential' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible, 0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <table cTable hover small *ngIf="regionPotentialASPList.length > 0">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">{{ 'need-actions-page.region' | translate }}</th>
+                <th scope="col">{{ 'monitoring-page.asp.potential' | translate }}</th>
+                <th scope="col" *ngFor="let dict of dictionaryAspActions">
+                    {{ translateService.currentLang === 'kz' ? dict.nameKz : dict.nameRu }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let item of regionPotentialASPList; let idx = index">
+                <tr [hidden]="item.isHidden" [ngClass]="{'table-info': item.regionId == params.regionId}">
+                    <td role="button" (click)="selectStatRegion(item)">
+                        <span [ngClass]="{'ps-5': item.level === 2}">
+                            {{ translateService.currentLang === 'kz' ? item.regionNameKz : item.regionNameRu }}</span>
+                    </td>
+                    <td class="text-center">
+                        <a role="button" (click)="getStatPersonList(item, 1)">
+                            {{ utilService.numberFormat(item.cnt1) }}
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a role="button" (click)="getStatPersonList(item, 2)">
+                            {{ utilService.numberFormat(item.cnt2) }}
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a role="button" (click)="getStatPersonList(item, 3)">
+                            {{ utilService.numberFormat(item.cnt3) }}
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a role="button" (click)="getStatPersonList(item, 4)">
+                            {{ utilService.numberFormat(item.cnt4) }}
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a role="button" (click)="getStatPersonList(item, 5)">
+                            {{ utilService.numberFormat(item.cnt5) }}
+                        </a>
+                    </td>
+                </tr>
+            </ng-container>
+            </tbody>
+            <tfoot cTableColor="dark">
+            <tr class="fw-bolder">
+                <td>{{ 'total' | translate }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cnt1) }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cnt2) }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cnt3) }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cnt4) }}</td>
+                <td class="text-center">{{ utilService.numberFormat(params.statItemTotal.cnt5) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </c-card-body>
+</c-card>

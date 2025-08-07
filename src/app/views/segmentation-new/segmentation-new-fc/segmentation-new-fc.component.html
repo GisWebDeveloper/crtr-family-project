@@ -1,0 +1,660 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible, 0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+
+        <form cForm (submit)="search()">
+            <c-row>
+                <c-col [md]="8">
+
+                    <!--                    default filters-->
+                    <c-row class="mb-4">
+                        <c-col [md]="3">
+                            <c-row class="mb-2"><strong>{{'segmentation-new-page.region' | translate}}</strong></c-row>
+                            <c-row>
+                                <c-col>
+                                    <ng-select id="region" name="region" bindValue="id"
+                                               [items]="dictionaryDistrict"
+                                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                               [(ngModel)]="filter.districtId"
+                                               [clearable]="!(this.dictionaryDistrict.length === 1 || filter.regionId)"
+                                               [searchable]="false"
+                                               (ngModelChange)="getRegionDictionary()">
+                                    </ng-select>
+                                </c-col>
+                            </c-row>
+                        </c-col>
+
+                        <c-col [md]="3">
+                            <c-row class="mb-2"><strong>{{'segmentation-new-page.district' | translate}}</strong>
+                            </c-row>
+                            <c-row>
+                                <c-col>
+                                    <ng-select id="district" name="district" bindValue="id"
+                                               [items]="dictionaryRegion"
+                                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                                               [(ngModel)]="filter.regionId"
+                                               [clearable]="this.dictionaryRegion.length !== 1"
+                                               [searchable]="false"></ng-select>
+                                </c-col>
+                            </c-row>
+                        </c-col>
+
+                        <c-col [md]="3">
+                            <c-row class="mb-2">
+                                <strong>{{'segmentation-new-page.well-being-level' | translate}}</strong></c-row>
+                            <c-row>
+                                <c-col>
+                                    <ng-select id="familyTzhs" name="familyTzhs"
+                                               [items]="dictionaryFamilyTzhsGroup"
+                                               [(ngModel)]="filter.familyTzhsGroup"
+                                               [clearable]="true"
+                                               [searchable]="false"></ng-select>
+                                </c-col>
+
+                            </c-row>
+                        </c-col>
+
+                        <c-col [md]="3">
+                            <c-row class="mb-2"><strong>{{'segmentation-new-page.family-type' | translate}}</strong>
+                            </c-row>
+                            <c-row>
+                                <c-col>
+                                    <ng-select id="family-type" name="family-type" bindValue="value"
+                                               [items]="dictionaryFamilyType"
+                                               [(ngModel)]="filter.famType"
+                                               [searchable]="false"></ng-select>
+                                </c-col>
+                            </c-row>
+                        </c-col>
+
+                    </c-row>
+
+                    <c-row>
+                        <!--                    filter groups-->
+                        <c-col [md]="4">
+                            <ng-container *ngFor="let item of filterGroupList; let i = index">
+                                <c-row class="py-1 table-link"
+                                       [ngClass]="{'border-top': i > 0, 'bg-light': i % 2 === 1,  'fw-medium' : filterGroup === i}"
+                                       (click)="showFilterGroup(i)">
+                                    <span>{{item | translate}}</span>
+                                </c-row>
+                            </ng-container>
+                        </c-col>
+
+                        <c-col [md]="8" class="ps-4 pt-4 filter-group"
+                               [ngClass]="{'border-start border-top': filterGroup !== -1}">
+
+                            <!--                        zero filter group-->
+                            <ng-container *ngIf="filterGroup === 0" cCollapse>
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.income-loans.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.income-loans.fam-sdd' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-sdd" name="fam-sdd" bindValue="value"
+                                                   [items]="dictionaryFamSdd"
+                                                   [(ngModel)]="filter.famSdd" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.income-loans.fam-credit' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-credit"
+                                                   id="fam-credit-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famCredit"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-credit-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.income-loans.fam-credit-z' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-credit-z" name="fam-credit-z" bindValue="value"
+                                                   [items]="dictionaryFamCreditZ"
+                                                   [(ngModel)]="filter.famCreditZ" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+                            </ng-container>
+
+                            <!--                            first filter group-->
+                            <ng-container *ngIf="filterGroup === 1" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.property.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.property.fam-dv-tran' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-dv-tran" name="fam-dv-tran" bindValue="value"
+                                                   [items]="dictionaryFamDvTran"
+                                                   [(ngModel)]="filter.famDvTran" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.property.fam-dv-tran-com' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-dv-tran-com"
+                                                   id="fam-dv-tran-com-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famDvTranCom"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-dv-tran-com-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.property.fam-nedv-com' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-nedv-com"
+                                                   id="fam-nedv-com-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famNedvCom"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-nedv-com-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            second filter group-->
+                            <ng-container *ngIf="filterGroup === 2" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.employment-labor.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.employment-labor.fam-emp' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-emp" name="fam-emp" bindValue="value"
+                                                   [items]="dictionaryFamEmp"
+                                                   [(ngModel)]="filter.famEmp" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.employment-labor.fam-ul' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-ul" name="fam-ul" bindValue="value"
+                                                   [items]="dictionaryFamUl"
+                                                   [(ngModel)]="filter.famUl" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            third filter group-->
+                            <ng-container *ngIf="filterGroup === 3" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.healthcare.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.healthcare.fam-med' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-med"
+                                                   id="fam-med-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famMed"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-med-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.healthcare.fam-osms' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-osms"
+                                                   id="fam-osms-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famOsms"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-osms-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.healthcare.fam-disease-b' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-disease-b"
+                                                   id="fam-disease-b-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famDiseaseB"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-disease-b-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.healthcare.fam-disease-d' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-disease-d"
+                                                   id="fam-disease-d-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famDiseaseD"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-disease-d-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            fourth filter group-->
+                            <ng-container *ngIf="filterGroup === 4" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.education.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.education.fam-edu-s' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-edu-s" name="fam-edu-s" bindValue="value"
+                                                   [items]="dictionaryFamEduS"
+                                                   [(ngModel)]="filter.famEduS" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.education.fam-edu-sh' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-edu-sh" name="fam-edu-sh" bindValue="value"
+                                                   [items]="dictionaryFamEduSh"
+                                                   [(ngModel)]="filter.famEduSh" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            fifth filter group-->
+                            <ng-container *ngIf="filterGroup === 5" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.agricultural-industry.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.agricultural-industry.fam-dv-grst' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-dv-grst" name="fam-dv-grst" bindValue="value"
+                                                   [items]="dictionaryFamDvGrst"
+                                                   [(ngModel)]="filter.famDvGrst" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.agricultural-industry.fam-nedv-land' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-nedv-land" name="fam-nedv-land" bindValue="value"
+                                                   [items]="dictionaryFamNedvLand"
+                                                   [(ngModel)]="filter.famNedvLand" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.agricultural-industry.fam-lph' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-lph" name="fam-lph" bindValue="value"
+                                                   [items]="dictionaryFamLph"
+                                                   [(ngModel)]="filter.famLph" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            sixth filter group-->
+                            <ng-container *ngIf="filterGroup === 6" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.infrastructure.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.infrastructure.fam-nedv' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-nedv" name="fam-nedv" bindValue="value"
+                                                   [items]="dictionaryFamNedv"
+                                                   [(ngModel)]="filter.famNedv" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.infrastructure.fam-adr' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-adr" name="fam-adr" bindValue="value"
+                                                   [items]="dictionaryFamAdr"
+                                                   [(ngModel)]="filter.famAdr" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            seventh filter group-->
+                            <ng-container *ngIf="filterGroup === 7" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.special-services.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.special-services.fam-child' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-child" name="fam-child" bindValue="value"
+                                                   [items]="dictionaryFamChild"
+                                                   [(ngModel)]="filter.famChild" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.special-services.fam-inv-1' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-inv-1"
+                                                   id="fam-inv-1-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famInv1"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-inv-1-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.special-services.fam-inv-3' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-inv-3"
+                                                   id="fam-inv-3-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famInv3"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-inv-3-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                                <c-row class="py-1 border-top bg-light">
+                                    <c-col>
+                                        <label>{{'segmentation-new-page.filter-group.special-services.fam-inv-child' | translate}}</label>
+                                    </c-col>
+                                    <c-col>
+                                        <c-form-check inline *ngFor="let dItem of dictionaryReverseYesNo">
+                                            <input cFormCheckInput type="radio" name="fam-inv-child"
+                                                   id="fam-inv-child-{{ dItem.value }}" [value]="+dItem.value"
+                                                   [(ngModel)]="filter.famInvChild"/>
+                                            <label cFormCheckLabel
+                                                   for="fam-inv-child-{{ dItem.value }}">{{ dItem.label }}</label>
+                                        </c-form-check>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                            <!--                            eighth filter group-->
+                            <ng-container *ngIf="filterGroup === 8" cCollapse>
+
+                                <c-row class="py-1">
+                                    <label
+                                        class="fw-medium">{{'segmentation-new-page.filter-group.asp.name' | translate}}</label>
+                                </c-row>
+
+                                <c-row class="py-1">
+                                    <c-col [md]="6">
+                                        <label>{{'segmentation-new-page.filter-group.asp.fam-asp' | translate}}</label>
+                                    </c-col>
+                                    <c-col [md]="6">
+                                        <ng-select id="fam-asp" name="fam-asp" bindValue="value"
+                                                   [items]="dictionaryFamAsp"
+                                                   [(ngModel)]="filter.famAsp" [clearable]="true"
+                                                   [searchable]="false" [multiple]="true">
+                                        </ng-select>
+                                    </c-col>
+                                </c-row>
+
+                            </ng-container>
+
+                        </c-col>
+
+
+                    </c-row>
+                </c-col>
+
+                <c-col [md]="4">
+                    <c-row class="py-1 mt-4">{{'segmentation-new-page.selected-filters' | translate}}</c-row>
+                    <div [ngStyle]="{overflowY : 'auto', height: '350px', overflowX: 'hidden'}">
+                        <div *ngFor="let key of getFilterKeys()">
+                            <ng-container *ngIf="showKey(key)">
+                                <ng-container *ngIf="selectFilters.hasOwnProperty(key); else otherFilters">
+                                    <c-row class="py-1" *ngFor="let value of getFilterValues(key)">
+                                        <c-col [md]="1" (click)="resetSelectFilter(value, key)">
+                                            <svg cIcon name="cilX"></svg>
+                                        </c-col>
+                                        <c-col [md]="10">{{getSelectFilterLabel(value, key)}}</c-col>
+                                    </c-row>
+                                </ng-container>
+                                <ng-template #otherFilters>
+                                    <c-row class="py-1">
+                                        <c-col [md]="1" (click)="resetFilter(key)">
+                                            <svg cIcon name="cilX"></svg>
+                                        </c-col>
+                                        <c-col [md]="10">{{getFilterLabel(key)}}</c-col>
+                                    </c-row>
+                                </ng-template>
+                            </ng-container>
+                        </div>
+                    </div>
+                </c-col>
+            </c-row>
+
+            <!-- FILTER BUTTONS -->
+            <div class="d-flex justify-content-end mb-3">
+                <button cButton color="light" (click)="resetFilters()" class="me-3">
+                    <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                    {{ 'clear' | translate }}
+                </button>
+
+                <button cButton color="info" type="submit" class="text-white">
+                    <span class="pe-1"><svg cIcon name="cilSearch"></svg></span>
+                    {{ 'search' | translate }}
+                </button>
+            </div>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.stat.length > 0 && selectedTable === 1">
+    <c-card-body>
+        <table cTable bordered hover small>
+            <thead class="text-center align-middle table-header">
+            <tr>
+                <th scope="col" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
+                <th scope="col" class="bg-info">A</th>
+                <th scope="col" class="bg-green">B</th>
+                <th scope="col" class="bg-yellow">C</th>
+                <th scope="col" class="bg-warning">D</th>
+                <th scope="col" class="bg-red">E</th>
+                <th scope="col" cTableColor="secondary">{{ 'total' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let stat of params.stat; let idx = index">
+                <tr [ngClass]="{'table-info': stat.id === params.regionId}">
+                    <td>{{ translateService.currentLang === 'kz' ? stat.nameKz : stat.nameRu }}</td>
+                    <td class="text-center" *ngFor="let tzhs of dictionaryFamilyTzhsGroup; let ids = index">
+                        <a [attr.role]="hasPermission(permissions.SEGMENTATION_NEW_LIST) ? 'button' : null"
+                           (click)="hasPermission(permissions.SEGMENTATION_NEW_LIST) ? showListModal(tzhs, stat) : null">
+                            {{ utilService.getObjectNumberValue(stat, 'cnt' + (ids + 1)) }}
+                        </a>
+                    </td>
+                    <td class="text-center"
+                        [ngClass]="{'table-info': stat.id === params.regionId, 'table-secondary': stat.id != params.regionId}">
+                        {{ utilService.numberFormat(stat.total) }}
+                    </td>
+                </tr>
+            </ng-container>
+            </tbody>
+            <tfoot cTableColor="secondary">
+            <tr>
+                <td>{{ 'total' | translate }}</td>
+                <td class="text-center" *ngFor="let tzhs of dictionaryFamilyTzhsGroup; let ids = index">
+                    {{ utilService.getObjectNumberValue(params.statTotal, 'cnt' + (ids + 1)) }}
+                </td>
+                <td class="text-center">{{ utilService.numberFormat(params.statTotal.total) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.stat.length > 0 && selectedTable === 2">
+    <c-card-body>
+        <table cTable bordered hover small [style.width.%]="selectedFamilyTzhsGroup === 'C' ? 36.88 : 42.14">
+            <thead class="text-center align-middle table-header">
+            <tr>
+                <th scope="col" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
+                <th scope="col" class="value-column"
+                    [ngClass]="getFamilyTzhsGroupClass()">{{ selectedFamilyTzhsGroup }}</th>
+
+                <th scope="col" class="value-column" cTableColor="secondary">{{ 'total' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let stat of params.stat; let idx = index">
+                <tr [ngClass]="{'table-info': stat.id === params.regionId}">
+                    <td>{{ translateService.currentLang === 'kz' ? stat.nameKz : stat.nameRu }}</td>
+                    <td class="text-center" *ngFor="let id of getFamilyTzhsGroupIds()">
+                        <a [attr.role]="hasPermission(permissions.SEGMENTATION_NEW_LIST) ? 'button' : null"
+                           (click)="hasPermission(permissions.SEGMENTATION_NEW_LIST) ? showListModal(dictionaryFamilyTzhsGroup[id - 1], stat) : null">
+                            {{ utilService.getObjectNumberValue(stat, 'cnt' + id) }}
+                        </a>
+                    </td>
+                    <td class="text-center"
+                        [ngClass]="{'table-info': stat.id === params.regionId, 'table-secondary': stat.id != params.regionId}">
+                        {{ utilService.numberFormat(stat.total) }}</td>
+                </tr>
+            </ng-container>
+            </tbody>
+            <tfoot cTableColor="secondary">
+            <tr>
+                <td>{{ 'total' | translate }}</td>
+                <td class="text-center" *ngFor="let id of getFamilyTzhsGroupIds()">
+                    {{ utilService.getObjectNumberValue(params.statTotal, 'cnt' + id) }}
+                </td>
+                <td class="text-center">{{ utilService.numberFormat(params.statTotal.total) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </c-card-body>
+</c-card>
+
+<c-card *ngIf="params.stat.length == 0">
+    <c-card-body>
+        <c-alert color="warning" *ngIf="params.stat.length == 0">
+            {{ 'warnings.no-data-for-filters-found' | translate }}
+        </c-alert>
+    </c-card-body>
+</c-card>
+
+<app-segmentation-new-list-modal [eventShowListModal]="eventShowListModal"></app-segmentation-new-list-modal>

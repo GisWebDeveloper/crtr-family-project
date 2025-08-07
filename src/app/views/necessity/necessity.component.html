@@ -1,0 +1,159 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>Потребность</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+
+        <form cForm novalidate (submit)="searchCountStat()">
+            <c-row *ngIf="dictionaryRegion.length > 0">
+                <label cLabel="col" cCol [md]="2">{{ 'region' | translate }}</label>
+                <c-col [md]="8">
+                    <ng-select id="region" name="region" bindValue="id"
+                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                               [items]="dictionaryRegion" [(ngModel)]="stateId" [clearable]="true">
+                    </ng-select>
+                </c-col>
+                <c-col [md]="2">
+                    <div class="d-flex flex-column">
+                        <button cButton color="info" type="submit" class="text-white">
+                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                            {{ 'search' | translate }}
+                        </button>
+                    </div>
+                </c-col>
+                <c-col [md]="12">
+                    <hr>
+                </c-col>
+            </c-row>
+        </form>
+
+        <table cTable small borderless striped *ngIf="countStatList">
+            <thead>
+            <tr class="py-1">
+                <th colspan="8">
+                    <span class="me-3 m">№</span>
+                </th>
+                <th class="text-center pe-4">Дата</th>
+                <th class="text-center pe-4">Сумма</th>
+                <th class="text-center pe-4">Колличество семей</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="countStatList">
+                    <tr *ngFor="let item of countStatList; let idx = index"  class="py-1 table-link"
+                        [ngClass]="{ 'border-top': false,
+                                                'bg-info': selectedIndex === idx,
+                                                'text-white': selectedIndex === idx}">
+                        <td colspan="8">
+                            <span class="me-2">{{ 1 + '.' }}</span>
+                        </td>
+                        <td class="text-center" (click)="selectMemberPage(idx)">{{item.period + ', ' + item.buildYear}}</td>
+                        <td class="text-center" (click)="selectMemberPage(idx)">{{utilService.numberFormat(item.summ)}}</td>
+                        <td class="text-center" (click)="selectMemberPage(idx)">{{utilService.numberFormat(item.cntFam)}}</td>
+                        <td class="text-center">
+                            <input cFormCheckInput type="checkbox" name="large-fam" [(ngModel)]="item.checkBox" id="large-fa"/>
+                        </td>
+                    </tr>
+<!--                <tr class="py-1 table-link" [ngClass]="{ 'border-top': 1 > 0,-->
+<!--                              'bg-info': false,-->
+<!--                                'text-white': false}">-->
+<!--                    <td colspan="8">-->
+<!--                        <span class="me-2">1.</span>-->
+<!--                    </td>-->
+<!--                    <td class="text-center">Апрель, 2025</td>-->
+<!--                    <td class="text-center">495 645 тг</td>-->
+<!--                    <td class="text-center">45 000</td>-->
+<!--                    <td class="text-center"></td>-->
+<!--                </tr>-->
+            </ng-container>
+            <!--            </ng-container>-->
+            </tbody>
+        </table>
+
+        <!-- FILTER BUTTONS -->
+        <div class="d-flex justify-content-end mb-3">
+            <button cButton color="info" class="text-white" (click)="sendMembers()" [disabled]="isAnySet()" >
+                Направить на выплату
+            </button>
+        </div>
+    </c-card-body>
+</c-card>
+
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="list.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'lists' | translate }}</strong>
+        <!--        <span class="float-end">-->
+        <!--            <span>Скачать</span>-->
+        <!--            <button cButton color="success" variant="ghost" size="sm" >-->
+        <!--                <i class="fa fa-file-excel-o"></i></button>-->
+        <!--        </span>-->
+    </c-card-header>
+    <c-card-body>
+
+        <!-- LIST -->
+        <table cTable striped hover *ngIf="list.length > 0">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ИИН</th>
+                <!--                <th scope="col" class="text-center">{{ 'need-actions-page.form' | translate }}</th>-->
+                <th scope="col">ФИО</th>
+                <th scope="col">Код</th>
+                <th scope="col">Наименование меры</th>
+                <th scope="col">Дата назначения</th>
+                <th scope="col">Период</th>
+                <th scope="col">Сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of list; let idx = index">
+                <th scope="row">{{ ((pagination.currentPage - 1) * pagination.itemsPerPage) + idx + 1 }}</th>
+                <td>
+                    <a target="_blank" class="link-info" [routerLink]="['/family/' + item.headIin]"
+                       (click)="utilService.navigateToFamilyPortrait(item.headIin)">
+                        {{ item.headIin }}
+                    </a>
+                </td>
+                <td>{{ utilService.getCapitalized(item.fio) }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.nameRu }}</td>
+                <td>{{ item.appDate }}</td>
+                <td class="text-center text-nowrap">{{item.period + ', ' + item.buildYear}}</td>
+                <td class="text-center text-nowrap">{{ utilService.numberFormat(item.summ) }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-alert color="warning" *ngIf="list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-card-body>
+    <c-card-footer>
+        <c-row>
+            <c-col [md]="10">
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="pagination.totalItems > pagination.itemsPerPage"
+                            [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
+                            [totalItems]="pagination.totalItems" [maxSize]="pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-footer>
+</c-card>

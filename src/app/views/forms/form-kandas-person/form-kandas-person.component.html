@@ -1,0 +1,53 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><i class="fa fa-address-book-o"></i></span>
+        <!--        <strong>{{ 'forms.person.label' | translate }}</strong>-->
+        <strong>Индивидуальный план помощи семьи</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+
+        <!-- Общие сведения -->
+        <div class="mb-5">
+            <app-person-general-info [isFormMode]="true"
+                                     [hasAdminPermissions]="false"
+                                     [showGeneralInfo]="eventShowGeneralInfo"></app-person-general-info>
+        </div>
+
+        <c-nav variant="tabs">
+            <a [cTabContent]="tabContent" [tabPaneIdx]="0" cNavLink [active]="true" *ngIf="formPermissions[0]">
+                Кандас
+            </a>
+            <a [cTabContent]="tabContent" [tabPaneIdx]="1" cNavLink *ngIf="formPermissions[1]"
+               [active]="!formPermissions[0] && formPermissions[1]">
+                Переселенцы
+            </a>
+            <a [cTabContent]="tabContent" [tabPaneIdx]="2" cNavLink *ngIf="formPermissions[2]"
+               [active]="!formPermissions[0] && !formPermissions[1] && formPermissions[2]">
+                СУСН
+            </a>
+        </c-nav>
+
+        <c-tab-content #tabContent="cTabContent">
+            <c-tab-pane class="pt-3">
+                <app-form-kandas [hasAdminPermissions]="hasAdminPermissions"
+                                 [eventShowFormKandas]="eventShowFormKandas"></app-form-kandas>
+            </c-tab-pane>
+
+            <c-tab-pane class="pt-3">
+                <app-form-pereselentsy [hasAdminPermissions]="hasAdminPermissions"
+                                       [eventShowFormKandas]="eventShowFormPereselentsy"></app-form-pereselentsy>
+            </c-tab-pane>
+
+            <c-tab-pane class="pt-3">
+                <app-form-susn [hasAdminPermissions]="hasAdminPermissions"
+                               [eventShowFormSusn]="eventShowFormSusn"></app-form-susn>
+            </c-tab-pane>
+
+        </c-tab-content>
+    </c-card-body>
+</c-card>

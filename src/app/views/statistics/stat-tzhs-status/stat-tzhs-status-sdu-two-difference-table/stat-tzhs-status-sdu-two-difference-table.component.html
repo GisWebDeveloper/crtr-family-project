@@ -1,0 +1,122 @@
+<!--<table cTable small bordered hover id="table-main-statistics-2" *ngIf="regionStatItemList.length > 0">-->
+<div class="table-responsive mb-3">
+    <table cTable small bordered hover id="table-main-statistics-3" *ngIf="regionStatDiffItemList.length > 0">
+
+        <thead>
+        <tr class="text-center">
+            <th scope="col" rowspan="3" class="align-middle">{{ 'stat-page.region' | translate }}</th>
+            <th scope="col" colspan="4">{{ 'total' | translate }}</th>
+            <th scope="col" colspan="4" class="bg-info">A - 5, 6</th>
+            <th scope="col" colspan="4" class="bg-green">B - 4</th>
+            <th scope="col" colspan="4" class="bg-yellow">C - 3</th>
+            <th scope="col" colspan="4" class="bg-warning">D - 2</th>
+            <th scope="col" colspan="4" class="bg-red">E - 1</th>
+        </tr>
+        <tr class="text-center">
+            <th colspan="2" class="text-lowercase"
+                cTableColor="secondary">{{ 'stat-page.family-count' | translate }}</th>
+            <th colspan="2" class="text-lowercase">{{ 'stat-page.person-count' | translate }}</th>
+            <ng-container *ngFor="let i of [1,2,3,4,5]">
+                <th colspan="2" class="text-lowercase"
+                    cTableColor="secondary">{{ 'stat-page.family-count' | translate }}</th>
+                <th colspan="2" class="text-lowercase">{{ 'stat-page.person-count' | translate }}</th>
+            </ng-container>
+        </tr>
+        <tr class="text-center">
+            <th class="text-lowercase" cTableColor="secondary">Старый</th>
+            <th class="text-lowercase" cTableColor="secondary">Новый</th>
+            <th class="text-lowercase" >Старый</th>
+            <th class="text-lowercase">Новый</th>
+            <ng-container *ngFor="let i of [1,2,3,4,5]">
+                <th class="text-lowercase" cTableColor="secondary">Старый</th>
+                <th class="text-lowercase" cTableColor="secondary">Новый</th>
+                <th class="text-lowercase" >Старый</th>
+                <th class="text-lowercase">Новый</th>
+            </ng-container>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let stat of regionStatDiffItemList | statTotalFilter: false">
+            <tr class="text-center text-nowrap"
+                [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                <td class="text-start" role="button" (click)="selectStatRegion(stat)">
+                <span [ngClass]="{'ps-5': stat.level > 1}">
+                    {{ utilService.getLocalization(stat.region.nameKz, stat.region.nameRu) }}</span>
+                </td>
+                <td class="fw-bolder" [ngClass]="{'table-secondary': stat != statItem}">
+                    {{ getStatValue(stat, 'familySduCountTotal') }}</td>
+                <td class="fw-bolder" [ngClass]="{'table-secondary': stat != statItem}">
+                    {{ getStatValue(stat, 'familyCountTotal') }}</td>
+                <td class="fw-bolder">{{ getStatValue(stat, 'personSduCountTotal') }}</td>
+                <td class="fw-bolder">{{ getStatValue(stat, 'personCountTotal') }}</td>
+                <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                    <td [ngClass]="{'table-secondary': stat != statItem}">
+                        <a>
+                            {{ getStatValue(stat, 'familySduCount' + i) }}</a>
+                    </td>
+                    <td [ngClass]="{'table-secondary': stat != statItem}">
+                        <a>
+                            {{ getStatValue(stat, 'familyCount' + i) }}</a>
+                    </td>
+                    <td>
+                        <a>
+                            {{ getStatValue(stat, 'personSduCount' + i) }}</a>
+                    </td>
+                    <td>
+                        <a>
+                            {{ getStatValue(stat, 'personCount' + i) }}</a>
+                    </td>
+                </ng-container>
+            </tr>
+            <ng-container *ngIf="isSelectedRegion(stat)">
+                <tr class="text-center" *ngFor="let statChild of regionChildStatDiffItemList"
+                    [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                    <td class="text-start ps-5" role="button" (click)="selectStatRegion(statChild)">
+                        {{ utilService.getLocalization(statChild.region.nameKz, statChild.region.nameRu) }}</td>
+                    <td class="fw-bolder" [ngClass]="{'table-secondary': statChild != statDiffItem}">
+                        {{ getStatValue(statChild, 'familySduCountTotal') }}</td>
+                    <td class="fw-bolder" [ngClass]="{'table-secondary': statChild != statDiffItem}">
+                        {{ getStatValue(statChild, 'familyCountTotal') }}</td>
+                    <td class="fw-bolder">{{ getStatValue(statChild, 'personSduCountTotal') }}</td>
+                    <td class="fw-bolder">{{ getStatValue(statChild, 'personCountTotal') }}</td>
+                    <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                        <td [ngClass]="{'table-secondary': statChild != statDiffItem}">
+                            <a>
+                                {{ getStatValue(statChild, 'familySduCount' + i) }}</a>
+                        </td>
+                        <td [ngClass]="{'table-secondary': statChild != statDiffItem}">
+                            <a>
+                                {{ getStatValue(statChild, 'familyCount' + i) }}</a>
+                        </td>
+                        <td>
+                            <a >
+                                {{ getStatValue(statChild, 'personSduCount' + i) }}</a>
+                        </td>
+                        <td>
+                            <a >
+                                {{ getStatValue(statChild, 'personCount' + i) }}</a>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </ng-container>
+        </tbody>
+        <tfoot cTableColor="secondary">
+        <tr class="fw-bolder text-center text-nowrap" *ngFor="let statTotal of regionStatDiffItemList | statTotalFilter: true">
+            <td class="text-start">{{ 'total' | translate }}</td>
+            <td>{{ getStatValue(statTotal, 'familySduCountTotal') }}</td>
+            <td>{{ getStatValue(statTotal, 'familyCountTotal') }}</td>
+            <td>{{ getStatValue(statTotal, 'personSduCountTotal') }}</td>
+            <td>{{ getStatValue(statTotal, 'personCountTotal') }}</td>
+            <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                <td>{{ getStatValue(statTotal, 'familySduCount' + i) }}</td>
+                <td>{{ getStatValue(statTotal, 'familyCount' + i) }}</td>
+                <td>{{ getStatValue(statTotal, 'personSduCount' + i) }}</td>
+                <td>{{ getStatValue(statTotal, 'personCount' + i) }}</td>
+            </ng-container>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<app-stat-list-modal [eventShowListModal]="eventShowListModal"></app-stat-list-modal>

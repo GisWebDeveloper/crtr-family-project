@@ -1,0 +1,105 @@
+<c-modal id="categoryHistoryModal" size="xl" alignment="center"
+         [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Мера</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <h6 *ngIf="meriNumber === 1">Назначение адресной социальной помощи</h6>
+        <table cTable striped small hover *ngIf="meriNumber === 1">
+            <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">Вопрос</th>
+                <th scope="col">Ответ</th>
+                <th scope="col">Соответствует</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-start align-middle">Является ли ваше жилье в собственности единственным?</td>
+                <td class="text-start text-nowrap align-middle">Нет</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Являетесь ли Вы (или совместно проживающий член вашей семьи) нанимателям (поднанимателям) жилища  из государственного жилищного фонда или жилища, арендованного местным исполнительным органом в частном жилищном фонде?</td>
+                <td class="text-start text-nowrap align-middle">Да</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Количество совместно проживающих членов в Вашей семье,  зарегистрированные по месту жительства в пределах одного населенного пункта (арабскими цифрами без пробелов). Например: 7.</td>
+                <td class="text-start text-nowrap align-middle">6</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Совокупный доход семьи в предыдущем квартале? (в тенге арабскими цифрами без пробелов) Например: 500000. Порядок расчета совокупного дохода семьи определяется главой 3 Правил предоставления жилищной помощи</td>
+                <td class="text-start text-nowrap align-middle">200 000</td>
+                <td class="text-start text-nowrap align-middle">Не соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Сумма расходов по оплате содержания жилища и потребленные жилищно-коммунальные услуги (рассчитанные на месяц по социальным нормам на 1 человека, умноженное на количество членов семьи). Представить в тенге арабскими цифрами без пробелов</td>
+                <td class="text-start text-nowrap align-middle">50 000</td>
+                <td class="text-start text-nowrap align-middle">Не соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Размер арендной платы за пользование жилищем, арендованным местным исполнительным органом в частном жилищном фонде (АППЖ). Представить в тенге арабскими цифрами без пробелов</td>
+                <td class="text-start text-nowrap align-middle">80 000</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <h6 *ngIf="meriNumber === 2">Назначение жилищной помощи</h6>
+        <table cTable striped small hover *ngIf="meriNumber === 2">
+            <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">Вопрос</th>
+                <th scope="col">Ответ</th>
+                <th scope="col">Соответствует</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-start align-middle">Имеется ли на данный момент в вашей собственности жилье?</td>
+                <td class="text-start text-nowrap align-middle">Нет</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Является ли ваше жилье в собственности единственным?</td>
+                <td class="text-start text-nowrap align-middle">Да</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Являетесь ли Вы (или совместно проживающий член вашей семьи) нанимателям (поднанимателям) жилища  из государственного жилищного фонда или жилища, арендованного местным исполнительным органом в частном жилищном фонде?</td>
+                <td class="text-start text-nowrap align-middle">Нет</td>
+                <td class="text-start text-nowrap align-middle">Не соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Количество совместно проживающих членов в Вашей семье,  зарегистрированные по месту жительства в пределах одного населенного пункта (арабскими цифрами без пробелов). Например: 7.</td>
+                <td class="text-start text-nowrap align-middle" >275 000</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Совокупный доход семьи в предыдущем квартале? (в тенге арабскими цифрами без пробелов) Например: 500000. Порядок расчета совокупного дохода семьи определяется главой 3 Правил предоставления жилищной помощи</td>
+                <td class="text-start text-nowrap align-middle">54 000</td>
+                <td class="text-start text-nowrap align-middle">Не соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Сумма расходов по оплате содержания жилища и потребленные жилищно-коммунальные услуги (рассчитанные на месяц по социальным нормам на 1 человека, умноженное на количество членов семьи). Представить в тенге арабскими цифрами без пробелов</td>
+                <td class="text-start text-nowrap align-middle">50 000</td>
+                <td class="text-start text-nowrap align-middle">Соответствует</td>
+            </tr>
+            <tr>
+                <td class="text-start align-middle">Размер арендной платы за пользование жилищем, арендованным местным исполнительным органом в частном жилищном фонде (АППЖ). Представить в тенге арабскими цифрами без пробелов</td>
+                <td class="text-start text-nowrap align-middle">60 000</td>
+                <td class="text-start text-nowrap align-middle">Не соответствует</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </c-modal-body>
+    <c-modal-footer>
+        <button color="secondary" (click)="toggleModal()" cButton>{{ 'close' | translate }}</button>
+    </c-modal-footer>
+</c-modal>

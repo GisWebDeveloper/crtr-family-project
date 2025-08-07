@@ -1,0 +1,26 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && (personIncomeList.length > 0 || personScholarship)">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.income' | translate }}</strong>
+    </div>
+    <ng-container *ngIf="personIncomeList.length > 0">
+        <c-row class="fw-medium mb-1">
+            <c-col [md]="6">{{ 'person-portrait.last-work-place' | translate }}</c-col>
+            <c-col [md]="2">{{ 'person-portrait.period' | translate }}</c-col>
+        </c-row>
+        <c-row class="border-top mb-1" *ngFor="let ps of personIncomeList; let idx = index">
+            <c-col [md]="6"><span class="me-2">{{ (idx + 1) + '.' }}</span>{{ getOrgInfo(ps.lastOrgBin, ps.lastOrgName) }}</c-col>
+            <c-col [md]="2">{{ ps.lastPeriod }}</c-col>
+        </c-row>
+    </ng-container>
+
+    <ng-container *ngIf="personScholarship">
+        <c-row class="fw-medium mb-1">
+            <c-col [md]="6">{{ 'person-portrait.study-place' | translate }}</c-col>
+            <c-col [md]="2">{{ 'person-portrait.period' | translate }}</c-col>
+        </c-row>
+        <c-row class="border-top mb-1">
+            <c-col [md]="6">{{ getOrgInfo(personScholarship.bin, personScholarship.name) }}</c-col>
+            <c-col [md]="2">{{ personScholarship.date }}</c-col>
+        </c-row>
+    </ng-container>
+</div>

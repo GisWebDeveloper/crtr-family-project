@@ -1,0 +1,199 @@
+<c-container breakpoint="lg" class="h-auto">
+    <c-card class="mb-4" [cBorder]="'secondary'">
+        <c-card-header>
+            <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+            <strong>{{ 'beneficiary.label' | translate }}</strong>
+            <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+        </c-card-header>
+        <c-card-body *ngIf="visible[0]">
+
+            <!--            <form cForm novalidate (submit)="searchCountStat()">-->
+            <!--                <c-row *ngIf="dictionaryRegion.length > 0">-->
+            <!--                    <label cLabel="col" cCol [md]="2">{{ 'region' | translate }}</label>-->
+            <!--                    <c-col [md]="8">-->
+            <!--                        <ng-select id="region" name="region" bindValue="id"-->
+            <!--                                   [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"-->
+            <!--                                   [items]="dictionaryRegion" [(ngModel)]="params.filterRegionId" [clearable]="true">-->
+            <!--                        </ng-select>-->
+            <!--                    </c-col>-->
+            <!--                    <c-col [md]="2">-->
+            <!--                        <div class="d-flex flex-column">-->
+            <!--                            <button cButton color="info" type="submit" class="text-white">-->
+            <!--                                <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>-->
+            <!--                                {{ 'search' | translate }}-->
+            <!--                            </button>-->
+            <!--                        </div>-->
+            <!--                    </c-col>-->
+            <!--                    <c-col [md]="12">-->
+            <!--                        <hr>-->
+            <!--                    </c-col>-->
+            <!--                </c-row>-->
+            <!--            </form>-->
+
+            <table cTable small borderless striped>
+                <thead>
+                <tr class="py-1">
+                    <th colspan="8">
+                        <span class="me-3 m">№</span>  {{ 'social-risks.category' | translate }}
+                    </th>
+                    <th colspan="2" class="text-end pe-4">{{ 'social-risks.person' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of countStatList; let idx = index">
+                    <tr class="table-link py-1"
+                        [ngClass]="{ 'border-top': idx > 0,
+                                'bg-info': params.beneficiaryStat && params.beneficiaryStat.code === item.code,
+                                'text-white': params.beneficiaryStat && params.beneficiaryStat.code == item.code}"
+                        (click)="selectCountItem(item)">
+                        <td colspan="8">
+                            <span class="me-2">{{ (idx + 1) + '.' }}</span>
+                            {{ item.name }}
+                        </td>
+                        <td colspan="2" class="table-link text-end pe-4">{{ utilService.numberFormat(item.count) }}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+        </c-card-body>
+    </c-card>
+</c-container>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.beneficiaryStat">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
+        <strong>{{ 'lists' | translate }}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <button cButton color="success" variant="ghost" size="sm" (click)="downloadReport()">
+                <i class="fa fa-file-excel-o"></i></button>
+        </span>
+    </c-card-header>
+    <c-card-body>
+
+        <c-callout color="info">
+            {{ params.beneficiaryStat.name }}
+        </c-callout>
+
+        <!-- FILTER -->
+        <!--        <form cForm novalidate (submit)="search()">-->
+        <!--            <c-row class="mb-3">-->
+        <!--                <c-col [md]="10">-->
+        <!--                    <c-row>-->
+        <!--                        <label cLabel="col" cCol [md]="3" for="iin">{{ 'iin' | translate }}</label>-->
+        <!--                        <c-col [md]="9">-->
+        <!--                            <textarea cFormControl id="iin" name="iin" rows="1"-->
+        <!--                                      placeholder="{{ 'enter-multiple-iin' | translate }}"-->
+        <!--                                      [(ngModel)]="params.filterIinValues"></textarea>-->
+        <!--                        </c-col>-->
+        <!--                    </c-row>-->
+        <!--                </c-col>-->
+        <!--                <c-col [md]="2">-->
+        <!--                    <div class="d-flex flex-column">-->
+        <!--                        <button cButton color="info" type="submit" class="text-white">-->
+        <!--                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>-->
+        <!--                            {{ 'search' | translate }}-->
+        <!--                        </button>-->
+        <!--                        <button cButton color="light" type="reset" class="mt-2">-->
+        <!--                            <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>-->
+        <!--                            {{ 'clear' | translate }}-->
+        <!--                        </button>-->
+        <!--                    </div>-->
+        <!--                </c-col>-->
+        <!--            </c-row>-->
+        <!--        </form>-->
+
+        <hr>
+
+        <!-- LIST -->
+        <div class="table-responsive">
+            <table cTable striped hover *ngIf="params.list.length > 0">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.full-name' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.birth_date' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.phone' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.doc_number' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.doc_serial' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.doc_date' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.place_of_issue' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.benefit_period_start' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.benefit_period_end' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.benefit_change_date' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.permanent_residence_reg' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.edu_institution_name' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.edu_institution_address' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.edu_institution_bin' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.school_class' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.school_certificate_digital' | translate }}</th>
+                    <th class="value-column"
+                        scope="col">{{ 'beneficiary.student_certificate_digital' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.student_degree' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.student_study_form' | translate }}</th>
+                    <!--                    <th class="value-column" scope="col">{{ 'beneficiary.citizenship_status' | translate }}</th>-->
+                    <th class="value-column" scope="col">{{ 'beneficiary.ticket_valid_from' | translate }}</th>
+                    <th class="value-column" scope="col">{{ 'beneficiary.ticket_valid_to' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of params.list; let idx = index">
+                    <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
+                    <td>
+                        {{ utilService.concat(' / ', item.iin, item.fullName) }}
+                    </td>
+                    <td>{{ item.birthDate }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>{{ item.docNumber }}</td>
+                    <td>{{ item.docSerial }}</td>
+                    <td>{{ item.docDate }}</td>
+                    <td>{{ item.placeOfIssue }}</td>
+                    <td>{{ item.benefitPeriodStart }}</td>
+                    <td>{{ item.benefitPeriodEnd }}</td>
+                    <td>{{ item.benefitChangeDate }}</td>
+                    <td>{{ item.permanentResidenceReg }}</td>
+                    <td>{{ item.eduInstitutionName }}</td>
+                    <td>{{ item.eduInstitutionAddress }}</td>
+                    <td>{{ item.eduInstitutionBin }}</td>
+                    <td>{{ item.schoolClass }}</td>
+                    <td>{{ item.schoolCertificateDigital }}</td>
+                    <td>{{ item.studentCertificateDigital }}</td>
+                    <td>{{ item.studentCegree }}</td>
+                    <td>{{ item.studentStudyForm }}</td>
+                    <!--                    <td>{{ item.citizenshipStatus }}</td>-->
+                    <td>{{ item.ticketValidFrom }}</td>
+                    <td>{{ item.ticketValidTo }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <c-alert color="warning" *ngIf="params.list.length == 0">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-card-body>
+    <c-card-footer>
+        <c-row>
+            <c-col [md]="10">
+
+                <pagination class="pagination-sm mb-0"
+                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
+                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+            </c-col>
+            <c-col [md]="2">
+                <div class="text-lowercase float-end">
+                    <small>{{ 'item-count' | translate }}:
+                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                </div>
+            </c-col>
+        </c-row>
+    </c-card-footer>
+</c-card>

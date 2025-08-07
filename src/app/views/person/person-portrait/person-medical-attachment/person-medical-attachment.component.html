@@ -1,0 +1,17 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && medicalAttachmentList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.medical-attachment' | translate }}</strong>
+    </div>
+    <c-row class="fw-medium mb-1">
+        <c-col [md]="5">{{ 'person-portrait.med-org-name' | translate }}</c-col>
+        <c-col [md]="2" class="text-center">{{ 'person-portrait.sector' | translate }}</c-col>
+        <c-col [md]="3">{{ 'person-portrait.sector-profile' | translate }}</c-col>
+        <c-col [md]="2">{{ 'person-portrait.begin-date' | translate }}</c-col>
+    </c-row>
+    <c-row class="border-top mb-1" *ngFor="let ps of medicalAttachmentList; let idx = index">
+        <c-col [md]="5"><span class="me-2">{{ (idx + 1) + '.' }}</span>{{ ps.medOrgName }}</c-col>
+        <c-col [md]="2" class="text-center">{{ ps.sector }}</c-col>
+        <c-col [md]="3">{{ ps.sectorProfile }}</c-col>
+        <c-col [md]="2">{{ ps.beginDate }}</c-col>
+    </c-row>
+</div>

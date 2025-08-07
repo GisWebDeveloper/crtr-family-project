@@ -1,0 +1,40 @@
+<c-modal id="categoryHistoryModal" size="xl" alignment="center"
+         [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>{{ 'family-portrait.headers.tzhs-criterias' | translate }}</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <table cTable striped small hover *ngIf="score">
+            <thead>
+            <tr class="text-center align-middle">
+                <th scope="col">#</th>
+                <th scope="col">Критерии</th>
+                <th scope="col">Показатель</th>
+                <th scope="col" *ngIf="newScore">Новый показатель</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of params; let idx = index">
+                <td scope="row">{{ idx + 1 }}</td>
+                <td class="text-nowrap">{{ score[item]}}</td>
+                <td class="text-center align-middle">{{ score[item + '_b']}}</td>
+                <td class="text-center align-middle" *ngIf="newScore">{{ newScore[item + '_b']}}</td>
+            </tr>
+            <tr>
+                <td scope="row"></td>
+                <td class="text-nowrap">Категория</td>
+                <td class="text-center align-middle">{{ sduTzhs}}</td>
+                <td class="text-center align-middle" *ngIf="newScore">{{ newScore.famTzhs}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <c-alert color="warning" *ngIf="!score">
+            {{ 'warnings.no-data-found' | translate }}
+        </c-alert>
+    </c-modal-body>
+    <c-modal-footer>
+        <button color="secondary" (click)="toggleModal()" cButton>{{ 'close' | translate }}</button>
+    </c-modal-footer>
+</c-modal>

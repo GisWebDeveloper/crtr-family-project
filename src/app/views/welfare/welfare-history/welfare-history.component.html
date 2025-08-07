@@ -1,0 +1,114 @@
+<!-- FILTER -->
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <form cForm novalidate (submit)="search()">
+            <c-row class="mb-2">
+                <c-col [md]="3">
+                    <ng-select id="familyType" name="familyType"
+                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                               [items]="familyTypeDictionary" [(ngModel)]="filter.familyType" [clearable]="true">
+                    </ng-select>
+                </c-col>
+                <!--
+                <c-col [md]="2">
+                    <ng-select id="year" name="year" [items]="yearList" [(ngModel)]="filter.year" [clearable]="false">
+                    </ng-select>
+                </c-col>
+                <c-col [md]="2">
+                    <ng-select id="month" name="month"
+                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                               [items]="monthDictionary" [(ngModel)]="filter.month" [clearable]="true">
+                    </ng-select>
+                </c-col>-->
+                <c-col [md]="3">
+                    <ng-select id="month" name="month"
+                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                               [items]="monthYearDictionary" [(ngModel)]="filter.monthYear" [clearable]="false"
+                               [searchable]="true">
+                    </ng-select>
+                </c-col>
+                <c-col [md]="2">
+                    <div class="d-flex flex-column">
+                        <button type="submit" class="text-white" color="info" cButton [disabled]="!filter.monthYear">
+                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                            {{ 'search' | translate }}
+                        </button>
+                    </div>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="statList.length > 0">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'welfare-page.label-family-type' | translate }}</strong>
+        <!--
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2"
+               (click)="statList.exportTableToExcel('table-consolidated-category')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>-->
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="table-consolidated-category">
+                <thead class="text-center align-middle table-header">
+                <tr>
+                    <th scope="col" rowspan="2">#</th>
+                    <th scope="col" rowspan="2" class="region-column">{{ 'region' | translate }}</th>
+                    <th scope="col" colspan="6" class="value-column">
+                        <span *ngIf="filter.familyType">
+                            {{ utilService.getLocalization(filter.familyType.nameKz, filter.familyType.nameRu) }}</span>
+                        <span *ngIf="!filter.familyType">{{ 'welfare-page.all-family-types' | translate }}</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="value-column table-secondary">{{ 'total' | translate }}</th>
+                    <ng-container *ngFor="let cat of categoryList">
+                        <th scope="col" class="value-column">{{ cat }}</th>
+                    </ng-container>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of statList; let idx = index">
+                    <tr class="text-center">
+                        <td class="px-2">{{ idx + 1 }}</td>
+                        <td class="text-start">{{ utilService.getLocalization(item.region.nameKz, item.region.nameRu) }}</td>
+                        <td class="table-secondary">{{ utilService.numberFormat(item.total) }}</td>
+                        <td>{{ utilService.numberFormat(item.cntA) }}</td>
+                        <td>{{ utilService.numberFormat(item.cntB) }}</td>
+                        <td>{{ utilService.numberFormat(item.cntC) }}</td>
+                        <td>{{ utilService.numberFormat(item.cntD) }}</td>
+                        <td>{{ utilService.numberFormat(item.cntE) }}</td>
+                    </tr>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="secondary">
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ 'total' | translate }}</td>
+                    <td>{{ utilService.numberFormat(statTotal.total) }}</td>
+                    <td>{{ utilService.numberFormat(statTotal.cntA) }}</td>
+                    <td>{{ utilService.numberFormat(statTotal.cntB) }}</td>
+                    <td>{{ utilService.numberFormat(statTotal.cntC) }}</td>
+                    <td>{{ utilService.numberFormat(statTotal.cntD) }}</td>
+                    <td>{{ utilService.numberFormat(statTotal.cntE) }}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+

@@ -1,0 +1,370 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="utilService.toggleCollapse(visible, 0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+
+        <form cForm (submit)="search()">
+
+            <!-- MAIN FILTER -->
+            <c-row>
+
+                <!-- COL 1 -->
+                <c-col [md]="4">
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.large-family' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="large-fam" id="large-fam-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.largeFamily"/>
+                                <label cFormCheckLabel for="large-fam-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-disabled' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-disabled"
+                                       id="has-disabled-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.hasDisabled"/>
+                                <label cFormCheckLabel for="has-disabled-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.attached-to-school' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="attached-school"
+                                       id="attached-school-{{ dItem.value }}" value="{{dItem.value}}"
+                                       [(ngModel)]="filter.attachedToSchool"/>
+                                <label cFormCheckLabel for="attached-school-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-credits' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-credits"
+                                       id="has-credits-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.credits"/>
+                                <label cFormCheckLabel for="has-credits-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <!-- COL 2 -->
+                <c-col [md]="4">
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-income' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-income" id="has-income-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.hasIncome"/>
+                                <label cFormCheckLabel for="has-income-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-real-estate' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-real-estate"
+                                       id="has-real-estate-{{ dItem.value }}" value="{{dItem.value}}"
+                                       [(ngModel)]="filter.hasRealEstate"/>
+                                <label cFormCheckLabel for="has-real-estate-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-transport' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-transport"
+                                       id="has-transport-{{ dItem.value }}" value="{{dItem.value}}"
+                                       [(ngModel)]="filter.hasTransport"/>
+                                <label cFormCheckLabel for="has-transport-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-lph' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-lph" id="has-lph-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.hasLph"/>
+                                <label cFormCheckLabel for="has-lph-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <!-- COL 3 -->
+                <c-col [md]="4">
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.asp-recipient' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <c-form-check *ngFor="let dItem of dictionaryAspOptions">
+                                <input cFormCheckInput type="radio" name="asp-recipient"
+                                       id="asp-recipient-{{ dItem.value }}" value="{{dItem.value}}"
+                                       [(ngModel)]="filter.asp"/>
+                                <label cFormCheckLabel for="asp-recipient-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                </c-col>
+            </c-row>
+
+            <!-- FILTER BUTTONS -->
+            <div class="d-flex justify-content-end mb-3">
+                <button cButton color="secondary" class="text-white me-3"
+                        (click)="utilService.toggleCollapse(visible, 1)">
+                    <span class="pe-1">
+                        <i class="fa font-20" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i></span>
+                    {{ 'filter-extended' | translate }}
+                </button>
+
+                <button cButton color="light" type="reset" class="me-3">
+                    <span class="pe-1"><svg cIcon name="cilTrash"></svg></span>
+                    {{ 'clear' | translate }}
+                </button>
+
+                <button cButton color="info" type="submit" class="text-white">
+                    <span class="pe-1"><svg cIcon name="cilSearch"></svg></span>
+                    {{ 'search' | translate }}
+                </button>
+            </div>
+
+            <!-- EXTENDED FILTER -->
+            <c-row *ngIf="visible[1]">
+
+                <!-- COL 1 -->
+                <c-col [md]="4">
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.osms-participant' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="osms-participant"
+                                       id="osms-participant-{{ dItem.value }}" value="{{dItem.value}}"
+                                       [(ngModel)]="filter.osms"/>
+                                <label cFormCheckLabel
+                                       for="osms-participant-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-commercial-re' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="has-comm-re"
+                                       id="has-comm-re-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.commercialRealEstate"/>
+                                <label cFormCheckLabel for="has-comm-re-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.attached-to-clinic' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check inline *ngFor="let dItem of dictionaryYesNo">
+                                <input cFormCheckInput type="radio" name="attached-clinic"
+                                       id="attached-clinic-{{ dItem.value }}" value="{{dItem.value}}"
+                                       [(ngModel)]="filter.attachedToClinic"/>
+                                <label cFormCheckLabel for="attached-clinic-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.is-ul' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check *ngFor="let dItem of dictionaryUlOptions">
+                                <input cFormCheckInput type="radio" name="is-ul" id="is-ul-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.ul"/>
+                                <label cFormCheckLabel for="is-ul-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-grst' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check *ngFor="let dItem of dictionaryGrstOptions">
+                                <input cFormCheckInput type="radio" name="has-grst" id="has-grst-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.grst"/>
+                                <label cFormCheckLabel for="has-grst-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="8"><label>{{ 'segmentation-page.has-land' | translate }}</label></c-col>
+                        <c-col [md]="4">
+                            <c-form-check *ngFor="let dItem of dictionaryLandOptions">
+                                <input cFormCheckInput type="radio" name="has-land" id="has-land-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.land"/>
+                                <label cFormCheckLabel for="has-land-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <!-- COL 2 -->
+                <c-col [md]="4">
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.has-disabled' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <c-form-check *ngFor="let dItem of dictionaryDisabledOptions">
+                                <input cFormCheckInput type="radio" name="has-disabled"
+                                       id="has-disabled-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.disabled"/>
+                                <label cFormCheckLabel for="has-disabled-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.has-employment' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <c-form-check *ngFor="let dItem of dictionaryEmploymentOptions">
+                                <input cFormCheckInput type="radio" name="has-emp" id="has-emp-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.employment"/>
+                                <label cFormCheckLabel for="has-emp-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.has-criminal-record' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <c-form-check *ngFor="let dItem of dictionaryCriminalRecordOptions">
+                                <input cFormCheckInput type="radio" name="has-cr" id="has-cr-{{ dItem.value }}"
+                                       value="{{dItem.value}}" [(ngModel)]="filter.criminalRecord"/>
+                                <label cFormCheckLabel for="has-cr-{{ dItem.value }}">{{ dItem.label }}</label>
+                            </c-form-check>
+                        </c-col>
+                    </c-row>
+                </c-col>
+
+                <!-- COL 3 -->
+                <c-col [md]="4">
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.income' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <ng-select id="income" name="income" bindValue="value" [items]="dictionaryIncomeOptions"
+                                       [(ngModel)]="filter.income" [clearable]="true" [searchable]="false"></ng-select>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.real-estate' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <ng-select id="re" name="re" bindValue="value" [items]="dictionaryRealEstateOptions"
+                                       [(ngModel)]="filter.realEstate" [clearable]="true"
+                                       [searchable]="false"></ng-select>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.transport' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <ng-select id="tr" name="tr" bindValue="value" [items]="dictionaryTransportOptions"
+                                       [(ngModel)]="filter.transport" [clearable]="true"
+                                       [searchable]="false"></ng-select>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.lph' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <ng-select id="lph" name="lph" bindValue="value" [items]="dictionaryLphOptions"
+                                       [(ngModel)]="filter.lph" [clearable]="true" [searchable]="false"></ng-select>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.has-diseases' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <ng-select id="has-diseases" name="has-diseases" bindValue="value"
+                                       [items]="dictionaryDiseaseOptions" [(ngModel)]="filter.disease"
+                                       [clearable]="true" [searchable]="false"></ng-select>
+                        </c-col>
+                    </c-row>
+
+                    <c-row class="mb-2">
+                        <c-col [md]="4"><label>{{ 'segmentation-page.has-education' | translate }}</label></c-col>
+                        <c-col [md]="8">
+                            <ng-select id="has-education" name="has-education" bindValue="value"
+                                       [items]="dictionaryEducationOptions" [(ngModel)]="filter.education"
+                                       [clearable]="true"></ng-select>
+                        </c-col>
+                    </c-row>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.stat.length > 0">
+    <c-card-body>
+        <c-row>
+            <c-col>
+                <table cTable bordered hover small class="segmentation-table">
+                    <thead>
+                    <tr class="text-center">
+                        <th scope="col">{{ 'need-actions-page.region' | translate }}</th>
+                        <th scope="col" width="11%" *ngFor="let label of chartParams.labels">{{ label }}</th>
+                        <th scope="col" width="11%" cTableColor="secondary">{{ 'total' | translate }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ng-container *ngFor="let stat of params.stat; let idx = index">
+                        <tr [ngClass]="{'table-info': stat.id === params.regionId}">
+                            <td>{{ translateService.currentLang === 'kz' ? stat.nameKz : stat.nameRu }}</td>
+                            <td class="text-end" *ngFor="let dict of dictionaryFamilyTzhs">
+                                <a role="button" (click)="showListModal(stat, dict)">
+                                    {{ utilService.getObjectNumberValue(stat, 'cnt' + dict.id) }}
+                                </a>
+                            </td>
+                            <td class="text-end"
+                                [ngClass]="{'table-info': stat.id === params.regionId, 'table-secondary': stat.id != params.regionId}">
+                                {{ utilService.numberFormat(stat.total) }}</td>
+                        </tr>
+                    </ng-container>
+                    </tbody>
+                    <tfoot cTableColor="secondary">
+                    <tr>
+                        <td>{{ 'total' | translate }}</td>
+                        <td class="text-end" *ngFor="let dict of dictionaryFamilyTzhs">
+                            {{ utilService.getObjectNumberValue(params.statTotal, 'cnt' + dict.id) }}
+                        </td>
+                        <td class="text-end">{{ utilService.numberFormat(params.statTotal.total) }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </c-col>
+            <c-col></c-col>
+        </c-row>
+    </c-card-body>
+</c-card>
+
+<app-segmentation-list-modal [eventShowListModal]="eventShowListModal"></app-segmentation-list-modal>

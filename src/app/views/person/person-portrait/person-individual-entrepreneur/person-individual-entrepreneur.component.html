@@ -1,0 +1,69 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && individualEntrepreneurList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.individual-entrepreneur' | translate }}</strong>
+    </div>
+
+    <c-row *ngFor="let ps of individualEntrepreneurList; let idx = index" [ngClass]="{'border-top': idx > 0}">
+        <c-col>
+            <c-row>
+                <c-col [md]="8">
+                    <c-row>
+                        <c-col [md]="4" class="fw-medium">{{ 'nomination' | translate }}</c-col>
+                        <c-col [md]="8">{{ ps.name }}</c-col>
+                    </c-row>
+                </c-col>
+                <c-col [md]="4">
+                    <c-row>
+                        <c-col [md]="6" class="fw-medium">
+                            {{ 'person-portrait.individual-entrepreneur.reg-date' | translate }}</c-col>
+                        <c-col [md]="6">{{ ps.begRegDate }}</c-col>
+                    </c-row>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="8">
+                    <c-row>
+                        <c-col [md]="4" class="fw-medium">
+                            {{ 'person-portrait.individual-entrepreneur.suspension-reason' | translate }}</c-col>
+                        <c-col [md]="8">{{ ps.suspendedState }}</c-col>
+                    </c-row>
+                </c-col>
+                <c-col [md]="4">
+                    <c-row>
+                        <c-col [md]="6" class="fw-medium">
+                            {{ 'person-portrait.individual-entrepreneur.suspension-period' | translate }}</c-col>
+                        <c-col [md]="6">
+                            {{ utilService.getPeriodOfDates(ps.dateFromSuspended, ps.dateToSuspended) }}</c-col>
+                    </c-row>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="8">
+                    <c-row>
+                        <c-col [md]="4" class="fw-medium">
+                            {{ 'person-portrait.individual-entrepreneur.inactive-state' | translate }}</c-col>
+                        <c-col [md]="8">{{ ps.inactiveState }}</c-col>
+                    </c-row>
+                </c-col>
+                <c-col [md]="4">
+                    <c-row>
+                        <c-col [md]="6" class="fw-medium">
+                            {{ 'person-portrait.individual-entrepreneur.inactive-period' | translate }}</c-col>
+                        <c-col [md]="6">
+                            {{ utilService.getPeriodOfDates(ps.dateFromInactive, ps.dateToInactive) }}</c-col>
+                    </c-row>
+                </c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="8">
+                    <c-row>
+                        <c-col [md]="4" class="fw-medium">
+                            {{ 'person-portrait.individual-entrepreneur.dereg-reason' | translate }}</c-col>
+                        <c-col [md]="8">{{ ps.unregReasonName }}</c-col>
+                    </c-row>
+                </c-col>
+            </c-row>
+        </c-col>
+    </c-row>
+
+</div>

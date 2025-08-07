@@ -1,0 +1,19 @@
+<c-modal id="categoryHistoryModal" size="xl" alignment="center"
+         [visible]="visible" (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Динамика благосостояния семьи {{ familyMember?.fullName }}</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <canvas baseChart
+                [type]="'line'"
+                [datasets]="datasets"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+    </c-modal-body>
+    <c-modal-footer>
+        <button color="secondary" (click)="toggleModal()" cButton>{{ 'close' | translate }}</button>
+    </c-modal-footer>
+</c-modal>

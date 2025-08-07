@@ -1,0 +1,145 @@
+<div class="mb-2" *ngIf="kandasPersonForm">
+    <div class="mb-4">
+        <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+            <c-row>
+                <strong>Состав семьи</strong>
+            </c-row>
+        </div>
+        <c-row class="ms-auto">
+            <table cTable striped>
+                <thead>
+                <tr class="py-1">
+                    <th>№</th>
+                    <th class="text-center">ИИН</th>
+                    <th class="text-center">Фамилия</th>
+                    <th class="text-center">Имя</th>
+                    <th class="text-center">Отчество</th>
+                    <th class="text-center">Дата рождения</th>
+                    <th class="text-center">Степень родства</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="py-1" *ngFor="let item of kandasPersonForm.familyMemberList; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td class="text-center">{{item.iin}}</td>
+                    <td class="text-center">{{utilService.getCapitalized(item.surName)}}</td>
+                    <td class="text-center">{{utilService.getCapitalized(item.firstName)}}</td>
+                    <td class="text-center">{{utilService.getCapitalized(item.secondName)}}</td>
+                    <td class="text-center">{{item.birthDate}}</td>
+                    <td class="text-center"></td>
+                </tr>
+                </tbody>
+            </table>
+        </c-row>
+    </div>
+
+
+    <div class="mb-4" *ngIf="countId === 1058 && kandasPersonForm.kandasCksList">
+        <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+            <c-row>
+                <!--                <strong>{{ 'person-portrait.header.general-info' | translate }}Индивидуальный план помощи семьи </strong>-->
+                <strong>Информация по приобретению статуса кандас</strong>
+            </c-row>
+        </div>
+        <c-row class="ms-auto table-responsive">
+            <table cTable striped>
+                <thead>
+                <tr class="py-1">
+                    <th>№</th>
+                    <th class="text-center value-column">ИИН</th>
+                    <th class="text-center value-column">Фамилия</th>
+                    <th class="text-center value-column">Имя</th>
+                    <th class="text-center value-column">Отчество</th>
+                    <th class="text-center value-column">Статус кандас</th>
+                    <th class="text-center value-column">Регион статуса</th>
+                    <th class="text-center value-column">Район получения статуса</th>
+                    <th class="text-center value-column">Текстовый адрес</th>
+                    <th class="text-center value-column">Дата начало статуса кандас</th>
+                    <th class="text-center value-column">Дата окончания статуса кандас</th>
+                    <th class="text-center value-column">Квота</th>
+                    <th class="text-center value-column">Регион квоты</th>
+                    <th class="text-center value-column">Район квоты</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="py-1" *ngFor="let item of kandasPersonForm.kandasCksList; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td class="text-center"><a role="button" (click)="getPersonForm(item.iin)">{{item.iin}}</a></td>
+                    <td class="text-center">{{utilService.getCapitalized(item.surname)}}</td>
+                    <td class="text-center">{{utilService.getCapitalized(item.name)}}</td>
+                    <td class="text-center">{{utilService.getCapitalized(item.patronymic)}}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center">{{item.regionName}}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center">{{item.address}}</td>
+                    <td class="text-center">{{item.bDate}}</td>
+                    <td class="text-center">{{item.eDate}}</td>
+                    <td class="text-center">{{item.quotaFl === '1' ? 'Да' : 'Нет'}}</td>
+                    <td class="text-center">{{item.qregionName}}</td>
+                    <td class="text-center">{{item.qdistrictName}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </c-row>
+    </div>
+
+
+    <div class="mb-4">
+        <c-row>
+            <c-col [md]="7">
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Организация-исполнитель</c-col>
+                    <c-col [md]="8">{{kandasPersonForm.organization}}</c-col>
+                </c-row>
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Исполнитель</c-col>
+                    <c-col [md]="8">{{kandasPersonForm.executor}}</c-col>
+                </c-row>
+                <c-row>
+                    <c-col [md]="4" class="fw-medium">Дата создания задания</c-col>
+                    <c-col [md]="8">{{kandasPersonForm.taskCreateDate}}</c-col>
+                </c-row>
+            </c-col>
+        </c-row>
+    </div>
+
+
+    <div class="mb-4" *ngIf="countId === 1058 && kandasMonitorActions.length > 0">
+        <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+            <c-row>
+                <!--                <strong>{{ 'person-portrait.header.general-info' | translate }}Индивидуальный план помощи семьи </strong>-->
+                <strong>План адаптации и интеграции с информацией о ходе его реализации</strong>
+            </c-row>
+        </div>
+        <c-row class="ms-auto">
+<!--            <table cTable striped>-->
+            <table cTable small bordered hover>
+                <thead>
+                <tr class="py-1">
+                    <th>№</th>
+                    <th class="text-center">Мероприятие</th>
+                    <th class="text-center">Получатель услуги (ФИО члена семьи, степень родства)</th>
+                    <th class="text-center">Срок исполнения</th>
+                    <th class="text-center">Статус</th>
+                    <th class="text-center">Дата изменения</th>
+                    <th class="text-center">Статус исполнения</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="py-1" *ngFor="let item of kandasMonitorActions; let ids = index">
+                    <td>{{ids + 1}}</td>
+                    <td>{{item.nameRu}}</td>
+                    <td class="text-center">{{currentPersonFullName}}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center">{{getKandasMonitorStatusName(item.answerId)}}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                </tbody>
+            </table>
+        </c-row>
+    </div>
+
+</div>
+
+

@@ -1,0 +1,335 @@
+<!-- FILTER -->
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0] && dictionaryCount && dates">
+        <form cForm novalidate (submit)="search()">
+            <c-row class="mb-2">
+                <c-col [md]="10">
+                    <ng-select id="count" name="count" [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                               [items]="dictionaryCount" [(ngModel)]="filter.countDictionary" [clearable]="true"
+                               (clear)="initReportBenefit()">
+                    </ng-select>
+                </c-col>
+                <!--                <c-col [md]="2">-->
+                <!--                    <ng-select id="year" name="year" [items]="dates" [(ngModel)]="filter.date"-->
+                <!--                               [clearable]="false">-->
+                <!--                    </ng-select>-->
+                <!--                </c-col>-->
+                <c-col [md]="2">
+                    <div class="d-flex flex-column">
+                        <button type="submit" class="text-white" color="info" cButton
+                                [disabled]="!filter.countDictionary">
+                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
+                            {{ 'search' | translate }}
+                        </button>
+                    </div>
+                </c-col>
+            </c-row>
+        </form>
+    </c-card-body>
+</c-card>
+
+<!-- REPORT -->
+<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="dates && statItemList">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong *ngIf="displayCountDictionary">
+            {{ utilService.getLocalization(displayCountDictionary.nameKz, displayCountDictionary.nameRu) }}
+        </strong>
+        <strong *ngIf="!filter.countDictionary">
+            {{ 'report-page.proactive-sms.label-by-region' | translate }}
+        </strong>
+        <span class="float-end" *ngIf="dates && statItemList">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('report-table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <div class="table-responsive">
+            <table cTable bordered hover small id="report-table">
+                <thead class="text-center align-middle table-header">
+                <tr>
+                    <!--                    <th scope="col" rowspan="3">#</th>-->
+                    <th scope="col" rowspan="3" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
+                    <th scope="col" colspan="6" class="value-column">{{ columnDates[0]}}</th>
+                    <!--                    <th scope="col" colspan="4" class="value-column">на {{ columnDates[1]}} года</th>-->
+                    <th scope="col" colspan="6" class="value-column">
+                        <c-container class="input-group">
+                            <ng-select id="year" name="year" [items]="dates" [(ngModel)]="filter.date" [clearable]="false"
+                                       (change)="search()">
+                            </ng-select>
+                        </c-container>
+                    </th>
+                    <th scope="col" colspan="9" class="value-column">Разница</th>
+                </tr>
+                <tr>
+                    <th scope="col" colspan="2" class="value-column">D</th>
+                    <th scope="col" colspan="2" class="value-column">E</th>
+                    <th scope="col" colspan="2" class="value-column">D, E</th>
+
+                    <th scope="col" colspan="2" class="value-column">D</th>
+                    <th scope="col" colspan="2" class="value-column">E</th>
+                    <th scope="col" colspan="2" class="value-column">D, E</th>
+
+                    <th scope="col" colspan="2" class="value-column">D</th>
+                    <th scope="col" rowspan="2" class="value-column">%</th>
+
+                    <th scope="col" colspan="2" class="value-column">E</th>
+                    <th scope="col" rowspan="2" class="value-column">%</th>
+
+                    <th scope="col" colspan="2" class="value-column">D, E</th>
+                    <th scope="col" rowspan="2" class="value-column">%</th>
+                </tr>
+                <tr>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'family' | translate }}</th>
+                    <th scope="col" class="value-column">{{ 'member' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let stat of regionStatItemList | statTotalFilter: false">
+                    <tr class="text-center"
+                        [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                        <td class="text-start" role="button" (click)="selectStatRegion(stat)">
+                          <span [ngClass]="{'ps-5': stat.level > 1}">
+                              {{ utilService.getLocalization(stat.region.nameKz, stat.region.nameRu) }}</span>
+                        </td>
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dfamFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dmemFirst) }}
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.efamFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.ememFirst) }}
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dfamFirst + stat.efamFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dmemFirst + stat.ememFirst) }}
+
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dfamSecond) }}</td>
+                        <td class="fw-medium"
+                            (click)="filter.date === dates[dates.length - 1] ? showListModal(7, stat.region) : null"
+                            [attr.role]="filter.date === dates[dates.length - 1] ? 'button' : null"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dmemSecond) }}
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.efamSecond) }}</td>
+                        <td class="fw-medium"
+                            (click)="filter.date === dates[dates.length - 1] ? showListModal(9, stat.region) : null"
+                            [attr.role]="filter.date === dates[dates.length - 1] ? 'button' : null"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.ememSecond) }}
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dfamSecond + stat.efamSecond) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dmemSecond + stat.ememSecond) }}
+
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dfamSecond - stat.dfamFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dmemSecond - stat.dmemFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat((stat.dmemSecond - stat.dmemFirst) / stat.dmemFirst * 100) }}</td>
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.efamSecond - stat.efamFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.ememSecond - stat.ememFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat((stat.ememSecond - stat.ememFirst) / stat.ememFirst * 100) }}</td>
+
+                        <td cTableColor="secondary" class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dfamSecond - stat.dfamFirst + stat.efamSecond - stat.efamFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat(stat.dmemSecond - stat.dmemFirst + stat.ememSecond - stat.ememFirst) }}</td>
+                        <td class="fw-medium"
+                            [ngClass]="{'table-info': statItem && stat.region.id == statItem.region.id}">
+                            {{ utilService.numberFormat((stat.dmemSecond - stat.dmemFirst + stat.ememSecond - stat.ememFirst) / (stat.dmemFirst + stat.ememFirst) * 100) }}</td>
+                    </tr>
+                    <ng-container *ngIf="isSelectedRegion(stat)">
+                        <tr class="text-center" *ngFor="let statChild of regionChildStatItemList"
+                            [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                            <td class="text-start ps-5" role="button" (click)="selectStatRegion(statChild)">
+                                {{ utilService.getLocalization(statChild.region.nameKz, statChild.region.nameRu) }}</td>
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dfamFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dmemFirst) }}</td>
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.efamFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.ememFirst) }}
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dfamFirst + statChild.efamFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dmemFirst + statChild.ememFirst) }}</td>
+
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dfamSecond) }}</td>
+                            <td class="fw-medium"
+                                (click)="filter.date === dates[dates.length - 1] ? showListModal(7, statChild.region) : null"
+                                [attr.role]="filter.date === dates[dates.length - 1] ? 'button' : null"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dmemSecond) }}
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.efamSecond) }}</td>
+                            <td class="fw-medium"
+                                (click)="filter.date === dates[dates.length - 1] ? showListModal(9, statChild.region) : null"
+                                [attr.role]="filter.date === dates[dates.length - 1] ? 'button' : null"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.ememSecond) }}
+                            </td>
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dfamSecond + statChild.efamSecond) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dmemSecond + statChild.ememSecond) }}
+
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dfamSecond - statChild.dfamFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dmemSecond - statChild.dmemFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat((statChild.dmemSecond - statChild.dmemFirst) / statChild.dmemFirst * 100) }}</td>
+
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.efamSecond - statChild.efamFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.ememSecond - statChild.ememFirst) }}
+                            </td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat((statChild.ememSecond - statChild.ememFirst) / statChild.ememFirst * 100) }}
+                            </td>
+
+                            <td cTableColor="secondary" class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dfamSecond - statChild.dfamFirst + statChild.efamSecond - statChild.efamFirst) }}</td>
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat(statChild.dmemSecond - statChild.dmemFirst + statChild.ememSecond - statChild.ememFirst) }}
+                            <td class="fw-medium"
+                                [ngClass]="{'table-info': statItem && statChild.region.id == statItem.region.id}">
+                                {{ utilService.numberFormat((statChild.dmemSecond - statChild.dmemFirst + statChild.ememSecond - statChild.ememFirst) / (statChild.dmemFirst + statChild.ememFirst) * 100) }}</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+                </tbody>
+                <tfoot cTableColor="dark">
+                <ng-container *ngFor="let statTotal of regionStatItemList | statTotalFilter: true">
+                    <tr class="text-center fw-medium">
+                        <td class="text-start">{{ 'total' | translate }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.dfamFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.dmemFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.efamFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.ememFirst) }}</td>
+
+                        <td>{{ utilService.numberFormat(statTotal.dfamFirst + statTotal.efamFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.dmemFirst + statTotal.ememFirst) }}</td>
+
+
+                        <td>{{ utilService.numberFormat(statTotal.dfamSecond) }}</td>
+                        <td (click)="filter.date === dates[dates.length - 1] ? showListModal(7) : null"
+                            [attr.role]="filter.date === dates[dates.length - 1] ? 'button' : null">{{ utilService.numberFormat(statTotal.dmemSecond) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.efamSecond) }}</td>
+                        <td (click)="filter.date === dates[dates.length - 1] ? showListModal(9) : null"
+                            [attr.role]="filter.date === dates[dates.length - 1] ? 'button' : null">{{ utilService.numberFormat(statTotal.ememSecond) }}</td>
+
+                        <td>{{ utilService.numberFormat(statTotal.dfamSecond + statTotal.efamSecond) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.dmemSecond + statTotal.ememSecond) }}</td>
+
+
+                        <td>{{ utilService.numberFormat(statTotal.dfamSecond - statTotal.dfamFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.dmemSecond - statTotal.dmemFirst) }}</td>
+                        <td>{{ utilService.numberFormat((statTotal.dmemSecond - statTotal.dmemFirst) / statTotal.dmemFirst * 100) }}</td>
+
+                        <td>{{ utilService.numberFormat(statTotal.efamSecond - statTotal.efamFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.ememSecond - statTotal.ememFirst) }}</td>
+                        <td>{{ utilService.numberFormat((statTotal.ememSecond - statTotal.ememFirst) / statTotal.ememFirst * 100) }}</td>
+
+                        <td>{{ utilService.numberFormat(statTotal.dfamSecond - statTotal.dfamFirst + statTotal.efamSecond - statTotal.efamFirst) }}</td>
+                        <td>{{ utilService.numberFormat(statTotal.dmemSecond - statTotal.dmemFirst + statTotal.ememSecond - statTotal.ememFirst) }}</td>
+                        <td>{{ utilService.numberFormat((statTotal.dmemSecond - statTotal.dmemFirst + statTotal.ememSecond - statTotal.ememFirst) / (statTotal.dmemFirst + statTotal.ememFirst) * 100) }}</td>
+                    </tr>
+                </ng-container>
+                </tfoot>
+            </table>
+        </div>
+    </c-card-body>
+</c-card>
+
+
+<app-gov-rep-de-list-modal [eventShowListModal]="eventShowListModal"></app-gov-rep-de-list-modal>
+

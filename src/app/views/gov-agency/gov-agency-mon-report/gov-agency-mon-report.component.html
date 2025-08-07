@@ -1,0 +1,11 @@
+<!-- FILTER -->
+<app-gov-agency-mon-report-search [dictionaryReport]="dictionaryReport" (selectedReportCategory)="setReportCategory($event)"></app-gov-agency-mon-report-search>
+
+<!-- REPORT -->
+<app-gov-agency-mon-report-garden
+    *ngIf="reportCategory && reportCategory.code == govAgencyService.getMONListGardenCode()"
+    [reportCategory]="reportCategory"></app-gov-agency-mon-report-garden>
+
+<app-gov-agency-mon-report-school
+    *ngIf="reportCategory && reportCategory.code == govAgencyService.getMONListSchoolCode()"
+    [reportCategory]="reportCategory"></app-gov-agency-mon-report-school>

@@ -1,0 +1,100 @@
+<c-modal id="regAddressРшыещкнModal" size="lg" alignment="center" scrollable [visible]="visible"
+         (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>Расчет БиР</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+
+        <c-row >
+            <c-col [md]="6">Дата Риска</c-col>
+            <c-col [md]="6"><input cFormControl type="date" [(ngModel)]="date"></c-col>
+
+        </c-row>
+
+        <c-row>
+                <c-col [md]="6"><label cFormCheckLabel>Сиап</label></c-col>
+                <c-col [md]="6"><input cFormCheckInput type="checkbox" [(ngModel)]="siap"/></c-col>
+        </c-row>
+
+        <!-- FILTER BUTTONS -->
+        <div class="d-flex justify-content-end mb-3">
+            <button cButton color="info" (click)="search()" class="text-white">
+                <span class="pe-1"><svg cIcon name="cilSearch"></svg></span>
+                {{ 'search' | translate }}
+            </button>
+        </div>
+
+        <c-container *ngIf="cal1 && cal2">
+            <c-row>
+                    <table cTable small borderless striped>
+                        <thead>
+                        <tr>
+                            <th colspan="6"></th>
+                            <th class="text-center" colspan="6">Старый расчет</th>
+                            <th class="text-center" colspan="6">Новый расчет</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr [ngClass]="{ 'border-top': false}">
+                            <td colspan="6">МРЗП</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.mrzp}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.mrzp}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">Общее кол-во учтенных месяцев (КУМ)</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.countMonths}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.countMonths}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">КУМ учтенных в расчете за 12 месяца</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.countMonths}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.countMonths}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">Количество дней нетрудоспособности (КДН)</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.ksu}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.ksu}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">Коэффициент замещения дохода (КЗД)</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.kzd}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.kzd}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">Сумма дохода (СД) за 12 месяцев</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.sumAllAvg}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.sumAllAvg}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">Размер среднемесячного дохода (СМД - СД/12)</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.sumAvg}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.sumAvg}}</td>
+                        </tr>
+                        <tr [ngClass]="{ 'border-top': true}">
+                            <td colspan="6">Назначенная сумма (СМД * КЗД)</td>
+                            <td colspan="6" class="text-center pe-4">{{cal1.sumPay}}</td>
+                            <td colspan="6" class="text-center pe-4">{{cal2.sumPay}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </c-row>
+
+            <c-row *ngIf="cal1 && cal2">
+                <label>Список организации</label>
+                <table cTable small borderless striped>
+                    <thead></thead>
+                    <tbody>
+                    <tr *ngFor="let item of cal1.organizations; let idx = index" [ngClass]="{ 'border-top': false}">
+                        <td colspan="6" class="text-start pe-4"><span>{{(idx + 1) + '. ' }}</span>{{item.orgName}}</td>
+                        <td colspan="6" class="text-start pe-4">{{item.orgRnn}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </c-row>
+
+            <c-row class="mt-2"><label class="text-center" style="color: #cc2424">Данный расчет является предварительным</label></c-row>
+        </c-container>
+    </c-modal-body>
+
+</c-modal>

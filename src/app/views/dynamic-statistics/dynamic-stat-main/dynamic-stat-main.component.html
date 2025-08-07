@@ -1,0 +1,72 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
+        <strong>{{ 'filter' | translate }}</strong>
+        <span class="float-end">
+            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
+                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body *ngIf="visible[0]">
+        <div class="btn-group d-flex" role="group">
+            <input type="radio" class="btn-check" name="stat-type" value="POPULATION" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'POPULATION'}" (click)="search('POPULATION')">
+                {{ 'stat-page.labels.population' | translate }}
+            </label>
+
+            <input type="radio" class="btn-check" name="stat-type" value="FAMILY-TYPE" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'FAMILY-TYPE'}" (click)="search('FAMILY-TYPE')">
+                {{ 'stat-page.labels.family-type' | translate }}
+            </label>
+
+            <input type="radio" class="btn-check" name="stat-type" value="TZHS-STATUS" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'TZHS-STATUS'}" (click)="search('TZHS-STATUS')">
+                {{ 'stat-page.labels.welfare-level' | translate }}
+            </label>
+
+            <input type="radio" class="btn-check" name="stat-type" value="MEMBER-COUNT" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'MEMBER-COUNT'}" (click)="search('MEMBER-COUNT')">
+                {{ 'stat-page.labels.member-count' | translate }}
+            </label>
+
+            <input type="radio" class="btn-check" name="stat-type" value="CHILD-COUNT" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'CHILD-COUNT'}" (click)="search('CHILD-COUNT')">
+                {{ 'stat-page.labels.child-count' | translate }}
+            </label>
+
+            <input type="radio" class="btn-check" name="stat-type" value="INCOME-PM" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'INCOME-PM'}" (click)="search('INCOME-PM')">
+                {{ 'stat-page.labels.income-pm' | translate }}
+            </label>
+
+            <input type="radio" class="btn-check" name="stat-type" value="SUSN" [(ngModel)]="statType"/>
+            <label cButton cFormCheckLabel variant="outline" color="info" class="w-100"
+                   [ngClass]="{'text-white': statType == 'SUSN'}" (click)="search('SUSN')">
+                {{ 'stat-page.labels.susn' | translate }}
+            </label>
+        </div>
+    </c-card-body>
+</c-card>
+
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'stat-page.label' | translate }}</strong>
+        <span class="float-end">
+            <span>Скачать</span>
+            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('table')">
+                <i class="fa fa-file-excel-o fs-5"></i>
+            </a>
+        </span>
+    </c-card-header>
+    <c-card-body>
+        <app-table *ngIf="statToTable.has(statType)" [eventSearchStatusStat]="eventSearchStatusStat"></app-table>
+    </c-card-body>
+</c-card>

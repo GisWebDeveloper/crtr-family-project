@@ -1,0 +1,50 @@
+<table cTable small bordered hover id="table-main-statistics" *ngIf="regionStatItemList.length > 0">
+    <thead>
+    <tr class="text-center align-middle">
+        <th scope="col">{{ 'stat-page.region' | translate }}</th>
+        <th scope="col" *ngFor="let dict of statPopulationDictionary" width="18%">
+            {{ utilService.getLocalization(dict.nameKz, dict.nameRu) }}
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let stat of regionStatItemList | statTotalFilter: false">
+        <tr class="text-center" [ngClass]="{'table-info': statItem && stat.regionId == statItem.regionId}">
+            <td class="text-start" role="button" (click)="selectStatRegion(stat)">
+                <span [ngClass]="{'ps-5': stat.level > 1}">
+                    {{ utilService.getLocalization(stat.regionNameKz, stat.regionNameRu) }}</span>
+            </td>
+            <td *ngFor="let dict of statPopulationDictionary">
+                <a [attr.role]="hasPermission(permissions.MAIN_LIST) ? 'button' : null"
+                   (click)="hasPermission(permissions.MAIN_LIST) ? showListModal(stat, dict) : null">
+                    {{ statService.getStatValue(stat, 'cnt' + dict.id) }}
+                </a>
+            </td>
+        </tr>
+        <ng-container *ngIf="statService.isSelectedRegionStat(regionChildStatItemList, statItem, stat.regionId)">
+            <tr class="text-center" *ngFor="let statChild of regionChildStatItemList"
+                [ngClass]="{'table-info': statItem && statChild.regionId == statItem.regionId}">
+                <td class="text-start ps-5" role="button" (click)="selectStatRegion(statChild)">
+                    {{ utilService.getLocalization(statChild.regionNameKz, statChild.regionNameRu) }}</td>
+                <td *ngFor="let dict of statPopulationDictionary">
+                    <a [attr.role]="hasPermission(permissions.MAIN_LIST) ? 'button' : null"
+                       (click)="hasPermission(permissions.MAIN_LIST) ? showListModal(statChild, dict) : null">
+                        {{ statService.getStatValue(statChild, 'cnt' + dict.id) }}
+                    </a>
+                </td>
+            </tr>
+        </ng-container>
+    </ng-container>
+    </tbody>
+    <tfoot cTableColor="dark">
+    <ng-container *ngFor="let statTotal of regionStatItemList | statTotalFilter: true">
+        <tr class="text-center fw-medium">
+            <td class="text-start">{{ 'total' | translate }}</td>
+            <td *ngFor="let dict of statPopulationDictionary">
+                {{ statService.getStatValue(statTotal, 'cnt' + dict.id) }}</td>
+        </tr>
+    </ng-container>
+    </tfoot>
+</table>
+
+<app-stat-list-modal [eventShowListModal]="eventShowListModal"></app-stat-list-modal>

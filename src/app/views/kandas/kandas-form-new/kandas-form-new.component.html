@@ -1,0 +1,58 @@
+<c-card>
+    <c-card-header><strong>{{ 'kandas.adaptation' | translate }}</strong></c-card-header>
+    <c-card-body>
+
+        <c-callout color="info">
+            <a target="_blank" class="link-info" [routerLink]="['/family/' + iin]" (click)="utilService.navigateToFamilyPortrait(iin)">
+                {{ utilService.concat(' / ', iin, fullName) }}
+            </a>
+        </c-callout>
+
+        <c-row class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+            <c-row>
+                <c-col [md]="10">
+                    <strong>{{ 'kandas.form' | translate }}</strong>
+                </c-col>
+            </c-row>
+        </c-row>
+
+        <table cTable small borderless id="statistics" striped>
+            <thead>
+            <!--            <tr>-->
+            <!--                <th width="75.01%"> Наименование меры</th>-->
+            <!--                <th width="8.33%" class="fw-medium text-center">{{ 'kandas.rejected' | translate }}</th>-->
+            <!--                <th width="8.33%" class="fw-medium text-center">{{ 'kandas.no-needed' | translate }}</th>-->
+            <!--                <th width="8.33%" class="fw-medium text-center">{{ 'kandas.in-progress' | translate }}</th>-->
+            <!--            </tr>-->
+            <tr>
+                <th width="70%"> Наименование меры</th>
+                <th *ngFor="let answer of kandasAnswers" [attr.width]="(30 / kandasAnswers.length) + '%'"
+                    class="fw-medium text-center">
+                    {{answer.nameRu}}
+                </th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of kandasMonitorActions; let id = index">
+                <td width="70%" class="fw-medium">{{(id + 1) + '. ' + item.nameRu}}</td>
+                <td *ngFor="let answer of kandasAnswers" [attr.width]="(30 / kandasAnswers.length) + '%'"
+                    class="fw-medium text-center">
+                    <input type="checkbox"
+                           [checked]="item.answerId === answer.id || item.answerId === (answer.id % 5)"
+                           disabled>
+                </td>
+<!--                <td width="8.33%" class="fw-medium text-center"><input type="checkbox"-->
+<!--                                                                       [checked]="item.kandasMonitorStatusId === monitorStatuses[0]"-->
+<!--                                                                       disabled></td>-->
+<!--                <td width="8.33%" class="fw-medium text-center"><input type="checkbox"-->
+<!--                                                                       [checked]="item.kandasMonitorStatusId === monitorStatuses[1]"-->
+<!--                                                                       disabled></td>-->
+<!--                <td width="8.33%" class="fw-medium text-center"><input type="checkbox"-->
+<!--                                                                       [checked]="item.kandasMonitorStatusId === monitorStatuses[2]"-->
+<!--                                                                       disabled></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </c-card-body>
+</c-card>

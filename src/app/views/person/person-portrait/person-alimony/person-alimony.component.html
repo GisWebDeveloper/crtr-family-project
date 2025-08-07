@@ -1,0 +1,37 @@
+<div class="mb-4" *ngIf="displayPersonalInfo && alimonyList.length > 0">
+    <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+        <strong>{{ 'person-portrait.header.alimony' | translate }}</strong>
+    </div>
+
+    <c-row class="mb-2" *ngFor="let ps of alimonyList; let idx = index" [ngClass]="{'border-top': idx > 0}">
+        <c-col [md]="8">
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.alimony.essence' | translate }}</c-col>
+                <c-col [md]="8">{{ ps.suchnostTrebovanii }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="4" class="fw-medium">{{ 'person-portrait.alimony.sub-category' | translate }}</c-col>
+                <c-col [md]="8">{{ ps.subcategory }}</c-col>
+            </c-row>
+        </c-col>
+        <c-col [md]="4">
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.alimony.number' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.nomerIp }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.alimony.begin-date' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.dateVstupleniyaVSilu }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.alimony.proportion' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.dolyaVziskaniya }}</c-col>
+            </c-row>
+            <c-row>
+                <c-col [md]="6" class="fw-medium">{{ 'person-portrait.alimony.status' | translate }}</c-col>
+                <c-col [md]="6">{{ ps.status }}</c-col>
+            </c-row>
+        </c-col>
+    </c-row>
+
+</div>

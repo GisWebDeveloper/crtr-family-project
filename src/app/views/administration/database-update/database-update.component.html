@@ -1,0 +1,43 @@
+<label class="mb-4">{{ 'administration-page.db-update.label' | translate }}</label>
+
+<div class="container-1">
+
+
+    <table class="striped-rounded-corners" style="width: 100%" *ngIf="procedureList.length > 0">
+        <thead class="text-center align-middle">
+
+        <tr class="text-center align-middle">
+            <th>{{ 'administration-page.db-update.name' | translate}}</th>
+            <th>{{ 'administration-page.db-update.status' | translate}}</th>
+            <th>{{ 'administration-page.db-update.date' | translate}}</th>
+            <th>{{ 'administration-page.db-update.run' | translate}}</th>
+            <th>{{ 'administration-page.db-update.log' | translate}}</th>
+        </tr>
+        <tr></tr>
+        </thead>
+        <tbody>
+        <tr class="text-center align-middle" *ngFor="let item of procedureList; let idx = index">
+            <td class="text-start">{{ item.nameRu }}</td>
+            <td>{{ item?.config?.status }}</td>
+            <td>{{ item?.config?.date }}</td>
+            <td>
+                <button cButton class="btn-primary" (click)="runProcedure(item)">
+                    {{ 'administration-page.db-update.run' | translate }}
+                </button>
+            </td>
+            <td>
+                <button cButton class="btn-primary" (click)="showLogs(item)">
+                    {{ 'administration-page.db-update.see-log' | translate }}
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<app-database-update-log-modal [eventShowListModal]="eventShowListModal">
+</app-database-update-log-modal>
+
+
+
+

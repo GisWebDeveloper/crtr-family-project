@@ -1,0 +1,39 @@
+<div class="table-responsive">
+    <table cTable small bordered hover [id]="tableName" *ngIf="table && headerCells">
+        <thead *ngIf="table.headerRows">
+        <tr *ngFor="let row of table.headerRows" class="text-center align-middle">
+            <th *ngFor="let cell of row" [attr.colspan]="cell.colspan" [attr.rowspan]="cell.rowspan" [ngClass]="{'region-column': cell.cap.toUpperCase() === 'РЕГИОН',
+                                                                                                                       'value-column': (cell.cap.toUpperCase() !== 'РЕГИОН'
+                                                                                                                       && cell.cap.toUpperCase() != '#'
+                                                                                                                       && cell.cap.toUpperCase() != '№') }"
+                [style.width]="cell.percentage ? cell.percentage + '%' : 'auto'">
+                {{cell.cap}}
+            </th>
+        </tr>
+        </thead>
+        <tbody *ngIf="table.rows">
+        <ng-container  *ngFor="let row of table.rows; let idx = index">
+            <tr role="button" class="text-center" [ngClass]="{'table-info': idx === selectedRowIndex}">
+                <td (click)="setSelectedRowIndex(idx)" *ngFor="let cell of row.values; let i = index" [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">
+                    {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}
+                </td>
+            </tr>
+            <ng-container *ngIf="selectedRowIndex === idx && row.subRows" (click)="setSelectedRowIndex(idx)">
+                <tr class="text-center" *ngFor="let subRow of row.subRows" (click)="setSelectedRowIndex(idx)">
+                    <td *ngFor="let cell of subRow.values; let i = index" [ngClass]="{'text-start': this.headerCells[i].align === 'L', 'ps-5': i === 1}">
+                        {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+        </tbody>
+        <tfoot cTableColor="dark">
+        <tr class="fw-bolder text-center" *ngFor="let row of table.total">
+            <th *ngFor="let cell of row.values; let i = index"
+                [ngClass]="{'text-start': this.headerCells[i].align === 'L'}">
+                {{this.headerCells[i].type === 'N' ? utilService.numberFormat2(cell) : cell}}
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,58 @@
+<c-modal id="regAddressModal" size="lg" alignment="center" scrollable [visible]="visible"
+         (visibleChange)="handleModalView($event)">
+    <c-modal-header>
+        <h5 cModalTitle>{{ 'person-portrait.reg-address-label' | translate }}</h5>
+        <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <ng-container *ngFor="let mem of params.memberList; let idx = index">
+            <c-row class="py-1" [ngClass]="{'border-top': idx > 0}">
+                <c-col [md]="3">
+                    <span class="small text-dark">
+                        <i class="fa me-3"
+                           [ngClass]="{'fa-asterisk': mem.isFamilyMember, 'fa-minus': !mem.isFamilyMember}"></i></span>
+                    <a target="_blank" class="link-info" [routerLink]="['/family/' + mem.iin]"
+                       (click)="utilService.navigateToFamilyPortrait(mem.iin)">{{ mem.iin }}</a>
+                </c-col>
+                <c-col [md]="6">{{ mem.fullName }}</c-col>
+                <c-col [md]="3">{{ mem.birthDate }}</c-col>
+            </c-row>
+        </ng-container>
+
+        <ng-container class="">
+            <c-row *ngIf="params.memberList.length > 0">
+                <c-col [md]="8">
+                    <pagination class="pagination-sm mb-0"
+                                *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
+                                [(ngModel)]="params.pagination.currentPage"
+                                [itemsPerPage]="params.pagination.itemsPerPage"
+                                [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
+                                [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
+                                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                                lastText="&raquo;"></pagination>
+                </c-col>
+                <c-col [md]="4">
+                    <div class="text-lowercase float-end">
+                        <small>{{ 'item-count' | translate }}:
+                            {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
+                    </div>
+                </c-col>
+            </c-row>
+        </ng-container>
+    </c-modal-body>
+    <c-modal-footer [class]="'footer-content'">
+        <div class="text-secondary">
+            <div>
+                <small><span class="small"><i class="fa fa-asterisk me-2"></i></span>
+                    {{ 'person-portrait.family-included' | translate }}</small>
+            </div>
+            <div>
+                <small><span class="small"><i class="fa fa-minus small me-2"></i></span>
+                    {{ 'person-portrait.family-not-included' | translate }}</small>
+            </div>
+        </div>
+        <button cButton color="secondary" (click)="toggleModal()">
+            {{ 'close' | translate }}
+        </button>
+    </c-modal-footer>
+</c-modal>

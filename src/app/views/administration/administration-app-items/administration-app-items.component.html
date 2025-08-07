@@ -1,0 +1,88 @@
+<c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card-header>
+        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+        <strong>{{ 'administration-page.app-items.label' | translate }}</strong>
+    </c-card-header>
+    <c-card-body>
+        <c-row [gutter]="{gx: 5}">
+            <c-col [md]="4">
+                <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+                    <strong>{{ 'administration-page.app-items.roles' | translate }}</strong>
+                </div>
+                <c-row class="fw-medium mb-1">
+                    <c-col [md]="6">{{ 'code' | translate }}</c-col>
+                    <c-col [md]="6">{{ 'nomination' | translate }}</c-col>
+                </c-row>
+                <ng-container *ngFor="let role of roleList; let idx = index">
+                    <c-row class="table-link border-top py-1" (click)="selectRole(role)"
+                           [ngClass]="{ 'bg-light': idx % 2 == 1 && !(selectedRole && selectedRole.code === role.code),
+                                        'bg-info text-white': selectedRole && selectedRole.code === role.code}">
+                        <c-col [md]="6">{{ role.code }}</c-col>
+                        <c-col [md]="6">
+                            {{ translateService.currentLang === 'kz' ? role.nameKz : role.nameRu }}</c-col>
+                    </c-row>
+                </ng-container>
+            </c-col>
+            <c-col [md]="8">
+                <div class="border-bottom border-bottom-2 border-bottom-info text-info mb-2 pb-1 ps-3">
+                    <strong>{{ 'administration-page.app-items.app-items' | translate }}</strong>
+                </div>
+                <c-row class="fw-medium mb-1">
+                    <c-col [md]="1" class="text-center">{{ 'id' | translate }}</c-col>
+                    <c-col [md]="4">{{ 'code' | translate }}</c-col>
+                    <c-col [md]="5">{{ 'nomination' | translate }}</c-col>
+                    <c-col [md]="2">{{ 'administration-page.app-items.access' | translate }}</c-col>
+                </c-row>
+
+                <form cForm (submit)="saveAppItemList()">
+                    <c-row class="border-top mb-1" *ngFor="let item of appItemList; let idx = index"
+                           (dblclick)="showAppItemModal(item)">
+                        <c-col [md]="1" class="text-center">{{ item.id }}</c-col>
+                        <c-col [md]="4">{{ item.code }}</c-col>
+                        <c-col [md]="5">
+                            {{ (translateService.currentLang === 'kz' ? item.appItemType.nameKz : item.appItemType.nameRu) + '. ' + item.nameRu  }}
+                        </c-col>
+                        <c-col [md]="2">
+                            <div class="d-flex justify-content-evenly">
+                                <c-form-check>
+                                    <input cFormCheckInput id="access_{{ item.id }}" name="access_{{ item.id }}"
+                                           type="checkbox"
+                                           [(ngModel)]="item.checked" [disabled]="!selectedRole"/>
+                                </c-form-check>
+                                <a role="button" class="btn btn-sm p-0" (click)="deleteAppItem(item)">
+                                    <svg cIcon name="cilTrash"></svg>
+                                </a>
+                            </div>
+                        </c-col>
+                    </c-row>
+
+                    <div class="d-flex justify-content-around mt-3">
+                        <button (click)="showAppItemModal()" color="info" class="text-white" cButton>
+                            {{ 'administration-page.app-items.add-app-item' | translate }}
+                        </button>
+                        <button type="submit" color="success" class="text-white" cButton [disabled]="!selectedRole">
+                            <svg cIcon name="cilSave"></svg>
+                            {{ 'save' | translate }}
+                        </button>
+                    </div>
+                </form>
+
+                <!--
+                <div class="d-grid gap-3 d-md-flex justify-content-md-end mt-3">
+                    <button color="success" class="text-white" cButton>
+                        <svg cIcon name="cilSave"></svg>
+                        {{ 'save' | translate }}
+                    </button>
+                    <button (click)="showAppItemModal()" color="info" class="text-white" cButton>
+                        {{ 'administration-page.app-items.add-app-item' | translate }}
+                    </button>
+                </div>-->
+            </c-col>
+        </c-row>
+
+    </c-card-body>
+</c-card>
+
+<!-- APP ITEMS MODAL -->
+<app-app-items-modal [dictionaryAppItemTypeList]="dictionaryAppItemTypeList"
+                     [eventShowModal]="eventShowModal" (eventUpdateList)="initAppItemList()"></app-app-items-modal>
