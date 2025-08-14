@@ -20,34 +20,65 @@
             *ngIf="form == 'LOGIN'"
             class="login-form"
         >
-            <div class="welcome">
-                <h1>{{ "login-page.login" | translate }}</h1>
-                <p class="subtitle">{{ "login-page.sign-in-desc" | translate }}</p>
+            <div class="form-header">
+                <h1>Добро пожаловать!</h1>
+                <p class="subtitle">На цифровой семейный портал</p>
+
+                <!-- <h1>    {{ "login-page.login" | translate }}</h1>
+                <p class="subtitle">{{ "login-page.sign-in-desc" | translate }}</p> -->
             </div>
 
-            <c-input-group class="mb-3">
-                <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
+            <div
+                class="input-field"
+                [class.ng-invalid]="isFieldInvalid('username')"
+                [class.ng-touched]="isFieldInvalid('username')"
+            >
+                <svg cIcon name="cilUser" class="input-icon"></svg>
                 <input
                     autoComplete="username"
-                    cFormControl
                     formControlName="username"
-                    placeholder="{{ 'login-page.username' | translate }}"
+                    placeholder="{{ 'Логин' | translate }}"
+                    class="form-input"
                 />
-            </c-input-group>
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('username')">
+                Поле обязательно для заполнения
+            </div>
 
-            <c-input-group class="mb-2">
-                <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+            <div
+                class="input-field"
+                [class.ng-invalid]="isFieldInvalid('password')"
+                [class.ng-touched]="isFieldInvalid('password')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
                 <input
                     autoComplete="current-password"
-                    cFormControl
                     formControlName="password"
-                    type="password"
+                    [type]="showPassword ? 'text' : 'password'"
                     placeholder="{{ 'login-page.password' | translate }}"
+                    class="form-input"
                 />
-            </c-input-group>
+                <svg
+                    cIcon
+                    [name]="showPassword ? 'cilEye' : 'cilEyeSlash'"
+                    class="input-icon-right"
+                    (click)="togglePasswordVisibility()"
+                ></svg>
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('password')">
+                Поле обязательно для заполнения
+            </div>
 
             <div class="input-caption">
-                <button type="button" cButton color="link" class="px-0 caption-link" (click)="changeForm('PASSWORD')">Забыли пароль</button>
+                <button
+                    type="button"
+                    cButton
+                    color="link"
+                    class="px-0 caption-link"
+                    (click)="changeForm('PASSWORD')"
+                >
+                    Забыли пароль
+                </button>
             </div>
 
             <button
@@ -69,80 +100,103 @@
             *ngIf="form == 'PASSWORD'"
             class="login-form"
         >
-            <h1>{{ "login-page.change-password" | translate }}</h1>
-            <p class="subtitle">{{ "login-page.change-password-desc" | translate }}</p>
-            <c-input-group class="mb-3">
-                <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
-                <input
-                    autoComplete="username"
-                    cFormControl
-                    formControlName="username"
-                    placeholder="{{ 'login-page.username' | translate }}"
-                />
-            </c-input-group>
-            <c-input-group class="mb-3">
-                <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+            <div class="form-header">
+                <h1>Забыли пароль</h1>
+                <p class="subtitle">Напишите пароль, который помните</p>
+            </div>
+
+            <div
+                class="input-field"
+                [class.ng-invalid]="isPasswordFieldInvalid('password')"
+                [class.ng-touched]="isPasswordFieldInvalid('password')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
                 <input
                     autoComplete="current-password"
-                    cFormControl
                     formControlName="password"
                     type="password"
-                    placeholder="{{ 'login-page.password' | translate }}"
+                    placeholder="{{ 'Старый пароль' | translate }}"
+                    class="form-input"
                 />
-            </c-input-group>
-            <c-input-group class="mb-3">
-                <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+            </div>
+            <div
+                class="error-message"
+                *ngIf="isPasswordFieldInvalid('password')"
+            >
+                Поле обязательно для заполнения
+            </div>
+            <div
+                class="input-field"
+                [class.ng-invalid]="isPasswordFieldInvalid('newPassword')"
+                [class.ng-touched]="isPasswordFieldInvalid('newPassword')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
                 <input
-                    cFormControl
-                    type="password"
+                    [type]="showNewPassword ? 'text' : 'password'"
                     formControlName="newPassword"
                     autoComplete="new-password"
                     required
                     placeholder="{{ 'login-page.new-password' | translate }}"
+                    class="form-input"
                 />
-                <span
-                    cInputGroupText
-                    role="button"
-                    cPopoverPlacement="right"
-                    [cPopover]="passPopoverHtml"
-                    [cPopoverTrigger]="'click'"
-                >
-                    <i class="fa fa-info"></i>
-                </span>
-            </c-input-group>
-            <c-input-group class="mb-4">
-                <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
+
+                <svg
+                    cIcon
+                    [name]="showNewPassword ? 'cilEye' : 'cilEyeSlash'"
+                    class="input-icon-right"
+                    (click)="toggleNewPasswordVisibility()"
+                ></svg>
+            </div>
+            <div
+                class="error-message"
+                *ngIf="isPasswordFieldInvalid('newPassword')"
+            >
+                Поле обязательно для заполнения
+            </div>
+            <div
+                class="input-field mb-4"
+                [class.ng-invalid]="isPasswordFieldInvalid('confirmPassword')"
+                [class.ng-touched]="isPasswordFieldInvalid('confirmPassword')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
                 <input
-                    cFormControl
-                    type="password"
+                    [type]="showConfirmPassword ? 'text' : 'password'"
                     formControlName="confirmPassword"
                     autoComplete="confirm-password"
                     required
-                    placeholder="{{ 'login-page.confirm-password' | translate }}"
+                    placeholder="{{
+                        'login-page.confirm-password' | translate
+                    }}"
+                    class="form-input"
                 />
-                <span
-                    cInputGroupText
-                    role="button"
-                    cPopoverPlacement="right"
-                    [cPopover]="passPopoverHtml"
-                    [cPopoverTrigger]="'click'"
-                >
-                    <i class="fa fa-info"></i>
-                </span>
-            </c-input-group>
+                <svg
+                    cIcon
+                    [name]="showConfirmPassword ? 'cilEye' : 'cilEyeSlash'"
+                    class="input-icon-right"
+                    (click)="toggleConfirmPasswordVisibility()"
+                ></svg>
+            </div>
+            <div
+                class="error-message"
+                *ngIf="isPasswordFieldInvalid('confirmPassword')"
+            >
+                Поле обязательно для заполнения
+            </div>
+
+            <button
+            type="submit"
+            cButton
+            class="submit-btn"
+            color="primary"
+            [disabled]="!passwordForm.valid"
+        >
+            {{ "save" | translate }}
+        </button>
             <c-row>
-                <c-col xs="6">
-                    <button
-                        type="submit"
-                        cButton
-                        class="px-4"
-                        color="primary"
-                        [disabled]="!passwordForm.valid"
-                    >
-                        {{ "save" | translate }}
-                    </button>
+                <c-col xs="12">
+
                 </c-col>
-                <c-col class="text-end" xs="6">
+                <!-- <c-col class="text-end" xs="6">
                     <button
                         cButton
                         class="px-0"
@@ -151,17 +205,8 @@
                     >
                         {{ "cancel" | translate }}
                     </button>
-                </c-col>
+                </c-col> -->
             </c-row>
-            <ng-template #passPopoverHtml>
-                <h3 class="popover-header">
-                    {{ "login-page.password-requirements" | translate }}
-                </h3>
-                <div class="popover-body">
-                    <li>{{ "login-page.password-requirement-1" | translate }}</li>
-                    <li>{{ "login-page.password-requirement-2" | translate }}</li>
-                </div>
-            </ng-template>
         </form>
     </div>
 </div>
