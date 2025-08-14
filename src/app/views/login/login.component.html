@@ -184,29 +184,23 @@
             </div>
 
             <button
-            type="submit"
-            cButton
-            class="submit-btn"
-            color="primary"
-            [disabled]="!passwordForm.valid"
-        >
-            {{ "save" | translate }}
-        </button>
-            <c-row>
-                <c-col xs="12">
+                type="submit"
+                cButton
+                class="submit-btn"
+                color="primary"
+                [disabled]="!passwordForm.valid"
+            >
+                {{ "save" | translate }}
+            </button>
 
-                </c-col>
-                <!-- <c-col class="text-end" xs="6">
-                    <button
-                        cButton
-                        class="px-0"
-                        color="link"
-                        (click)="changeForm('LOGIN')"
-                    >
-                        {{ "cancel" | translate }}
-                    </button>
-                </c-col> -->
-            </c-row>
+            <button
+                cButton
+                color="link"
+                type="button"
+                (click)="changeForm('LOGIN')"
+            >
+                {{ "cancel" | translate }}
+            </button>
         </form>
     </div>
 </div>
