@@ -1,0 +1,83 @@
+.login-page {
+    display: flex;
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.left-side {
+    width: 50%;
+    background-color: #14386d;
+    .left-side-content {
+        width: 71%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        background-image: url("../../../assets/images/bg-pattern.png");
+        background-size: cover;
+        background-position: left center;
+        background-repeat: no-repeat;
+        .brand {
+            width: 304px;
+            margin-left: 170px;
+         }
+    }
+}
+
+.right-side {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 259px;
+    position: relative;
+}
+
+.lang-toggle {
+    position: absolute;
+    top: 70px;
+    right: 70px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 8px;
+    height: 44px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    color: #1c1c1c;
+}
+
+.login-form {
+    width: 347px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subtitle {
+    color: #718096;
+}
+
+.input-caption {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 4px;
+}
+
+.caption-link {
+    color: #1f98ea;
+}
+
+.submit-btn {
+    height: 44px;
+    border-radius: 12px;
+}
