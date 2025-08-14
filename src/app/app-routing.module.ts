@@ -12,6 +12,20 @@ import { NecessityModule } from './views/necessity/necessity.module';
 
 const routes: Routes = [
     {
+        path: 'login',
+        component: LoginComponent,
+        data: {
+            title: 'Login page',
+        },
+    },
+    {
+        path: 'logout',
+        component: LoginComponent,
+        data: {
+            title: 'Login page',
+        },
+    },
+    {
         path: '',
         redirectTo: 'need/need-actions',
         pathMatch: 'full',
@@ -227,20 +241,6 @@ const routes: Routes = [
                 component: NotFoundComponent,
             },
         ],
-    },
-    {
-        path: 'login',
-        component: LoginComponent,
-        data: {
-            title: 'Login page',
-        },
-    },
-    {
-        path: 'logout',
-        component: LoginComponent,
-        data: {
-            title: 'Login page',
-        },
     },
 ];
 
