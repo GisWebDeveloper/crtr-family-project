@@ -1,115 +1,206 @@
-<div class="bg-light" style="min-height: 25vh !important;">
-    <div class="container-fluid">
-        <c-row>
-            <c-col md="10" class="d-flex align-items-center pt-4 ps-5">
-                <div class="float-start">
-                    <img loading="lazy" src="./assets/images/rk_emblem.png" width="80px"/>
-                </div>
-                <div class="float-start text-uppercase fw-bolder ms-3" style="width: 420px;">
-                    <div>{{ 'ministry' | translate }}</div>
-                </div>
-            </c-col>
-        </c-row>
-        <c-row class="mt-3">
-            <c-col class="display-3 text-center">
-                <div>{{ 'title' | translate }}</div>
-            </c-col>
-        </c-row>
+<div class="login-page">
+    <div class="left-side">
+        <div class="left-side-content">
+            <div class="brand">
+                <img src="assets/images/logo-main.svg" alt="Logo" />
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="bg-light d-flex flex-row pt-5" style="height: 75vh !important;">
-    <c-container>
-        <c-row class="justify-content-center">
-            <c-col md="4">
-                <c-card-group>
-                    <c-card class="p-4">
-                        <c-card-body>
-                            <form cForm novalidate [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="form == 'LOGIN'">
-                                <h1>{{ 'login-page.login' | translate }}</h1>
-                                <p class="text-medium-emphasis">{{ 'login-page.sign-in-desc' | translate }}</p>
-                                <c-input-group class="mb-3">
-                                    <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
-                                    <input autoComplete="username" cFormControl formControlName="username"
-                                           placeholder="{{ 'login-page.username' | translate }}"/>
-                                </c-input-group>
-                                <c-input-group class="mb-4">
-                                    <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
-                                    <input autoComplete="current-password" cFormControl formControlName="password"
-                                           type="password"
-                                           placeholder="{{ 'login-page.password' | translate }}"/>
-                                </c-input-group>
-                                <c-row>
-                                    <c-col xs="6">
-                                        <button type="submit" cButton class="px-4" color="primary"
-                                                [disabled]="!loginForm.valid">
-                                            {{ 'login-page.enter' | translate }}</button>
-                                    </c-col>
-                                    <c-col class="text-end" xs="6">
-                                        <button cButton class="px-0" color="link" (click)="changeForm('PASSWORD')">
-                                            {{ 'login-page.change-password' | translate }}</button>
-                                    </c-col>
-                                </c-row>
-                            </form>
-                            <form cForm novalidate [formGroup]="passwordForm" (ngSubmit)="changePassword()"
-                                  *ngIf="form == 'PASSWORD'">
-                                <h1>{{ 'login-page.change-password' | translate }}</h1>
-                                <p class="text-medium-emphasis">{{ 'login-page.change-password-desc' | translate }}</p>
-                                <c-input-group class="mb-3">
-                                    <span cInputGroupText><svg cIcon name="cilUser"></svg></span>
-                                    <input autoComplete="username" cFormControl formControlName="username"
-                                           placeholder="{{ 'login-page.username' | translate }}"/>
-                                </c-input-group>
-                                <c-input-group class="mb-4">
-                                    <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
-                                    <input autoComplete="current-password" cFormControl formControlName="password"
-                                           type="password"
-                                           placeholder="{{ 'login-page.password' | translate }}"/>
-                                </c-input-group>
-                                <c-input-group class="mb-4">
-                                    <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
-                                    <input cFormControl type="password" formControlName="newPassword"
-                                           autoComplete="new-password" required
-                                           placeholder="{{ 'login-page.new-password' | translate }}"/>
-                                    <span cInputGroupText role="button" cPopoverPlacement="right"
-                                          [cPopover]="passPopoverHtml" [cPopoverTrigger]="'click'">
-                                        <i class="fa fa-info"></i>
-                                    </span>
-                                </c-input-group>
-                                <c-input-group class="mb-4">
-                                    <span cInputGroupText><svg cIcon name="cilLockLocked"></svg></span>
-                                    <input cFormControl type="password" formControlName="confirmPassword"
-                                           autoComplete="confirm-password" required
-                                           placeholder="{{ 'login-page.confirm-password' | translate }}"/>
-                                    <span cInputGroupText role="button" cPopoverPlacement="right"
-                                          [cPopover]="passPopoverHtml" [cPopoverTrigger]="'click'">
-                                        <i class="fa fa-info"></i>
-                                    </span>
-                                </c-input-group>
-                                <c-row>
-                                    <c-col xs="6">
-                                        <button type="submit" cButton class="px-4" color="primary"
-                                                [disabled]="!passwordForm.valid">
-                                            {{ 'save' | translate }}</button>
-                                    </c-col>
-                                    <c-col class="text-end" xs="6">
-                                        <button cButton class="px-0" color="link" (click)="changeForm('LOGIN')">
-                                            {{ 'cancel' | translate }}</button>
-                                    </c-col>
-                                </c-row>
-                                <ng-template #passPopoverHtml>
-                                    <h3 class="popover-header">
-                                        {{ 'login-page.password-requirements' | translate }}</h3>
-                                    <div class="popover-body">
-                                        <li>{{ 'login-page.password-requirement-1' | translate }}</li>
-                                        <li>{{ 'login-page.password-requirement-2' | translate }}</li>
-                                    </div>
-                                </ng-template>
-                            </form>
-                        </c-card-body>
-                    </c-card>
-                </c-card-group>
-            </c-col>
-        </c-row>
-    </c-container>
+    <div class="right-side">
+        <div class="lang-toggle">
+            <span class="pill">Ру</span>
+        </div>
+
+        <form
+            cForm
+            novalidate
+            [formGroup]="loginForm"
+            (ngSubmit)="login()"
+            *ngIf="form == 'LOGIN'"
+            class="login-form"
+        >
+            <div class="form-header">
+                <h1>Добро пожаловать!</h1>
+                <p class="subtitle">На цифровой семейный портал</p>
+
+                <!-- <h1>    {{ "login-page.login" | translate }}</h1>
+                <p class="subtitle">{{ "login-page.sign-in-desc" | translate }}</p> -->
+            </div>
+
+            <div
+                class="input-field"
+                [class.ng-invalid]="isFieldInvalid('username')"
+                [class.ng-touched]="isFieldInvalid('username')"
+            >
+                <svg cIcon name="cilUser" class="input-icon"></svg>
+                <input
+                    autoComplete="username"
+                    formControlName="username"
+                    placeholder="{{ 'Логин' | translate }}"
+                    class="form-input"
+                />
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('username')">
+                Поле обязательно для заполнения
+            </div>
+
+            <div
+                class="input-field"
+                [class.ng-invalid]="isFieldInvalid('password')"
+                [class.ng-touched]="isFieldInvalid('password')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                <input
+                    autoComplete="current-password"
+                    formControlName="password"
+                    [type]="showPassword ? 'text' : 'password'"
+                    placeholder="{{ 'login-page.password' | translate }}"
+                    class="form-input"
+                />
+                <svg
+                    cIcon
+                    [name]="showPassword ? 'cilEye' : 'cilEyeSlash'"
+                    class="input-icon-right"
+                    (click)="togglePasswordVisibility()"
+                ></svg>
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('password')">
+                Поле обязательно для заполнения
+            </div>
+
+            <div class="input-caption">
+                <button
+                    type="button"
+                    cButton
+                    color="link"
+                    class="px-0 caption-link"
+                    (click)="changeForm('PASSWORD')"
+                >
+                    Забыли пароль
+                </button>
+            </div>
+
+            <button
+                type="submit"
+                cButton
+                class="submit-btn"
+                color="primary"
+                [disabled]="!loginForm.valid"
+            >
+                {{ "login-page.enter" | translate }}
+            </button>
+        </form>
+
+        <form
+            cForm
+            novalidate
+            [formGroup]="passwordForm"
+            (ngSubmit)="changePassword()"
+            *ngIf="form == 'PASSWORD'"
+            class="login-form"
+        >
+            <div class="form-header">
+                <h1>Забыли пароль</h1>
+                <p class="subtitle">Напишите пароль, который помните</p>
+            </div>
+
+            <div
+                class="input-field"
+                [class.ng-invalid]="isPasswordFieldInvalid('password')"
+                [class.ng-touched]="isPasswordFieldInvalid('password')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                <input
+                    autoComplete="current-password"
+                    formControlName="password"
+                    type="password"
+                    placeholder="{{ 'Старый пароль' | translate }}"
+                    class="form-input"
+                />
+            </div>
+            <div
+                class="error-message"
+                *ngIf="isPasswordFieldInvalid('password')"
+            >
+                Поле обязательно для заполнения
+            </div>
+            <div
+                class="input-field"
+                [class.ng-invalid]="isPasswordFieldInvalid('newPassword')"
+                [class.ng-touched]="isPasswordFieldInvalid('newPassword')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                <input
+                    [type]="showNewPassword ? 'text' : 'password'"
+                    formControlName="newPassword"
+                    autoComplete="new-password"
+                    required
+                    placeholder="{{ 'login-page.new-password' | translate }}"
+                    class="form-input"
+                />
+
+                <svg
+                    cIcon
+                    [name]="showNewPassword ? 'cilEye' : 'cilEyeSlash'"
+                    class="input-icon-right"
+                    (click)="toggleNewPasswordVisibility()"
+                ></svg>
+            </div>
+            <div
+                class="error-message"
+                *ngIf="isPasswordFieldInvalid('newPassword')"
+            >
+                Поле обязательно для заполнения
+            </div>
+            <div
+                class="input-field"
+                [class.ng-invalid]="isPasswordFieldInvalid('confirmPassword')"
+                [class.ng-touched]="isPasswordFieldInvalid('confirmPassword')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                <input
+                    [type]="showConfirmPassword ? 'text' : 'password'"
+                    formControlName="confirmPassword"
+                    autoComplete="confirm-password"
+                    required
+                    placeholder="{{
+                        'login-page.confirm-password' | translate
+                    }}"
+                    class="form-input"
+                />
+                <svg
+                    cIcon
+                    [name]="showConfirmPassword ? 'cilEye' : 'cilEyeSlash'"
+                    class="input-icon-right"
+                    (click)="toggleConfirmPasswordVisibility()"
+                ></svg>
+            </div>
+            <div
+                class="error-message"
+                *ngIf="isPasswordFieldInvalid('confirmPassword')"
+            >
+                Поле обязательно для заполнения
+            </div>
+
+            <button
+                type="submit"
+                cButton
+                class="submit-btn"
+                color="primary"
+                [disabled]="!passwordForm.valid"
+            >
+                {{ "save" | translate }}
+            </button>
+
+            <button
+                cButton
+                color="link"
+                type="button"
+                (click)="changeForm('LOGIN')"
+            >
+                {{ "cancel" | translate }}
+            </button>
+        </form>
+    </div>
 </div>
