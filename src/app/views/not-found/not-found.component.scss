@@ -1,0 +1,159 @@
+// Variables
+$primary-color: #1f98ea;
+$primary-hover: #1a87d1;
+$text-primary: #131516;
+$text-secondary: #a0aec0;
+$border-color: #e2e8f0;
+$background-light: #f8fafc;
+$shadow-light: rgba(0, 0, 0, 0.02);
+$shadow-primary: rgba(31, 152, 234, 0.3);
+$border-radius: 16px;
+$button-radius: 12px;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin button-reset {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+@mixin transition($property: all) {
+  transition: $property 0.2s ease;
+}
+
+// Host styles
+:host {
+  display: block;
+}
+
+// Main container
+.error-container {
+  @include flex-column;
+  min-height: 100vh;
+  padding: 100px 16px;
+  gap: 24px;
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  margin: 16px;
+}
+
+// Illustration section
+.error-illustration {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  @include flex-center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+// Content section
+.error-content {
+  @include flex-column;
+  gap: 8px;
+  text-align: center;
+}
+
+.error-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  color: $text-primary;
+  margin: 0;
+}
+
+.error-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: $text-secondary;
+  margin: 0;
+}
+
+// Button styles
+.refresh-button {
+  @include button-reset;
+  width: 347px;
+  height: 44px;
+  background: $primary-color;
+  border: 1px solid $primary-color;
+  border-radius: $button-radius;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  @include flex-center;
+  gap: 8px;
+  @include transition;
+  box-shadow: 0px 2px 0px 0px $shadow-light;
+
+  &:hover {
+    background: $primary-hover;
+    transform: translateY(-1px);
+    box-shadow: 0px 4px 8px $shadow-primary;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0px 2px 4px rgba(31, 152, 234, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 3px rgba(31, 152, 234, 0.1);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .error-container {
+    padding: 60px 16px;
+    margin: 8px;
+  }
+
+  .error-illustration {
+    width: 250px;
+    height: 250px;
+  }
+
+  .refresh-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .error-title {
+    font-size: 16px;
+  }
+
+  .error-subtitle {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-illustration {
+    width: 200px;
+    height: 200px;
+  }
+}
