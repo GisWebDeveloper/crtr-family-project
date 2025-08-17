@@ -57,7 +57,7 @@ c-sidebar {
 
             &:hover {
                 background-color: rgba(31, 152, 234, 0.1) !important;
-                color: #131516 !important;
+                color: #1f98ea!important;
                 text-decoration: none !important;
             }
 
@@ -84,14 +84,7 @@ c-sidebar {
                 flex-shrink: 0 !important;
             }
 
-            // Text styling
-            .c-sidebar-nav-link-text,
-            .nav-text,
-            [class*="text"] {
-                color: inherit !important;
-                transition: color 0.3s ease !important;
-                flex: 1 !important;
-            }
+
 
             // Hover icon color
             &:hover {
@@ -102,53 +95,10 @@ c-sidebar {
                 }
             }
 
-            // Active icon color
-            &.c-sidebar-nav-link-active,
-            &.active,
-            &.router-link-active,
-            &.router-link-exact-active {
-                .c-sidebar-nav-icon,
-                .nav-icon,
-                [class*="icon"] {
-                    color: #ffffff !important;
-                }
-            }
+
         }
 
-        // Dropdown arrow styling
-        .c-sidebar-nav-dropdown-toggle,
-        [class*="dropdown-toggle"] {
-            &::after {
-                color: #718096 !important;
-                border-top: 0.3em solid !important;
-                border-right: 0.3em solid transparent !important;
-                border-left: 0.3em solid transparent !important;
-                margin-left: auto !important;
-                transition: color 0.3s ease, transform 0.3s ease !important;
-            }
 
-            &:hover::after {
-                color: #1f98ea !important;
-            }
-
-            &.c-sidebar-nav-dropdown-toggle-active::after {
-                transform: rotate(90deg) !important;
-                color: #1f98ea !important;
-            }
-        }
-
-        // Nested items
-        .c-sidebar-nav-dropdown-items {
-            .c-sidebar-nav-link,
-            .nav-link {
-                padding-left: 52px !important;
-                font-size: 13px !important;
-
-                &:hover {
-                    background-color: rgba(31, 152, 234, 0.05) !important;
-                }
-            }
-        }
     }
     .nav-group.show {
         background-color: #ffffff;

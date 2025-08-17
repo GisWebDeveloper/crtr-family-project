@@ -31,6 +31,7 @@ export class DefaultLayoutComponent implements OnInit {
     }
 
     getTranslatedNavItems(): NavItem[] {
+        // return navItems;
         let navItemsArray: NavItem[] = navItems.filter(item => !item.itemCode || (item.itemCode && this.userRoleService.hasPermission(item.itemCode)));
         navItemsArray.forEach(item => {
             if (item.children && item.children.length > 0) {
