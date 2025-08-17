@@ -1,6 +1,7 @@
 c-sidebar {
-    background-color: #fff !important;
+    background-color: #ffffff !important;
     transition: background-color 0.3s ease;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 
     c-sidebar-brand {
         background-color: #fff !important;
@@ -8,14 +9,187 @@ c-sidebar {
         display: flex;
         justify-content: flex-start;
         padding: 20px 16px;
+     }
+
+    // Sidebar navigation container
+    .c-sidebar-nav {
+        padding: 28px 0;
+        gap: 4px;
+    }
+
+    // Perfect scrollbar styling
+    perfect-scrollbar {
+        .ps-content {
+            padding: 0;
+        }
     }
 }
-.wrapper{
-    background-color: #E2E8F0 !important;
+
+// Force navigation styling with ::ng-deep
+:host ::ng-deep {
+    // Target all navigation elements
+    .c-sidebar-nav,
+    .sidebar-nav,
+    [class*="sidebar"] [class*="nav"] {
+        .c-sidebar-nav-link,
+        .c-sidebar-nav-dropdown-toggle,
+        .nav-link,
+        [class*="nav-link"],
+        [class*="dropdown-toggle"] {
+            background-color: transparent !important;
+            border: none !important;
+            border-radius: 16px !important;
+            padding: 8px 20px !important;
+            margin: 2px 0 !important;
+            color: #131516 !important;
+            font-family: "Roboto", sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 400 !important;
+            line-height: 1.2 !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            // gap: 12px !important;
+            min-height: 44px !important;
+            box-shadow: none !important;
+            outline: none !important;
+
+            &:hover {
+                background-color: rgba(31, 152, 234, 0.1) !important;
+                color: #131516 !important;
+                text-decoration: none !important;
+            }
+
+            &.c-sidebar-nav-link-active,
+            &.active,
+            &.router-link-active,
+            &.router-link-exact-active {
+                background-color: #1f98ea !important;
+                color: #ffffff !important;
+                text-decoration: none !important;
+            }
+
+            // Icon styling
+            .c-sidebar-nav-icon,
+            .nav-icon,
+            [class*="icon"] {
+                width: 20px !important;
+                height: 20px !important;
+                color: #718096 !important;
+                transition: color 0.3s ease !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex-shrink: 0 !important;
+            }
+
+            // Text styling
+            .c-sidebar-nav-link-text,
+            .nav-text,
+            [class*="text"] {
+                color: inherit !important;
+                transition: color 0.3s ease !important;
+                flex: 1 !important;
+            }
+
+            // Hover icon color
+            &:hover {
+                .c-sidebar-nav-icon,
+                .nav-icon,
+                [class*="icon"] {
+                    color: #1f98ea !important;
+                }
+            }
+
+            // Active icon color
+            &.c-sidebar-nav-link-active,
+            &.active,
+            &.router-link-active,
+            &.router-link-exact-active {
+                .c-sidebar-nav-icon,
+                .nav-icon,
+                [class*="icon"] {
+                    color: #ffffff !important;
+                }
+            }
+        }
+
+        // Dropdown arrow styling
+        .c-sidebar-nav-dropdown-toggle,
+        [class*="dropdown-toggle"] {
+            &::after {
+                color: #718096 !important;
+                border-top: 0.3em solid !important;
+                border-right: 0.3em solid transparent !important;
+                border-left: 0.3em solid transparent !important;
+                margin-left: auto !important;
+                transition: color 0.3s ease, transform 0.3s ease !important;
+            }
+
+            &:hover::after {
+                color: #1f98ea !important;
+            }
+
+            &.c-sidebar-nav-dropdown-toggle-active::after {
+                transform: rotate(90deg) !important;
+                color: #1f98ea !important;
+            }
+        }
+
+        // Nested items
+        .c-sidebar-nav-dropdown-items {
+            .c-sidebar-nav-link,
+            .nav-link {
+                padding-left: 52px !important;
+                font-size: 13px !important;
+
+                &:hover {
+                    background-color: rgba(31, 152, 234, 0.05) !important;
+                }
+            }
+        }
+    }
+    .nav-group.show {
+        background-color: #ffffff;
+    }
+
+    .nav-group {
+        .nav-group-toggle {
+            &::after {
+                background: url("/assets/icons/arrow_down.png");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 16px;
+                height: 16px;
+                content: "";
+                display: block;
+                margin-left: auto;
+                transition: transform 0.3s ease !important;
+            }
+
+            &:hover::after {
+                filter: brightness(0) saturate(100%) invert(48%) sepia(79%)
+                    saturate(2476%) hue-rotate(199deg) brightness(97%)
+                    contrast(96%);
+            }
+
+            &.c-sidebar-nav-dropdown-toggle-active::after {
+                transform: rotate(90deg) !important;
+            }
+        }
+        .nav-group-items {
+            margin-left: 40px;
+        }
+    }
+}
+
+.wrapper {
+    background-color: #e2e8f0 !important;
 }
 
 .header {
-    background-color: #E2E8F0 !important;
+    background-color: #e2e8f0 !important;
     transition: background-color 0.3s ease;
-
 }
