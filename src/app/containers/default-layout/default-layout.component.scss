@@ -1,0 +1,21 @@
+c-sidebar {
+    background-color: #fff !important;
+    transition: background-color 0.3s ease;
+
+    c-sidebar-brand {
+        background-color: #fff !important;
+        transition: background-color 0.3s ease;
+        display: flex;
+        justify-content: flex-start;
+        padding: 20px 16px;
+    }
+}
+.wrapper{
+    background-color: #E2E8F0 !important;
+}
+
+.header {
+    background-color: #E2E8F0 !important;
+    transition: background-color 0.3s ease;
+
+}

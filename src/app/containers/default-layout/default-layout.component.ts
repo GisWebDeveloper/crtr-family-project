@@ -7,6 +7,7 @@ import {UserRoleService} from "../../services/user-role.service";
 @Component({
     selector: 'app-dashboard',
     templateUrl: './default-layout.component.html',
+    styleUrls: ['./default-layout.component.scss']
 })
 export class DefaultLayoutComponent implements OnInit {
 
