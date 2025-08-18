@@ -2,7 +2,9 @@
 <c-sidebar #sidebar="cSidebar" class="d-print-none sidebar sidebar-fixed" id="sidebar" visible>
 
     <c-sidebar-brand routerLink="./">
-        <span class="text-uppercase fw-bold">{{ 'title' | translate }}</span>
+        <!-- <span class="text-uppercase fw-bold">{{ 'title' | translate }}</span> -->
+        <img src="assets/icons/logo-brand.svg" alt="Logo" />
+
     </c-sidebar-brand>
     <perfect-scrollbar [config]="perfectScrollbarConfig">
         <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
@@ -12,7 +14,7 @@
 </c-sidebar>
 
 <!--main-->
-<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+<div class="wrapper d-flex flex-column min-vh-100  ">
     <!--app-header-->
     <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky"
                         sidebarId="sidebar"></app-default-header>

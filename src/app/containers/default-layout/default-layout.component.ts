@@ -7,6 +7,7 @@ import {UserRoleService} from "../../services/user-role.service";
 @Component({
     selector: 'app-dashboard',
     templateUrl: './default-layout.component.html',
+    styleUrls: ['./default-layout.component.scss']
 })
 export class DefaultLayoutComponent implements OnInit {
 
@@ -30,6 +31,7 @@ export class DefaultLayoutComponent implements OnInit {
     }
 
     getTranslatedNavItems(): NavItem[] {
+        // return navItems;
         let navItemsArray: NavItem[] = navItems.filter(item => !item.itemCode || (item.itemCode && this.userRoleService.hasPermission(item.itemCode)));
         navItemsArray.forEach(item => {
             if (item.children && item.children.length > 0) {
