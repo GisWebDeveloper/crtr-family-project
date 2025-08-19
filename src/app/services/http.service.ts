@@ -17,10 +17,10 @@ export class HttpService {
     }
 
     private static getServerUrl(): string {
-        let location = window.location;
-        return location.protocol + '//' + location.hostname + ':' + environment.serverPort;
+        //let location = window.location;
+        //return location.protocol + '//' + location.hostname + ':' + environment.serverPort;
         //return location.protocol + '//' + location.hostname + ':' + location.port;
-        //return environment.serverUrl;
+        return environment.serverUrl;
     }
 
     public getApiUrl(): string {
