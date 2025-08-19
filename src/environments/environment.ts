@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     serverPort: 8080,
-    serverUrl: 'http://localhost:8080'
+    serverUrl: 'http://82.29.155.18:8089'
 };
 
 /*
