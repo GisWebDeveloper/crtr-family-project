@@ -118,9 +118,52 @@ export class TzhsPageComponent implements OnInit {
                 fio: 'Сидоров Петр Александрович',
                 birthDate: '08.11.1978',
                 address: 'г. Шымкент, ул. Туркестанская, д. 78, кв. 33'
+            },
+            {
+                iin: '111222333444',
+                fio: 'Козлова Мария Дмитриевна',
+                birthDate: '12.04.1982',
+                address: 'г. Алматы, ул. Толе би, д. 89, кв. 7'
+            },
+            {
+                iin: '555666777888',
+                fio: 'Нурланов Алихан Болатович',
+                birthDate: '30.09.1975',
+                address: 'г. Астана, ул. Кенесары, д. 23, кв. 15'
+            },
+            {
+                iin: '999888777666',
+                fio: 'Ахметова Гульнара Рашидовна',
+                birthDate: '18.12.1988',
+                address: 'г. Шымкент, ул. Абая, д. 156, кв. 42'
+            },
+            {
+                iin: '444333222111',
+                fio: 'Бекенов Даурен Саматович',
+                birthDate: '05.06.1980',
+                address: 'г. Алматы, ул. Достык, д. 67, кв. 19'
+            },
+            {
+                iin: '777888999000',
+                fio: 'Исмаилова Айгуль Каримовна',
+                birthDate: '25.01.1992',
+                address: 'г. Астана, ул. Бейбитшилик, д. 34, кв. 28'
+            },
+            {
+                iin: '222333444555',
+                fio: 'Темирбаев Нурлан Амангельдиевич',
+                birthDate: '14.08.1977',
+                address: 'г. Шымкент, ул. Ташкентская, д. 92, кв. 11'
+            },
+            {
+                iin: '666777888999',
+                fio: 'Садыкова Айжан Талгатовна',
+                birthDate: '03.11.1985',
+                address: 'г. Алматы, ул. Розыбакиева, д. 123, кв. 35'
             }
         ];
-        this.pagination.totalItems = this.list.length;
+        this.pagination.totalItems = 100; // Mock total for pagination testing
+        this.pagination.itemsPerPage = 10;
 
         // Uncomment the following lines when ready to use real API
         // let request = {
@@ -142,5 +185,28 @@ export class TzhsPageComponent implements OnInit {
     changePage(page: number) {
         this.pagination.currentPage = page;
         this.select();
+    }
+
+    getPageNumbers(): number[] {
+        const totalPages = this.getTotalPages();
+        const currentPage = this.pagination.currentPage;
+        const maxVisible = 5;
+
+        if (totalPages <= maxVisible) {
+            return Array.from({length: totalPages}, (_, i) => i + 1);
+        }
+
+        let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let end = Math.min(totalPages, start + maxVisible - 1);
+
+        if (end - start + 1 < maxVisible) {
+            start = Math.max(1, end - maxVisible + 1);
+        }
+
+        return Array.from({length: end - start + 1}, (_, i) => start + i);
+    }
+
+    getTotalPages(): number {
+        return Math.ceil(this.pagination.totalItems / this.pagination.itemsPerPage);
     }
 }

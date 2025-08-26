@@ -1,116 +1,110 @@
 <h2>Трудные жизненные ситуации</h2>
 
-<div class="tzhs-card">
-    <div class="tzhs-card__header">
-        <span class="tzhs-card__title">Наименование</span>
+<!-- Cards Container -->
+<div class="cards-container">
+    <!-- New TZHS Card Design based on Figma -->
+    <div class="tzhs-card">
+        <div class="tzhs-card__header">
+            <span class="tzhs-card__title">Наименование</span>
+        </div>
+
+        <div class="tzhs-card__divider"></div>
+
+        <div class="tzhs-card__content">
+            <div class="tzhs-item"
+                 *ngFor="let item of dictionary; let idx = index"
+                 (click)="selectMemberPage(item)"
+                 [ngClass]="{
+                     'tzhs-item--selected': selectedTzhsId && selectedTzhsId === item.code
+                 }">
+                <div class="tzhs-item__title">
+                    {{ utilService.getLocalization(item.nameKz, item.nameRu) }}
+                </div>
+                <div class="tzhs-item__description">
+                    {{ item.descr }}
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="tzhs-card__divider"></div>
+    <!-- Second Card - Lists Table based on Figma -->
+    <div class="lists-card" *ngIf="selectedTzhsId">
+        <div class="lists-card__header">
+            <span class="lists-card__title">Списки</span>
+            <button class="download-button">
+                <span>Скачать</span>
+                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.9784 7.72874C11.0721 7.63497 11.125 7.50761 11.125 7.375C11.125 7.24239 11.0723 7.11521 10.9786 7.02145C10.8848 6.92768 10.7576 6.875 10.625 6.875C10.4924 6.875 10.3652 6.92768 10.2714 7.02145L8 9.29289L5.72861 7.02151C5.63479 6.92768 5.50761 6.875 5.375 6.875C5.24239 6.875 5.11521 6.92768 5.02145 7.02145C4.92768 7.11521 4.875 7.24239 4.875 7.375C4.875 7.50761 4.92768 7.63479 5.02145 7.72855L7.64645 10.3536C7.74021 10.4473 7.86739 10.5 8 10.5C8.13261 10.5 8.25978 10.4473 8.35355 10.3536L10.9784 7.72874Z" fill="#1F98EA"/>
+                    <path d="M7.5 3V10C7.5 10.2761 7.72386 10.5 8 10.5C8.27614 10.5 8.5 10.2761 8.5 10V3C8.5 2.72386 8.27614 2.5 8 2.5C7.72386 2.5 7.5 2.72386 7.5 3Z" fill="#1F98EA"/>
+                    <path d="M3 13.5V10C3 9.72386 2.77614 9.5 2.5 9.5C2.22386 9.5 2 9.72386 2 10V13.5C2 13.9142 2.29289 14.2071 2.29289 14.2071C2.58579 14.5 3 14.5 3 14.5H13C13.4142 14.5 13.7071 14.2071 13.7071 14.2071C14 13.9142 14 13.5 14 13.5V10C14 9.72386 13.7761 9.5 13.5 9.5C13.2239 9.5 13 9.72386 13 10V13.5H3Z" fill="#1F98EA"/>
+                    </svg>
 
-    <div class="tzhs-card__content">
-        <div
-            class="tzhs-item"
-            *ngFor="let item of dictionary; let idx = index"
-            (click)="selectMemberPage(item)"
-            [ngClass]="{
-                'tzhs-item--selected':
-                    selectedTzhsId && selectedTzhsId === item.code
-            }"
-        >
-            <div class="tzhs-item__title">
-                {{ utilService.getLocalization(item.nameKz, item.nameRu) }}
+
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-number">№</th>
+                        <th class="col-iin">ИИН</th>
+                        <th class="col-name">ФИО</th>
+                        <th class="col-birth">Дата рождения</th>
+                        <th class="col-address">Адрес</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of list; let idx = index"
+                        [ngClass]="{'row-striped': idx % 2 === 1}">
+                        <td class="col-number">
+                            {{ (pagination.currentPage - 1) * pagination.itemsPerPage + idx + 1 }}
+                        </td>
+                        <td class="col-iin">
+                            <a class="link-info"
+                               target="_blank"
+                               [routerLink]="['/family/' + item.iin]"
+                               (click)="utilService.navigateToFamilyPortrait(item.iin)">
+                                {{ item.iin }}
+                            </a>
+                        </td>
+                        <td class="col-name">{{ utilService.getCapitalized(item.fio) }}</td>
+                        <td class="col-birth">{{ item.birthDate }}</td>
+                        <td class="col-address">{{ item.address }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-container">
+            <div class="pagination-controls">
+                <button class="pagination-arrow"
+                        [disabled]="pagination.currentPage === 1"
+                        (click)="changePage(pagination.currentPage - 1)">
+                    <svg viewBox="0 0 14 14" fill="none">
+                        <path d="M8.5 2.5l-5 4.5 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <button class="pagination-number"
+                        *ngFor="let page of getPageNumbers()"
+                        [ngClass]="{'active': page === pagination.currentPage}"
+                        (click)="changePage(page)">
+                    {{ page }}
+                </button>
+
+                <button class="pagination-arrow"
+                        [disabled]="pagination.currentPage >= getTotalPages()"
+                        (click)="changePage(pagination.currentPage + 1)">
+                    <svg viewBox="0 0 14 14" fill="none">
+                        <path d="M5.5 2.5l5 4.5-5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div>
-            <div class="tzhs-item__description">
-                {{ item.descr }}
+
+            <div class="pagination-info">
+                кол-во записей: {{ pagination.totalItems }}
             </div>
         </div>
     </div>
 </div>
-
-<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="selectedTzhsId">
-    <c-card-header>
-        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
-        <strong>{{ "lists" | translate }}</strong>
-        <!--        <span class="float-end">-->
-        <!--            <span>Скачать</span>-->
-        <!--            <button cButton color="success" variant="ghost" size="sm" >-->
-        <!--                <i class="fa fa-file-excel-o"></i></button>-->
-        <!--        </span>-->
-    </c-card-header>
-    <c-card-body>
-        <!-- LIST -->
-        <table cTable striped hover *ngIf="list.length > 0">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">ИИН</th>
-                    <!--                <th scope="col" class="text-center">{{ 'need-actions-page.form' | translate }}</th>-->
-                    <th scope="col">ФИО</th>
-                    <th scope="col">Дата рождения</th>
-                    <th scope="col">Адрес</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of list; let idx = index">
-                    <th scope="row">
-                        {{
-                            (pagination.currentPage - 1) *
-                                pagination.itemsPerPage +
-                                idx +
-                                1
-                        }}
-                    </th>
-                    <td>
-                        <a
-                            target="_blank"
-                            class="link-info"
-                            [routerLink]="['/family/' + item.iin]"
-                            (click)="
-                                utilService.navigateToFamilyPortrait(item.iin)
-                            "
-                        >
-                            {{ item.iin }}
-                        </a>
-                    </td>
-                    <td>{{ utilService.getCapitalized(item.fio) }}</td>
-                    <td>{{ item.birthDate }}</td>
-                    <td>{{ item.address }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <c-alert color="warning" *ngIf="list.length == 0">
-            {{ "warnings.no-data-found" | translate }}
-        </c-alert>
-    </c-card-body>
-    <c-card-footer>
-        <c-row>
-            <c-col [md]="10">
-                <pagination
-                    class="pagination-sm mb-0"
-                    *ngIf="pagination.totalItems > pagination.itemsPerPage"
-                    [(ngModel)]="pagination.currentPage"
-                    [itemsPerPage]="pagination.itemsPerPage"
-                    [totalItems]="pagination.totalItems"
-                    [maxSize]="pagination.maxSize"
-                    [boundaryLinks]="true"
-                    (pageChanged)="changePage($event.page)"
-                    previousText="&lsaquo;"
-                    nextText="&rsaquo;"
-                    firstText="&laquo;"
-                    lastText="&raquo;"
-                ></pagination>
-            </c-col>
-            <c-col [md]="2">
-                <div class="text-lowercase float-end">
-                    <small
-                        >{{ "item-count" | translate }}:
-                        {{
-                            utilService.numberFormat(pagination.totalItems)
-                        }}</small
-                    >
-                </div>
-            </c-col>
-        </c-row>
-    </c-card-footer>
-</c-card>
