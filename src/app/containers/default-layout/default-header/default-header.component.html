@@ -9,8 +9,8 @@
             <!-- ИИН -->
             <form (submit)="searchByIIN()" *ngIf="hasPermissions(permissions.SEARCH_IIN, permissions.SEARCH_IIN_DE) && authService.getUserId() !== authService.DEMO_USER_ID" cForm novalidate>
                 <c-input-group class="my-1 mx-4 custom-input-group" sizing="sm" style="width: 200px">
-                     <input   cFormControl name="search-iin" maxlength="12" aria-describedby="search-iin"
-                           aria-label="Search by IIN" placeholder="{{ 'iin' | translate }}" [(ngModel)]="iin"/>
+                     <input cFormControl name="search-iin" maxlength="12" aria-describedby="search-iin"
+                           aria-label="Search by IIN" placeholder="{{ 'iin' | translate }}" [(ngModel)]="iin" class="input-unvalidated"/>
                     <button type="submit" cButton color="info" class="text-white search-btn">
                         <i class="fa fa-search"></i>
                     </button>
@@ -21,7 +21,7 @@
             <form (submit)="searchByFullName()" *ngIf="hasPermission(permissions.SEARCH_FULL_NAME)" cForm novalidate>
                 <c-input-group class="my-1 mx-4 custom-input-group" sizing="sm" style="width: 320px">
                      <input cFormControl name="search-full-name" maxlength="30" aria-describedby="search-full-name"
-                           aria-label="Search by full name" placeholder="{{ getSearchDescriptionKey() | translate }}"
+                           aria-label="Search by full name" placeholder="{{ getSearchDescriptionKey() | translate }}" class="input-unvalidated"
                            [(ngModel)]="fullName"/>
                     <c-dropdown size="sm">
                         <button split cButton cDropdownToggle color="secondary" variant="outline" size="sm" class="toggle-btn">
@@ -60,13 +60,20 @@
             -->
         </c-header-nav>
 
-        <c-header-nav class="ms-3">
+        <!-- <c-header-nav class="ms-3">
             <div class="fw-medium">{{ userRegion() }}</div>
-        </c-header-nav>
+        </c-header-nav> -->
 
+         <c-header-nav class="ms-3">
+            <div class="lang-toggle">
+                <span class="pill"  (click)="setCurrentLang('kz')" [class.active]="translateService.currentLang=='kz'">Қаз</span>
+                <span class="pill" (click)="setCurrentLang('ru')" [class.active]="translateService.currentLang=='ru'">Ру</span>
+            </div>
+        </c-header-nav>
         <c-header-nav class="ms-3">
             <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
         </c-header-nav>
+        
     </c-container>
 
     <!--

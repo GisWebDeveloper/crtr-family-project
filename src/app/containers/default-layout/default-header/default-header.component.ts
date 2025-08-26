@@ -12,6 +12,7 @@ import {AvailableIinsService} from "../../../services/available-iins.service";
 @Component({
     selector: 'app-default-header',
     templateUrl: './default-header.component.html',
+    styleUrls: ['./default-header.component.scss'],
 })
 export class DefaultHeaderComponent extends HeaderComponent {
 
@@ -25,11 +26,17 @@ export class DefaultHeaderComponent extends HeaderComponent {
     constructor(public authService: AuthService,
                 private classToggler: ClassToggleService,
                 private dataService: DataService,
-                private translateService: TranslateService,
+                public translateService: TranslateService,
                 private utilService: UtilService,
                 private userRoleService: UserRoleService,
                 private availableIinsService: AvailableIinsService) {
         super();
+    }
+    
+    setCurrentLang(lang:string):void{
+        debugger;
+        this.translateService.use(lang);
+        localStorage.setItem('appLang', lang);
     }
 
     searchByIIN() {

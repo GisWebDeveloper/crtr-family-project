@@ -1,0 +1,29 @@
+.lang-toggle {
+    // position: absolute;
+    // top: 70px;
+    // right: 70px;
+    .active{
+        background: #8BC2DE;
+        color: white;
+    }
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 2px 8px;
+        height: 44px;
+        border-radius: 8px;
+        background: #e2e8f0;
+        color: #2684b7;
+        cursor: pointer;
+        text-align: center;
+        width: 45px;
+        border: 1px solid #64c8ff;
+    }
+}
+
+.input-unvalidated{
+    background-image: none !important;
+}
+
