@@ -36,12 +36,33 @@
             <div class="avatar-section">
               <div class="avatar-container">
                 <div class="avatar">
-                  <svg cIcon name="cilUser" class="avatar-icon"></svg>
+                  <img
+                    *ngIf="selectedImageUrl"
+                    [src]="selectedImageUrl"
+                    alt="Profile photo"
+                    class="avatar-image">
+                  <svg
+                    *ngIf="!selectedImageUrl"
+                    cIcon name="cilUser"
+                    class="avatar-icon">
+                  </svg>
                 </div>
-                <button class="upload-button" (click)="fileInput.click()">
-                  <svg cIcon name="cilCloudUpload" class="upload-icon"></svg>
-                  Изменить фото
-                </button>
+                <div class="avatar-actions">
+                  <button class="upload-button" (click)="fileInput.click()">
+                    <svg cIcon name="cilCloudUpload" class="upload-icon"></svg>
+                    {{ selectedImageUrl ? 'Изменить фото' : 'Добавить фото' }}
+                  </button>
+                  <button
+                    *ngIf="selectedImageUrl"
+                    class="remove-button"
+                    (click)="removeImage()">
+                    <svg cIcon name="cilTrash" class="remove-icon"></svg>
+                    Удалить
+                  </button>
+                  <div *ngIf="uploadError" class="upload-error">
+                    {{ uploadError }}
+                  </div>
+                </div>
                 <input
                   #fileInput
                   type="file"
@@ -190,7 +211,7 @@
               </div>
 
               <h2 class="section-subtitle">Придумайте новый пароль</h2>
- 
+
               <!-- New Password -->
               <div class="form-group">
                 <label cLabel for="newPassword">Новый пароль</label>

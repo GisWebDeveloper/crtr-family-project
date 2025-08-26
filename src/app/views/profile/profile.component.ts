@@ -13,6 +13,8 @@ export class ProfileComponent implements OnInit {
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
+  selectedImageUrl: string | null = null;
+  uploadError: string | null = null;
 
   // Mock user data - in real app this would come from a service
   userData = {
@@ -81,15 +83,47 @@ export class ProfileComponent implements OnInit {
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
+    this.uploadError = null; // Clear previous errors
+
     if (file) {
-      // Handle file upload logic here
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        this.uploadError = 'Выбранный файл не является изображением';
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        this.uploadError = 'Размер файла слишком большой. Максимальный размер 5MB';
+        return;
+      }
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.selectedImageUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
       console.log('File selected:', file.name);
+    }
+  }
+
+  removeImage(): void {
+    this.selectedImageUrl = null;
+    this.uploadError = null;
+    // Reset the file input
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 
   saveProfile(): void {
     if (this.profileForm.valid) {
       console.log('Saving profile:', this.profileForm.value);
+      console.log('Selected image URL:', this.selectedImageUrl);
       // Implement save logic here
     } else {
       this.markFormGroupTouched(this.profileForm);
@@ -108,6 +142,8 @@ export class ProfileComponent implements OnInit {
   cancel(): void {
     this.loadUserData();
     this.passwordForm.reset();
+    this.selectedImageUrl = null;
+    this.uploadError = null;
   }
 
   private markFormGroupTouched(formGroup: FormGroup): void {
