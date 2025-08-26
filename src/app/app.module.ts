@@ -58,6 +58,7 @@ import {AuthGuard} from "./guards/auth.guard";
 import {UnauthorizedComponent} from "./views/unauthorized/unauthorized.component";
 import {NotFoundComponent} from "./views/not-found/not-found.component";
 import {IinSearchGuard} from "./guards/iin-search.guard";
+import {ProfileComponent} from "./views/profile/profile.component";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -98,7 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ...APP_CONTAINERS,
         LoginComponent,
         UnauthorizedComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        ProfileComponent
     ],
     imports: [
         AlertModule,
