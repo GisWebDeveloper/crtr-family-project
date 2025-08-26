@@ -1,0 +1,285 @@
+<div class="profile-container">
+  <!-- Page Title -->
+  <h1 class="page-title">Профиль</h1>
+
+  <!-- Main Profile Card -->
+  <c-card class="profile-card">
+    <c-card-body>
+      <div class="profile-layout">
+        <!-- Left Side - Tabs Navigation -->
+        <div class="tabs-sidebar">
+          <div class="tabs-nav">
+            <button
+              class="tab-button"
+              [class.active]="activeTab === 'personal'"
+              (click)="setActiveTab('personal')">
+              <svg cIcon name="cilUser" class="tab-icon"></svg>
+              Личные данные
+            </button>
+            <button
+              class="tab-button"
+              [class.active]="activeTab === 'password'"
+              (click)="setActiveTab('password')">
+              <svg cIcon name="cilLockLocked" class="tab-icon"></svg>
+              Изменить пароль
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Side - Tab Content -->
+        <div class="content-side">
+          <!-- Personal Data Tab -->
+          <div *ngIf="activeTab === 'personal'" class="personal-data-tab">
+            <h2 class="section-title">Личные данные</h2>
+
+            <!-- Avatar Section -->
+            <div class="avatar-section">
+              <div class="avatar-container">
+                <div class="avatar">
+                  <img
+                    *ngIf="selectedImageUrl"
+                    [src]="selectedImageUrl"
+                    alt="Profile photo"
+                    class="avatar-image">
+                  <svg
+                    *ngIf="!selectedImageUrl"
+                    cIcon name="cilUser"
+                    class="avatar-icon">
+                  </svg>
+                </div>
+                <div class="avatar-actions">
+                  <button class="upload-button" (click)="fileInput.click()">
+                    <svg cIcon name="cilCloudUpload" class="upload-icon"></svg>
+                    {{ selectedImageUrl ? 'Изменить фото' : 'Добавить фото' }}
+                  </button>
+                  <button
+                    *ngIf="selectedImageUrl"
+                    class="remove-button"
+                    (click)="removeImage()">
+                    <svg cIcon name="cilTrash" class="remove-icon"></svg>
+                    Удалить
+                  </button>
+                  <div *ngIf="uploadError" class="upload-error">
+                    {{ uploadError }}
+                  </div>
+                </div>
+                <input
+                  #fileInput
+                  type="file"
+                  accept="image/*"
+                  style="display: none;"
+                  (change)="onFileSelected($event)">
+              </div>
+            </div>
+
+            <!-- Basic Information Section -->
+            <h3 class="section-subtitle">Базовая информация</h3>
+
+            <form [formGroup]="profileForm" class="profile-form">
+              <div class="form-row">
+                <!-- Last Name -->
+                <div class="form-group">
+                  <label cLabel for="lastName">Фамилия</label>
+                  <div class="input-field" [class.ng-invalid]="getFieldError(profileForm, 'lastName')">
+                    <input
+                      cFormControl
+                      id="lastName"
+                      type="text"
+                      formControlName="lastName"
+                      placeholder="Введите фамилию">
+                  </div>
+                  <div class="error-message" *ngIf="getFieldError(profileForm, 'lastName')">
+                    {{ getFieldError(profileForm, 'lastName') }}
+                  </div>
+                </div>
+
+                <!-- First Name -->
+                <div class="form-group">
+                  <label cLabel for="firstName">Имя</label>
+                  <div class="input-field" [class.ng-invalid]="getFieldError(profileForm, 'firstName')">
+                    <input
+                      cFormControl
+                      id="firstName"
+                      type="text"
+                      formControlName="firstName"
+                      placeholder="Введите имя">
+                  </div>
+                  <div class="error-message" *ngIf="getFieldError(profileForm, 'firstName')">
+                    {{ getFieldError(profileForm, 'firstName') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <!-- Middle Name -->
+                <div class="form-group">
+                  <label cLabel for="middleName">Отчество</label>
+                  <div class="input-field" [class.ng-invalid]="getFieldError(profileForm, 'middleName')">
+                    <input
+                      cFormControl
+                      id="middleName"
+                      type="text"
+                      formControlName="middleName"
+                      placeholder="Введите отчество">
+                  </div>
+                  <div class="error-message" *ngIf="getFieldError(profileForm, 'middleName')">
+                    {{ getFieldError(profileForm, 'middleName') }}
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                  <label cLabel for="email">Email</label>
+                  <div class="input-field" [class.ng-invalid]="getFieldError(profileForm, 'email')">
+                    <input
+                      cFormControl
+                      id="email"
+                      type="email"
+                      formControlName="email"
+                      placeholder="Введите email">
+                  </div>
+                  <div class="error-message" *ngIf="getFieldError(profileForm, 'email')">
+                    {{ getFieldError(profileForm, 'email') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <!-- Phone -->
+                <div class="form-group">
+                  <label cLabel for="phone">Телефон</label>
+                  <div class="input-field" [class.ng-invalid]="getFieldError(profileForm, 'phone')">
+                    <input
+                      cFormControl
+                      id="phone"
+                      type="tel"
+                      formControlName="phone"
+                      placeholder="+7 777 123 45 67">
+                  </div>
+                  <div class="error-message" *ngIf="getFieldError(profileForm, 'phone')">
+                    {{ getFieldError(profileForm, 'phone') }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                <button
+                  cButton
+                  color="primary"
+                  class="save-button"
+                  (click)="saveProfile()"
+                  [disabled]="profileForm.invalid">
+                  Сохранить
+                </button>
+                <button
+                  cButton
+                  color="light"
+                  class="cancel-button"
+                  (click)="cancel()">
+                  Отмена
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Password Change Tab -->
+          <div *ngIf="activeTab === 'password'" class="password-tab">
+            <h2 class="section-title">Изменить пароль</h2>
+
+            <form [formGroup]="passwordForm" class="password-form">
+              <!-- Current Password -->
+              <div class="form-group">
+                <label cLabel for="currentPassword">Текущий пароль</label>
+                <div class="input-field" [class.ng-invalid]="getFieldError(passwordForm, 'currentPassword')">
+                  <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                  <input
+                    cFormControl
+                    id="currentPassword"
+                    [type]="showCurrentPassword ? 'text' : 'password'"
+                    formControlName="currentPassword"
+                    placeholder="Введите текущий пароль">
+                  <i
+                    class="fa"
+                     [ngClass]="{'fa-eye': showCurrentPassword, 'fa-eye-slash': !showCurrentPassword}"
+                    (click)="togglePasswordVisibility('current')">
+                  </i>
+                </div>
+                <div class="error-message" *ngIf="getFieldError(passwordForm, 'currentPassword')">
+                  {{ getFieldError(passwordForm, 'currentPassword') }}
+                </div>
+              </div>
+
+              <h2 class="section-subtitle">Придумайте новый пароль</h2>
+
+              <!-- New Password -->
+              <div class="form-group">
+                <label cLabel for="newPassword">Новый пароль</label>
+                <div class="input-field" [class.ng-invalid]="getFieldError(passwordForm, 'newPassword')">
+                  <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                  <input
+                    cFormControl
+                    id="newPassword"
+                    [type]="showNewPassword ? 'text' : 'password'"
+                    formControlName="newPassword"
+                    placeholder="Введите новый пароль">
+                  <i
+                    class="fa"
+                    [class]="showNewPassword ? 'fa-eye' : 'fa-eye-slash'"
+
+                    (click)="togglePasswordVisibility('new')">
+                  </i>
+                </div>
+                <div class="error-message" *ngIf="getFieldError(passwordForm, 'newPassword')">
+                  {{ getFieldError(passwordForm, 'newPassword') }}
+                </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="form-group">
+                <label cLabel for="confirmPassword">Подтвердите новый пароль</label>
+                <div class="input-field" [class.ng-invalid]="getFieldError(passwordForm, 'confirmPassword') || getPasswordError()">
+                  <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                  <input
+                    cFormControl
+                    id="confirmPassword"
+                    [type]="showConfirmPassword ? 'text' : 'password'"
+                    formControlName="confirmPassword"
+                    placeholder="Подтвердите новый пароль">
+                  <i
+                    class="fa"
+                    [class]="showConfirmPassword ? 'fa-eye' : 'fa-eye-slash'"
+
+                    (click)="togglePasswordVisibility('confirm')">
+                  </i>
+                </div>
+                <div class="error-message" *ngIf="getFieldError(passwordForm, 'confirmPassword') || getPasswordError()">
+                  {{ getFieldError(passwordForm, 'confirmPassword') || getPasswordError() }}
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                <button
+                  cButton
+                  color="primary"
+                  class="save-button"
+                  (click)="changePassword()"
+                  [disabled]="passwordForm.invalid">
+                  Сохранить
+                </button>
+                <button
+                  cButton
+                  color="light"
+                  class="cancel-button"
+                  (click)="cancel()">
+                  Отмена
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </c-card-body>
+  </c-card>
+</div>

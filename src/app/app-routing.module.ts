@@ -9,6 +9,7 @@ import { UnauthorizedComponent } from './views/unauthorized/unauthorized.compone
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { IinSearchGuard } from './guards/iin-search.guard';
 import { NecessityModule } from './views/necessity/necessity.module';
+import { ProfileComponent } from './views/profile/profile.component';
 
 const routes: Routes = [
     {
@@ -236,10 +237,16 @@ const routes: Routes = [
                         (m) => m.NecessityModule
                     ),
             },
+
+            {
+                path: 'profile',
+                component: ProfileComponent,
+            },
             {
                 path: '**',
                 component: NotFoundComponent,
             },
+
         ],
     },
 ];

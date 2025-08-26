@@ -130,7 +130,6 @@ $enable-rtl: true;
     line-height: $line-height-120;
 }
 
-
 .typography-button2 {
     font-size: $font-size-body2;
     font-weight: $font-weight-medium;
@@ -149,11 +148,11 @@ $enable-rtl: true;
 }
 
 .dark-blue {
-    color: var(--dark-blue)
+    color: var(--dark-blue);
 }
 
 .black {
-    color: #1C1C1C;
+    color: #1c1c1c;
 }
 
 .clear-sky {
@@ -178,7 +177,6 @@ $enable-rtl: true;
     border-radius: 0.5rem;
     box-shadow: 0px 2px 0px 0px #00000005;
     padding: 0.46875rem 1rem;
-
 }
 
 .btn-primary {
@@ -244,7 +242,6 @@ $enable-rtl: true;
     &:focus {
         box-shadow: 0px 2px 0px 0px #00000005 !important;
     }
-
 }
 
 //input text
@@ -252,7 +249,7 @@ input.form-control {
     @extend .typography-body2;
     width: auto;
     border: 1px solid var(--grey6);
-    padding: 0.46875rem 0.75rem ;
+    padding: 0.46875rem 0.75rem;
 }
 
 //checkbox
@@ -304,18 +301,31 @@ input.form-control {
 
         &[type="checkbox"] {
             @if $enable-gradients {
-                background-image: var(--#{$variable-prefix}form-check-input-checked-bg-image, escape-svg($form-check-input-checked-bg-image)), var(--#{$variable-prefix}gradient);
+                background-image: var(
+                        --#{$variable-prefix}form-check-input-checked-bg-image,
+                        escape-svg($form-check-input-checked-bg-image)
+                    ),
+                    var(--#{$variable-prefix}gradient);
             } @else {
-                background-image: var(--#{$variable-prefix}form-check-input-checked-bg-image, escape-svg($form-check-input-checked-bg-image));
+                background-image: var(
+                    --#{$variable-prefix}form-check-input-checked-bg-image,
+                    escape-svg($form-check-input-checked-bg-image)
+                );
             }
         }
 
-
         &[type="radio"] {
             @if $enable-gradients {
-                background-image: var(--#{$variable-prefix}form-check-radio-checked-bg-image, escape-svg($form-check-radio-checked-bg-image)), var(--#{$variable-prefix}gradient);
+                background-image: var(
+                        --#{$variable-prefix}form-check-radio-checked-bg-image,
+                        escape-svg($form-check-radio-checked-bg-image)
+                    ),
+                    var(--#{$variable-prefix}gradient);
             } @else {
-                background-image: var(--#{$variable-prefix}form-check-radio-checked-bg-image, escape-svg($form-check-radio-checked-bg-image));
+                background-image: var(
+                    --#{$variable-prefix}form-check-radio-checked-bg-image,
+                    escape-svg($form-check-radio-checked-bg-image)
+                );
             }
         }
     }
@@ -350,7 +360,6 @@ input.form-control {
 .hr {
     color: var(--grey6);
 }
-
 
 table.striped-rounded-corners {
     // Change these properties
@@ -406,7 +415,7 @@ table.striped-rounded-corners {
         line-height: $line-height-140;
     }
 
-     //Striped body styling
+    //Striped body styling
     > tbody > tr {
         &:nth-child(even) {
             background-color: var(--grey6);
@@ -428,7 +437,49 @@ table.striped-rounded-corners {
     height: 1rem;
 }
 
+.custom-input-group {
+    input {
+        border: 1px solid #ced4da !important;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0px;
+        height: 32px;
+        border-radius: 8px 0px 0px 8px;
+    }
+    .is-valid {
+        background: none !important;
+    }
+    button {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 16px;
+        gap: 8px;
+        height: 32px;
+        background: #64c8ff;
+        border: 1px solid #64c8ff;
+        border-radius: 0px 6px 6px 0px;
+    }
+    .search-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 16px;
+        gap: 8px;
 
-
-
-
+        width: 48px;
+        height: 32px;
+    }
+    .toggle-btn {
+        background-color: #fff;
+        border-top: 1px solid #ced4da !important;
+        border-bottom: 1px solid #ced4da !important;
+        border-left: none;
+        border-radius: 0;
+    }
+}
