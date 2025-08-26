@@ -464,6 +464,17 @@ table.striped-rounded-corners {
         border: 1px solid #64c8ff;
         border-radius: 0px 6px 6px 0px;
     }
+    .search-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 16px;
+        gap: 8px;
+
+        width: 48px;
+        height: 32px;
+    }
     .toggle-btn {
         background-color: #fff;
         border-top: 1px solid #ced4da !important;

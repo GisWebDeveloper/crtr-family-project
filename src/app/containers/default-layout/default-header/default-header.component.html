@@ -5,13 +5,13 @@
             <svg cIcon name="cilMenu" size="lg"></svg>
         </button>
 
-        <c-header-nav class="d-none d-lg-flex me-auto">
+        <c-header-nav class="d-none d-lg-flex ">
             <!-- ИИН -->
             <form (submit)="searchByIIN()" *ngIf="hasPermissions(permissions.SEARCH_IIN, permissions.SEARCH_IIN_DE) && authService.getUserId() !== authService.DEMO_USER_ID" cForm novalidate>
                 <c-input-group class="my-1 mx-4 custom-input-group" sizing="sm" style="width: 200px">
                      <input   cFormControl name="search-iin" maxlength="12" aria-describedby="search-iin"
                            aria-label="Search by IIN" placeholder="{{ 'iin' | translate }}" [(ngModel)]="iin"/>
-                    <button type="submit" cButton color="info" class="text-white">
+                    <button type="submit" cButton color="info" class="text-white search-btn">
                         <i class="fa fa-search"></i>
                     </button>
                 </c-input-group>
@@ -39,7 +39,7 @@
                                 {{ 'header-menu.search.surname-desc' | translate }}</a>
                         </div>
                     </c-dropdown>
-                    <button type="submit" cButton color="info" class="text-white">
+                    <button type="submit" cButton color="info" class="text-white search-btn">
                         <i class="fa fa-search"></i>
                     </button>
                 </c-input-group>
