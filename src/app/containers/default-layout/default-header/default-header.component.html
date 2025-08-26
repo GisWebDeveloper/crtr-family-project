@@ -8,9 +8,8 @@
         <c-header-nav class="d-none d-lg-flex me-auto">
             <!-- ИИН -->
             <form (submit)="searchByIIN()" *ngIf="hasPermissions(permissions.SEARCH_IIN, permissions.SEARCH_IIN_DE) && authService.getUserId() !== authService.DEMO_USER_ID" cForm novalidate>
-                <c-input-group class="my-1 mx-4" sizing="sm" style="width: 200px">
-                    <span cInputGroupText id="search-iin"><i class="fa fa-address-book-o"></i></span>
-                    <input cFormControl name="search-iin" maxlength="12" aria-describedby="search-iin"
+                <c-input-group class="my-1 mx-4 custom-input-group" sizing="sm" style="width: 200px">
+                     <input   cFormControl name="search-iin" maxlength="12" aria-describedby="search-iin"
                            aria-label="Search by IIN" placeholder="{{ 'iin' | translate }}" [(ngModel)]="iin"/>
                     <button type="submit" cButton color="info" class="text-white">
                         <i class="fa fa-search"></i>
@@ -20,13 +19,12 @@
 
             <!-- ФИО -->
             <form (submit)="searchByFullName()" *ngIf="hasPermission(permissions.SEARCH_FULL_NAME)" cForm novalidate>
-                <c-input-group class="my-1 mx-4" sizing="sm" style="width: 320px">
-                    <span cInputGroupText id="search-full-name"><i class="fa fa-user-o"></i></span>
-                    <input cFormControl name="search-full-name" maxlength="30" aria-describedby="search-full-name"
+                <c-input-group class="my-1 mx-4 custom-input-group" sizing="sm" style="width: 320px">
+                     <input cFormControl name="search-full-name" maxlength="30" aria-describedby="search-full-name"
                            aria-label="Search by full name" placeholder="{{ getSearchDescriptionKey() | translate }}"
                            [(ngModel)]="fullName"/>
                     <c-dropdown size="sm">
-                        <button split cButton cDropdownToggle color="secondary" variant="outline" size="sm">
+                        <button split cButton cDropdownToggle color="secondary" variant="outline" size="sm" class="toggle-btn">
                             <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
                         <div cDropdownMenu>
@@ -45,6 +43,8 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </c-input-group>
+
+
             </form>
 
             <!--
