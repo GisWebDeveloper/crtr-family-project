@@ -2,14 +2,15 @@
     <div class="left-side">
         <div class="left-side-content">
             <div class="brand">
-                <img src="assets/icons/logo-main.svg" alt="Logo" />
+                <img [src]="translateService.currentLang === 'ru' ? 'assets/icons/logo-main-ru.svg' : 'assets/icons/logo-main-kz.svg'" alt="Logo" />
             </div>
         </div>
     </div>
 
     <div class="right-side">
         <div class="lang-toggle">
-            <span class="pill">Ру</span>
+            <span class="pill" (click)="setCurrentLang('kz')" [class.active]="translateService.currentLang=='kz'">Қаз</span>
+            <span class="pill" (click)="setCurrentLang('ru')" [class.active]="translateService.currentLang=='ru'">Ру</span>
         </div>
 
         <form
@@ -21,8 +22,8 @@
             class="login-form"
         >
             <div class="form-header">
-                <h1>Добро пожаловать!</h1>
-                <p class="subtitle">На цифровой семейный портал</p>
+                <h1>{{ 'welcome' | translate }}!</h1>
+                <p class="subtitle">{{'welcome-family' | translate }}</p>
 
                 <!-- <h1>    {{ "login-page.login" | translate }}</h1>
                 <p class="subtitle">{{ "login-page.sign-in-desc" | translate }}</p> -->
@@ -35,14 +36,14 @@
             >
                 <svg cIcon name="cilUser" class="input-icon"></svg>
                 <input
-                    autoComplete="username"
+                    autocomplete="username"
                     formControlName="username"
-                    placeholder="{{ 'Логин' | translate }}"
+                    placeholder="{{ 'login-page.username' | translate }}"
                     class="form-input"
                 />
             </div>
             <div class="error-message" *ngIf="isFieldInvalid('username')">
-                Поле обязательно для заполнения
+                {{ 'login-page.this-field-is-required' | translate }}
             </div>
 
             <div
@@ -52,7 +53,7 @@
             >
                 <svg cIcon name="cilLockLocked" class="input-icon"></svg>
                 <input
-                    autoComplete="current-password"
+                    autocomplete="current-password"
                     formControlName="password"
                     [type]="showPassword ? 'text' : 'password'"
                     placeholder="{{ 'login-page.password' | translate }}"
@@ -66,7 +67,7 @@
                 ></svg>
             </div>
             <div class="error-message" *ngIf="isFieldInvalid('password')">
-                Поле обязательно для заполнения
+                {{ 'login-page.this-field-is-required' | translate }}
             </div>
 
             <div class="input-caption">
@@ -77,7 +78,7 @@
                     class="px-0 caption-link"
                     (click)="changeForm('PASSWORD')"
                 >
-                    Забыли пароль
+                    {{ 'forgot-password' | translate }}
                 </button>
             </div>
 
@@ -101,10 +102,22 @@
             class="login-form"
         >
             <div class="form-header">
-                <h1>Забыли пароль</h1>
-                <p class="subtitle">Напишите пароль, который помните</p>
+                <h1>{{ 'login-page.change-password' | translate }}</h1>
+                <p class="subtitle">{{'login-page.change-password-desc' | translate }}</p>
             </div>
-
+            <div
+                class="input-field"
+                [class.ng-invalid]="isFieldInvalid('username')"
+                [class.ng-touched]="isFieldInvalid('username')"
+            >
+                <svg cIcon name="cilLockLocked" class="input-icon"></svg>
+                <input
+                    formControlName="username"
+                    type="text"
+                    placeholder="{{ 'login-page.username' | translate }}"
+                    class="form-input"
+                />
+            </div>
             <div
                 class="input-field"
                 [class.ng-invalid]="isPasswordFieldInvalid('password')"
@@ -112,10 +125,10 @@
             >
                 <svg cIcon name="cilLockLocked" class="input-icon"></svg>
                 <input
-                    autoComplete="current-password"
+                    autocomplete="current-password"
                     formControlName="password"
                     type="password"
-                    placeholder="{{ 'Старый пароль' | translate }}"
+                    placeholder="{{ 'current-password' | translate }}"
                     class="form-input"
                 />
             </div>
@@ -123,7 +136,7 @@
                 class="error-message"
                 *ngIf="isPasswordFieldInvalid('password')"
             >
-                Поле обязательно для заполнения
+                {{ 'login-page.this-field-is-required' | translate }}
             </div>
             <div
                 class="input-field"
@@ -134,7 +147,7 @@
                 <input
                     [type]="showNewPassword ? 'text' : 'password'"
                     formControlName="newPassword"
-                    autoComplete="new-password"
+                    autocomplete="new-password"
                     required
                     placeholder="{{ 'login-page.new-password' | translate }}"
                     class="form-input"
@@ -151,7 +164,7 @@
                 class="error-message"
                 *ngIf="isPasswordFieldInvalid('newPassword')"
             >
-                Поле обязательно для заполнения
+                {{ 'login-page.this-field-is-required' | translate }}
             </div>
             <div
                 class="input-field"
@@ -162,7 +175,7 @@
                 <input
                     [type]="showConfirmPassword ? 'text' : 'password'"
                     formControlName="confirmPassword"
-                    autoComplete="confirm-password"
+                    autocomplete="confirm-password"
                     required
                     placeholder="{{ 'login-page.confirm-password' | translate }}"
                     class="form-input"
@@ -178,7 +191,7 @@
                 class="error-message"
                 *ngIf="isPasswordFieldInvalid('confirmPassword')"
             >
-                Поле обязательно для заполнения
+                {{ 'login-page.this-field-is-required' | translate }}
             </div>
 
             <button

@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from '../../services/util.service';
 import { Router } from '@angular/router';
 import { UserRoleService } from '../../services/user-role.service';
-
+import {TranslateService} from '@ngx-translate/core';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
         private authService: AuthService,
         private router: Router,
         private userRoleService: UserRoleService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        public translateService: TranslateService
     ) {
         this.loginForm = new FormGroup({
             username: new FormControl(null, [Validators.required]),
@@ -36,7 +37,10 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        const savedLang = localStorage.getItem('appLang') || 'ru';
+        this.translateService.use(savedLang);
+    }
 
     get lForm() {
         return this.loginForm.controls;
@@ -44,6 +48,11 @@ export class LoginComponent implements OnInit {
 
     get pForm() {
         return this.passwordForm.controls;
+    }
+
+    setCurrentLang(lang:string):void{
+        this.translateService.use(lang);
+        localStorage.setItem('appLang', lang);
     }
 
     isFieldInvalid(fieldName: string): boolean {
@@ -96,10 +105,8 @@ export class LoginComponent implements OnInit {
     }
 
     changePassword() {
-        console.log(this.passwordForm);
-
         if (this.passwordForm.valid) {
-            // const usernameValue = this.pForm['username'].value;
+            const usernameValue = this.pForm['username'].value;
             const passwordValue = this.pForm['password'].value;
             const newPasswordValue = this.pForm['newPassword'].value;
             const confirmPasswordValue = this.pForm['confirmPassword'].value;
@@ -110,7 +117,7 @@ export class LoginComponent implements OnInit {
             }
 
             const request = {
-                // username: usernameValue,
+                username: usernameValue,
                 password: passwordValue,
                 passwordNew: newPasswordValue,
                 passwordConfirm: confirmPasswordValue,
