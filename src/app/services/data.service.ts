@@ -60,7 +60,7 @@ export class DataService {
     }
 
     getClientLanguage(): string {
-        return this.getItemValue(DataService.CLIENT_LANGUAGE) || 'ru';
+        return this.getItemValue(DataService.CLIENT_LANGUAGE) || 'kz';
     }
 
     setUserAuth(value: string) {

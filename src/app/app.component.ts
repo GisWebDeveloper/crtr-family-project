@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     }
 
     initLanguage() {
-        this.translateService.setDefaultLang('ru');
+        this.translateService.setDefaultLang('kz');
         this.translateService.addLangs(['en', 'kz', 'ru']);
         this.translateService.use(this.dataService.getClientLanguage());
 

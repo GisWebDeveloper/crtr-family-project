@@ -17,7 +17,9 @@ export class LanguageService {
    * getTranslatedPropertyName('name') // 'nameEn'
    * */
   getTranslatedPropertyName<T>(propertyName: string): keyof T {
-    const lang = this.translateService.currentLang || localStorage.getItem('language') || 'kz';
+    const lang = this.translateService.currentLang || localStorage.getItem('appLang') || 'kz';
+    console.log(lang);
+
     return `${propertyName}${lang[0].toUpperCase()}${lang.slice(1)}` as keyof T;
   }
 
