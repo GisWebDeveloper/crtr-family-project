@@ -8,8 +8,31 @@ c-sidebar {
         transition: background-color 0.3s ease;
         display: flex;
         justify-content: flex-start;
-        padding: 20px 16px;
-     }
+        padding: 30px 20px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .brand-logo {
+                height: 50px;
+                width: 50px;
+            }
+            .brand-text-container {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                .brand-text-line {
+                    font-family: Roboto;
+                    font-weight: 400;
+                    font-size: 18px;
+                    line-height: 1.1;
+                    color: #000;
+                    margin: 0;
+                    text-align: left;
+                }
+            }
+        }
+    }
 
     // Sidebar navigation container
     .c-sidebar-nav {
@@ -57,7 +80,7 @@ c-sidebar {
 
             &:hover {
                 background-color: rgba(31, 152, 234, 0.1) !important;
-                color: #1f98ea!important;
+                color: #1f98ea !important;
                 text-decoration: none !important;
             }
 
@@ -84,8 +107,6 @@ c-sidebar {
                 flex-shrink: 0 !important;
             }
 
-
-
             // Hover icon color
             &:hover {
                 .c-sidebar-nav-icon,
@@ -94,11 +115,7 @@ c-sidebar {
                     color: #1f98ea !important;
                 }
             }
-
-
         }
-
-
     }
     .nav-group.show {
         background-color: #ffffff;

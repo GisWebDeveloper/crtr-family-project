@@ -3,7 +3,16 @@
 
     <c-sidebar-brand routerLink="./">
         <!-- <span class="text-uppercase fw-bold">{{ 'title' | translate }}</span> -->
-        <img src="assets/icons/logo-brand.svg" alt="Logo" />
+        <!-- <img src="assets/icons/logo-brand.svg" alt="Logo" /> -->
+
+        <div class="brand">
+            <img [src]="'assets/icons/logo.svg'" alt="Logo"   class="brand-logo"/>
+            <div class="brand-text-container">
+                <p class="brand-text-line">{{ 'brand-text-line-1' | translate }}</p>
+                <p class="brand-text-line">{{ 'brand-text-line-2' | translate }}</p>
+                <p class="brand-text-line">{{ 'brand-text-line-3' | translate }}</p>
+            </div>
+        </div>
 
     </c-sidebar-brand>
     <perfect-scrollbar [config]="perfectScrollbarConfig">
