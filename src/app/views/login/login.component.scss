@@ -1,6 +1,6 @@
 // Font settings
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .login-page {
@@ -22,8 +22,24 @@
         background-position: left center;
         background-repeat: no-repeat;
         .brand {
-            width: 304px;
-            margin-left: 155px;
+            margin-left: 170px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .brand-text-container {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                .brand-text-line {
+                    font-family: Roboto;
+                    font-weight: 600;
+                    font-size: 24px;
+                    line-height: 1.5;
+                    color: #ffffff;
+                    margin: 0;
+                    text-align: left;
+                }
+            }
         }
     }
 }
@@ -42,8 +58,10 @@
     position: absolute;
     top: 70px;
     right: 70px;
-    .active{
-        background: #8BC2DE;
+    display: flex;
+    gap: 10px;
+    .active {
+        background: #8bc2de;
         color: white;
     }
 }
@@ -58,7 +76,7 @@
     background: #e2e8f0;
     color: #1c1c1c;
     cursor: pointer;
-    // display: block; 
+    justify-content: center;
     text-align: center;
     width: 45px;
 }
@@ -103,7 +121,7 @@
 
 .caption-link {
     color: #1f98ea;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-size: 14px;
     line-height: 1.2;
@@ -121,7 +139,7 @@
 .submit-btn {
     height: 44px;
     border-radius: 12px;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-size: 14px;
     line-height: 1.2;
@@ -175,7 +193,7 @@
     }
 
     &.ng-invalid.ng-touched {
-        border-color: #E53E3E;
+        border-color: #e53e3e;
         box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
     }
 
@@ -216,7 +234,7 @@
         border: none;
         outline: none;
         background: transparent;
-        font-family: 'Roboto', sans-serif;
+        font-family: "Roboto", sans-serif;
         font-weight: 400;
         font-size: 14px;
         line-height: 1.2;
@@ -243,8 +261,8 @@
 }
 
 .error-message {
-    color: #E53E3E;
-    font-family: 'Roboto', sans-serif;
+    color: #e53e3e;
+    font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 12px;
     line-height: 1.2;
@@ -265,7 +283,5 @@
     }
 }
 .btn {
-
-    box-shadow: none
-
+    box-shadow: none;
 }
