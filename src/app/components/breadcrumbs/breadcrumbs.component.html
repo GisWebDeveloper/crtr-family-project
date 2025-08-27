@@ -1,0 +1,21 @@
+<nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <ol class="breadcrumb">
+      <li
+        class="breadcrumb-item"
+        *ngFor="let breadcrumb of breadcrumbs"
+        [class.active]="breadcrumb.active"
+      >
+        <span class="breadcrumb-text" *ngIf="breadcrumb.active">
+          {{ breadcrumb.label }}
+        </span>
+        <a
+          href="#"
+          *ngIf="!breadcrumb.active"
+          (click)="navigateTo(breadcrumb.url); $event.preventDefault()"
+          class="breadcrumb-link"
+        >
+          {{ breadcrumb.label }}
+        </a>
+      </li>
+    </ol>
+  </nav>

@@ -1,13 +1,13 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {ClassToggleService, HeaderComponent} from '@coreui/angular';
-import {AuthService} from "../../../services/auth.service";
-import {UtilService} from "../../../services/util.service";
-import {UserRoleService} from "../../../services/user-role.service";
-import {DataService} from "../../../services/data.service";
-import {TranslateService} from "@ngx-translate/core";
-import {Permissions} from "../../../models/administration/permissions";
-import {AvailableIinsService} from "../../../services/available-iins.service";
+import { ClassToggleService, HeaderComponent } from '@coreui/angular';
+import { AuthService } from '../../../services/auth.service';
+import { UtilService } from '../../../services/util.service';
+import { UserRoleService } from '../../../services/user-role.service';
+import { DataService } from '../../../services/data.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Permissions } from '../../../models/administration/permissions';
+import { AvailableIinsService } from '../../../services/available-iins.service';
 
 @Component({
     selector: 'app-default-header',
@@ -15,26 +15,26 @@ import {AvailableIinsService} from "../../../services/available-iins.service";
     styleUrls: ['./default-header.component.scss'],
 })
 export class DefaultHeaderComponent extends HeaderComponent {
-
-    @Input() sidebarId: string = "sidebar";
+    @Input() sidebarId: string = 'sidebar';
 
     iin: string;
     fullName: string;
     fullNameMode: string = 'NAME';
     permissions = Permissions.PERMISSIONS;
 
-    constructor(public authService: AuthService,
-                private classToggler: ClassToggleService,
-                private dataService: DataService,
-                public translateService: TranslateService,
-                private utilService: UtilService,
-                private userRoleService: UserRoleService,
-                private availableIinsService: AvailableIinsService) {
+    constructor(
+        public authService: AuthService,
+        private classToggler: ClassToggleService,
+        private dataService: DataService,
+        public translateService: TranslateService,
+        private utilService: UtilService,
+        private userRoleService: UserRoleService,
+        private availableIinsService: AvailableIinsService
+    ) {
         super();
     }
-    
-    setCurrentLang(lang:string):void{
-        debugger;
+
+    setCurrentLang(lang: string): void {
         this.translateService.use(lang);
         localStorage.setItem('appLang', lang);
     }
@@ -65,7 +65,10 @@ export class DefaultHeaderComponent extends HeaderComponent {
     }
 
     hasPermissions(item1: string, item2: string): boolean {
-        return this.userRoleService.hasPermission(item1) || this.userRoleService.hasPermission(item2);
+        return (
+            this.userRoleService.hasPermission(item1) ||
+            this.userRoleService.hasPermission(item2)
+        );
     }
 
     toggleSearchFullName(mode: string) {

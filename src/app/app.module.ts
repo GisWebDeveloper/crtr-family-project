@@ -19,6 +19,8 @@ import {AppComponent} from './app.component';
 // Import containers
 import {DefaultFooterComponent, DefaultHeaderComponent, DefaultLayoutComponent,} from './containers';
 
+// Import breadcrumbs component
+
 import {
     AlertModule,
     AvatarModule,
@@ -59,6 +61,7 @@ import {UnauthorizedComponent} from "./views/unauthorized/unauthorized.component
 import {NotFoundComponent} from "./views/not-found/not-found.component";
 import {IinSearchGuard} from "./guards/iin-search.guard";
 import {ProfileComponent} from "./views/profile/profile.component";
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -100,7 +103,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoginComponent,
         UnauthorizedComponent,
         NotFoundComponent,
-        ProfileComponent
+        ProfileComponent,
+        BreadcrumbsComponent
     ],
     imports: [
         AlertModule,
