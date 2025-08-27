@@ -1,7 +1,7 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SocialStatusesComponent} from "./social-statuses.component";
-import {SocialStatusesRoutingModule} from "./social-statuses-routing.module";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SocialStatusesComponent } from './social-statuses.component';
+import { SocialStatusesRoutingModule } from './social-statuses-routing.module';
 import {
     AlertModule,
     ButtonModule,
@@ -10,18 +10,17 @@ import {
     FormModule,
     GridModule,
     TableModule,
-    UtilitiesModule
-} from "@coreui/angular";
-import {FormsModule} from "@angular/forms";
-import {IconModule} from "@coreui/icons-angular";
-import {TranslateModule} from "@ngx-translate/core";
-import {NgSelectModule} from "@ng-select/ng-select";
-import {PaginationModule} from "ngx-bootstrap/pagination";
+    UtilitiesModule,
+} from '@coreui/angular';
+import { FormsModule } from '@angular/forms';
+import { IconModule } from '@coreui/icons-angular';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-    declarations: [
-        SocialStatusesComponent
-    ],
+    declarations: [SocialStatusesComponent, ],
     imports: [
         AlertModule,
         ButtonModule,
@@ -34,13 +33,13 @@ import {PaginationModule} from "ngx-bootstrap/pagination";
         IconModule,
         NgSelectModule,
         PaginationModule.forRoot(),
+        SharedModule,
         SocialStatusesRoutingModule,
         TableModule,
         TranslateModule.forChild({
-            extend: true
+            extend: true,
         }),
-        UtilitiesModule
-    ]
+        UtilitiesModule,
+    ],
 })
-export class SocialStatusesModule {
-}
+export class SocialStatusesModule {}
