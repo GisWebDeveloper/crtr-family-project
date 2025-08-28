@@ -1,4 +1,4 @@
-<c-container breakpoint="lg" class="h-auto">
+
 
     <!-- FILTER -->
     <c-card class="mb-4" [cBorder]="'secondary'">
@@ -35,138 +35,189 @@
         </c-card-body>
     </c-card>
 
-    <!-- STATUS STAT LIST -->
-    <c-card class="mb-4 status-stat-list-card" [cBorder]="'secondary'">
-        <c-card-header>
-            <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
-            <strong>{{ 'menu.social-statuses' | translate }}</strong>
-            <span class="float-end">
-                <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(1)">
-                    <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i>
-                </a>
-            </span>
-        </c-card-header>
-        <c-card-body *ngIf="visible[1]">
-            <div class="status-stat-list">
-                <!-- Header -->
-                <div class="status-stat-header">
-                    <div class="status-stat-header-item">
-                        <span class="header-label">{{ 'stat-page.category' | translate }}</span>
+    <c-row>
+        <c-col [md]="5">
+            <!-- STATUS STAT LIST -->
+            <c-card class="mb-4 status-stat-list-card" [cBorder]="'secondary'">
+                <c-card-header>
+                    <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
+                    <strong>{{ 'menu.social-statuses' | translate }}</strong>
+                    <span class="float-end">
+                        <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(1)">
+                            <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i>
+                        </a>
+                    </span>
+                </c-card-header>
+                <c-card-body *ngIf="visible[1]">
+                    <div class="status-stat-list">
+                        <!-- Header -->
+                        <div class="status-stat-header">
+                            <div class="status-stat-header-item">
+                                <span class="header-label">{{ 'stat-page.category' | translate }}</span>
+                            </div>
+                            <div class="status-stat-header-item">
+                                <span class="header-label">{{ 'member' | translate }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="status-stat-divider"></div>
+
+                        <!-- Status Items -->
+                        <div class="scroll-body" style="max-height: 50vh; overflow-x: hidden !important;">
+                            <ng-container *ngFor="let stItem of statusList; let idx = index">
+                                <div class="status-stat-item"
+                                     [ngClass]="{ 'status-stat-item--active': !params.categoryId && params.statusId && params.statusId == stItem.statusId,
+                                                 'status-stat-item--clickable': hasPermission(permissions.SOC_STATUS_LIST) }"
+                                     (click)="hasPermission(permissions.SOC_STATUS_LIST) ? selectStatusItem(stItem.statusId, stItem.categoryId, stItem.nameRu) : null">
+                                    <div class="status-stat-item-content">
+                                        <span class="status-stat-number">{{ (idx + 1) + '.' }}</span>
+                                        <span class="status-stat-name">{{ stItem | translateProp }}</span>
+                                    </div>
+                                    <div class="status-stat-count">{{ utilService.numberFormat(stItem.cnt) }}</div>
+                                </div>
+                                <div class="status-stat-divider" *ngIf="idx < statusList.length - 1 || categoryList.length > 0"></div>
+                            </ng-container>
+
+                            <!-- Category Items -->
+                            <ng-container *ngFor="let catItem of categoryList; let idx = index">
+                                <div class="status-stat-item"
+                                     [ngClass]="{ 'status-stat-item--active': params.categoryId && params.categoryId == catItem.categoryId,
+                                                 'status-stat-item--clickable': hasPermission(permissions.SOC_STATUS_LIST) }"
+                                     (click)="hasPermission(permissions.SOC_STATUS_LIST) ? selectStatusItem(catItem.statusId, catItem.categoryId, catItem.nameRu) : null">
+                                    <div class="status-stat-item-content">
+                                        <span class="status-stat-number">{{ statusList.length + '.' + (idx + 1) }}</span>
+                                        <span class="status-stat-name">{{ translateService.currentLang === 'kz' ? catItem.nameKz : catItem.nameRu }}</span>
+                                    </div>
+                                    <div class="status-stat-count">{{ utilService.numberFormat(catItem.cnt) }}</div>
+                                </div>
+                                <div class="status-stat-divider" *ngIf="idx < categoryList.length - 1"></div>
+                            </ng-container>
+                        </div>
+
+                        <c-alert color="warning"
+                                 *ngIf="categoryList.length == 0 && statusList.length == 0 && filterStatusId">
+                            {{ 'warnings.no-data-found' | translate }}
+                        </c-alert>
                     </div>
-                    <div class="status-stat-header-item">
-                        <span class="header-label">{{ 'member' | translate }}</span>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col [md]="7"><!-- PERSON LIST -->
+            <div class="person-list-card" *ngIf="params.statusId || params.categoryId">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-inputs" [formGroup]="filterForm">
+                        <div class="filter-input">
+                            <label class="input-label">Подкатегория</label>
+                            <ng-select
+                                [items]="categoryList"
+                                [clearable]="true"
+                                [searchable]="false"
+                                bindLabel="nameRu"
+                                bindValue="id"
+                                placeholder="Выберите подкатегорию"
+                                (change)="onCategoryChange($event)"
+                                 formControlName="categoryId"
+                                >
+
+                            </ng-select>
+                        </div>
+                        <div class="filter-input">
+                            <label class="input-label">Регион</label>
+                            <ng-select
+                                [items]="regionList"
+                                [clearable]="true"
+                                [searchable]="false"
+                                bindLabel="nameRu"
+                                bindValue="id"
+                                placeholder="Выберите регион"
+                                (change)="onRegionChange($event)"
+                                formControlName="regionId"
+                                >
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn-primary" (click)="searchPersons()">Поиск</button>
+                        <button class="btn-secondary" (click)="clearFilters()">Очистить</button>
                     </div>
                 </div>
 
                 <!-- Divider -->
-                <div class="status-stat-divider"></div>
+                <div class="divider"></div>
 
-                <!-- Status Items -->
-                <div class="scroll-body" style="max-height: 50vh; overflow-x: hidden !important;">
-                    <ng-container *ngFor="let stItem of statusList; let idx = index">
-                        <div class="status-stat-item"
-                             [ngClass]="{ 'status-stat-item--active': !params.categoryId && params.statusId && params.statusId == stItem.statusId,
-                                         'status-stat-item--clickable': hasPermission(permissions.SOC_STATUS_LIST) }"
-                             (click)="hasPermission(permissions.SOC_STATUS_LIST) ? selectStatusItem(stItem.statusId, stItem.categoryId, stItem.nameRu) : null">
-                            <div class="status-stat-item-content">
-                                <span class="status-stat-number">{{ (idx + 1) + '.' }}</span>
-                                <span class="status-stat-name">{{ stItem | translateProp }}</span>
-                            </div>
-                            <div class="status-stat-count">{{ utilService.numberFormat(stItem.cnt) }}</div>
-                        </div>
-                        <div class="status-stat-divider" *ngIf="idx < statusList.length - 1 || categoryList.length > 0"></div>
-                    </ng-container>
-
-                    <!-- Category Items -->
-                    <ng-container *ngFor="let catItem of categoryList; let idx = index">
-                        <div class="status-stat-item"
-                             [ngClass]="{ 'status-stat-item--active': params.categoryId && params.categoryId == catItem.categoryId,
-                                         'status-stat-item--clickable': hasPermission(permissions.SOC_STATUS_LIST) }"
-                             (click)="hasPermission(permissions.SOC_STATUS_LIST) ? selectStatusItem(catItem.statusId, catItem.categoryId, catItem.nameRu) : null">
-                            <div class="status-stat-item-content">
-                                <span class="status-stat-number">{{ statusList.length + '.' + (idx + 1) }}</span>
-                                <span class="status-stat-name">{{ translateService.currentLang === 'kz' ? catItem.nameKz : catItem.nameRu }}</span>
-                            </div>
-                            <div class="status-stat-count">{{ utilService.numberFormat(catItem.cnt) }}</div>
-                        </div>
-                        <div class="status-stat-divider" *ngIf="idx < categoryList.length - 1"></div>
-                    </ng-container>
+                <!-- Title Section -->
+                <div class="title-section">
+                    <h3 class="title">{{ params.name | translateProp }}</h3>
+                    <button class="download-btn" (click)="downloadReport()">
+                        <span>Скачать</span>
+                        <svg class="download-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 2V8M6 8L4 6M6 8L8 6M2 10H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
 
-                <c-alert color="warning"
-                         *ngIf="categoryList.length == 0 && statusList.length == 0 && filterStatusId">
-                    {{ 'warnings.no-data-found' | translate }}
-                </c-alert>
+                <!-- Table Section -->
+                <div class="table-container">
+                    <table class="data-table" *ngIf="params.list.length > 0">
+                        <thead>
+                            <tr>
+                                <th class="column-number">№</th>
+                                <th class="column-region">Регион</th>
+                                <th class="column-iin">ИИН/ФИО</th>
+                                <th class="column-address">Адрес</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of params.list; let idx = index"
+                                [ngClass]="{'row-alternate': idx % 2 === 1}">
+                                <td class="column-number">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</td>
+                                <td class="column-region">{{ item.stateName + ', ' + item.regionName }}</td>
+                                <td class="column-iin">
+                                    <a class="person-link" [routerLink]="['/family/' + item.iin]"
+                                       (click)="utilService.navigateToFamilyPortrait(item.iin)">
+                                        {{ utilService.concat(' / ', item.iin, item.fullName) }}
+                                    </a>
+                                </td>
+                                <td class="column-address">{{ item.address }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="no-data" *ngIf="params.list.length == 0">
+                        {{ 'warnings.no-data-found' | translate }}
+                    </div>
+                </div>
+
+                <!-- Pagination Section -->
+                <div class="pagination-section" *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage">
+                    <div class="pagination">
+                        <button class="pagination-arrow" [disabled]="params.pagination.currentPage === 1" (click)="changePage(params.pagination.currentPage - 1)">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M9 3L5 7L9 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <button class="pagination-number"
+                                *ngFor="let page of getPageNumbers()"
+                                [ngClass]="{'active': page === params.pagination.currentPage}"
+                                (click)="changePage(page)">
+                            {{ page }}
+                        </button>
+
+                        <button class="pagination-arrow" [disabled]="params.pagination.currentPage === getTotalPages()" (click)="changePage(params.pagination.currentPage + 1)">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </c-card-body>
-    </c-card>
+        </c-col>
 
-</c-container>
+    </c-row>
 
-<!-- PERSON LIST -->
-<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="params.statusId || params.categoryId">
-    <c-card-header>
-        <span class="pe-2"><svg cIcon name="cilJustifyLeft"></svg></span>
-        <strong>{{ 'lists' | translate }}</strong>
-        <span class="float-end">
-            <a role="button" class="btn btn-sm p-0 ms-2" (click)="toggleCollapse(2)">
-                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[2], 'fa-angle-up': visible[2]}"></i>
-            </a>
-        </span>
-        <span class="float-end">
-            <span>Скачать</span>
-            <button cButton color="success" variant="ghost" size="sm" (click)="downloadReport()">
-                <i class="fa fa-file-excel-o"></i></button>
-        </span>
-    </c-card-header>
-    <c-card-body *ngIf="visible[2]">
-        <c-callout color="info">{{ params.name }}</c-callout>
-        <table cTable striped hover *ngIf="params.list.length > 0">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">{{ 'need-actions-page.region' | translate }}</th>
-                <th scope="col">{{ 'need-actions-page.full-name' | translate }}</th>
-                <th scope="col">{{ 'need-actions-page.address' | translate }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of params.list; let idx = index">
-                <th scope="row">{{ ((params.pagination.currentPage - 1) * params.pagination.itemsPerPage) + idx + 1 }}</th>
-                <td>{{ item.stateName + ', ' + item.regionName }}</td>
-                <td>
-                    <a target="_blank" class="link-info" [routerLink]="['/family/' + item.iin]"
-                       (click)="utilService.navigateToFamilyPortrait(item.iin)">
-                        {{ utilService.concat(' / ', item.iin, item.fullName) }}
-                    </a>
-                </td>
-                <td>{{ item.address }}</td>
-            </tr>
-            </tbody>
-        </table>
 
-        <c-alert color="warning" *ngIf="params.list.length == 0">
-            {{ 'warnings.no-data-found' | translate }}
-        </c-alert>
-    </c-card-body>
-    <c-card-footer>
-        <c-row>
-            <c-col [md]="10">
-                <pagination class="pagination-sm mb-0"
-                            *ngIf="params.pagination.totalItems > params.pagination.itemsPerPage"
-                            [(ngModel)]="params.pagination.currentPage" [itemsPerPage]="params.pagination.itemsPerPage"
-                            [totalItems]="params.pagination.totalItems" [maxSize]="params.pagination.maxSize"
-                            [boundaryLinks]="true" (pageChanged)="changePage($event.page)"
-                            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
-                            lastText="&raquo;"></pagination>
-            </c-col>
-            <c-col [md]="2">
-                <div class="text-lowercase float-end">
-                    <small>{{ 'item-count' | translate }}:
-                        {{ utilService.numberFormat(params.pagination.totalItems) }}</small>
-                </div>
-            </c-col>
-        </c-row>
-    </c-card-footer>
-</c-card>
+
 

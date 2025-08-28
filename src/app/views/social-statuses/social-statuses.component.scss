@@ -173,4 +173,430 @@
   }
 }
 
+// Person List Card Styles
+.person-list-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// Filter Section
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+// ng-select customization
+::ng-deep .ng-select {
+  .ng-select-container {
+    border: 1px solid #CBD5E0;
+    border-radius: 8px;
+    background: #FFFFFF;
+    min-height: 40px;
+
+    &:hover {
+      border-color: #1F98EA;
+    }
+
+    &.ng-has-value {
+      border-color: #1F98EA;
+    }
+  }
+
+  .ng-arrow-wrapper {
+    color: #A0AEC0;
+  }
+
+  .ng-placeholder {
+    color: #A0AEC0;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .ng-value {
+    color: #2D3748;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+  }
+}
+
+.filter-inputs {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.filter-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 268px;
+}
+
+.input-label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #131516;
+  margin: 0;
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  height: 40px;
+  border: 1px solid #CBD5E0;
+  border-radius: 8px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: #1F98EA;
+  }
+}
+
+.placeholder-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #A0AEC0;
+}
+
+.dropdown-icon {
+  flex-shrink: 0;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 32px;
+  background: #1F98EA;
+  border: 1px solid #1F98EA;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.02);
+
+  &:hover {
+    background: #1976D2;
+    border-color: #1976D2;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 32px;
+  background: #E2E8F0;
+  border: none;
+  border-radius: 8px;
+  color: #A0AEC0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.02);
+
+  &:hover {
+    background: #CBD5E0;
+    color: #4A5568;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Divider
+.divider {
+  height: 1px;
+  background: #E2E8F0;
+  width: 100%;
+}
+
+// Title Section
+.title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.17;
+  color: #131516;
+  margin: 0;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #1F98EA;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #1976D2;
+  }
+}
+
+.download-icon {
+  flex-shrink: 0;
+}
+
+// Table Container
+.table-container {
+  border: 1px solid #CBD5E0;
+  border-radius: 8px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Roboto', sans-serif;
+}
+
+.data-table thead {
+  background: #FFFFFF;
+}
+
+.data-table th {
+  padding: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #131516;
+  text-align: left;
+  border-bottom: 1px solid #CBD5E0;
+  border-right: 1px solid #CBD5E0;
+}
+
+.data-table th:last-child {
+  border-right: none;
+}
+
+.column-number {
+  width: 40px;
+}
+
+.column-region {
+  flex: 1;
+}
+
+.column-iin {
+  flex: 1;
+}
+
+.column-address {
+  flex: 1;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid #CBD5E0;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: rgba(139, 194, 222, 0.1);
+  }
+
+  &.row-alternate {
+    background: rgba(139, 194, 222, 0.2);
+  }
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table td {
+  padding: 8px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #4A5568;
+  border-right: 1px solid #CBD5E0;
+  vertical-align: top;
+}
+
+.data-table td:last-child {
+  border-right: none;
+}
+
+.person-link {
+  color: #1F98EA;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #1976D2;
+    text-decoration: underline;
+  }
+}
+
+.no-data {
+  padding: 16px;
+  text-align: center;
+  color: #4A5568;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+// Pagination Section
+.pagination-section {
+  display: flex;
+//   justify-content: center;
+  padding: 16px 0;
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pagination-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: rgba(0, 0, 0, 0.88);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #F8F9FA;
+  }
+
+  &:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+}
+
+.pagination-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: rgba(0, 0, 0, 0.88);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #F8F9FA;
+  }
+
+  &.active {
+     color: #1F98EA;
+    font-weight: 500;
+    border: 1px solid #1F98EA;
+  }
+}
+
+// Responsive adjustments for person list card
+@media (max-width: 768px) {
+  .person-list-card {
+    padding: 12px;
+    gap: 12px;
+  }
+
+
+
+  .filter-inputs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filter-input {
+    width: 100%;
+  }
+
+  .filter-buttons {
+    justify-content: center;
+  }
+
+  .title-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .data-table {
+    font-size: 11px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 6px;
+  }
+
+  .pagination {
+    gap: 4px;
+  }
+
+  .pagination-arrow,
+  .pagination-number {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 

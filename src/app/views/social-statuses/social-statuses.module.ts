@@ -12,7 +12,7 @@ import {
     TableModule,
     UtilitiesModule,
 } from '@coreui/angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -40,6 +40,7 @@ import { SharedModule } from '../../shared/shared.module';
             extend: true,
         }),
         UtilitiesModule,
+        ReactiveFormsModule
     ],
 })
 export class SocialStatusesModule {}
