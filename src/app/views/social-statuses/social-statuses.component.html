@@ -1,7 +1,7 @@
 
 
     <!-- FILTER -->
-    <c-card class="mb-4" [cBorder]="'secondary'">
+    <c-card class="mb-4 " [cBorder]="'secondary'">
         <c-card-header>
             <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
             <strong>{{ 'filter' | translate }}</strong>
@@ -38,17 +38,12 @@
     <c-row>
         <c-col [md]="5">
             <!-- STATUS STAT LIST -->
-            <c-card class="mb-4 status-stat-list-card" [cBorder]="'secondary'">
-                <c-card-header>
-                    <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
-                    <strong>{{ 'menu.social-statuses' | translate }}</strong>
-                    <span class="float-end">
-                        <a role="button" class="btn btn-sm p-0" (click)="toggleCollapse(1)">
-                            <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[1], 'fa-angle-up': visible[1]}"></i>
-                        </a>
-                    </span>
-                </c-card-header>
-                <c-card-body *ngIf="visible[1]">
+            <div class="mb-4 status-stat-list-card"  >
+                <header>
+                     <strong>{{ 'menu.social-statuses' | translate }}</strong>
+
+                </header>
+                <div *ngIf="visible[1]">
                     <div class="status-stat-list">
                         <!-- Header -->
                         <div class="status-stat-header">
@@ -100,8 +95,8 @@
                             {{ 'warnings.no-data-found' | translate }}
                         </c-alert>
                     </div>
-                </c-card-body>
-            </c-card>
+                </div>
+            </div>
         </c-col>
         <c-col [md]="7"><!-- PERSON LIST -->
             <div class="person-list-card" *ngIf="params.statusId || params.categoryId">

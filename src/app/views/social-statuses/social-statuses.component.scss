@@ -1,9 +1,13 @@
 // Status Stat List Styles
 .status-stat-list-card {
-  border-radius: 16px;
-  border: 1px solid #E2E8F0;
-  background: #FFFFFF;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid #fff;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .status-stat-list {
@@ -63,7 +67,7 @@
     cursor: pointer;
 
     &:hover {
-      background: #F8F9FA;
+      background: #8BC2DE33;
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
@@ -75,8 +79,8 @@
   }
 
   &--active {
-    background: #E3F2FD;
-    border: 1px solid #2196F3;
+    background: #8BC2DE33;
+    border: 1px solid #8BC2DE33;
 
     .status-stat-name {
       color: #1976D2;
