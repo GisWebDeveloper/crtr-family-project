@@ -1,123 +1,143 @@
-<!--<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="reportList.length > 0">-->
-<c-card class="mb-4" [cBorder]="'secondary'">
+<div class="table-responsive">
+    <table cTable bordered hover small id="report-table">
+        <thead class="text-center align-middle table-header">
+            <tr>
+                <th scope="col" rowspan="3">#</th>
+                <th scope="col" rowspan="3" class="region-column">
+                    {{ "need-actions-page.region" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "actualization.first-date" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "actualization.region-plan" | translate }}
+                </th>
+                <th scope="col" colspan="11" class="value-column">
+                    <c-container class="input-group">
+                        <label>{{
+                            "actualization.second-date" | translate
+                        }}</label>
 
-    <c-card-header>
-        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
-        <!--        <strong>{{ 'actualization.label' | translate }}</strong>-->
-        <strong>{{ 'report-page.dynamic-tzhs.label' | translate }}</strong>
-        <span class="float-end" *ngIf="list.length > 0">
-            <span>Скачать</span>
-            <a role="button" class="btn btn-sm p-0 ms-2"
-               (click)="reportService.exportTableToExcel('report-table')">
-                <i class="fa fa-file-excel-o fs-5"></i>
-            </a>
-        </span>
-    </c-card-header>
-    <c-card-body>
-        <div class="table-responsive">
-            <table cTable bordered hover small id="report-table">
-                <thead class="text-center align-middle table-header">
-                <tr>
-                    <th scope="col" rowspan="3">#</th>
-                    <th scope="col" rowspan="3" class="region-column">{{ 'need-actions-page.region' | translate }}</th>
-                    <th scope="col" colspan="2" class="value-column">{{ 'actualization.first-date' | translate }}</th>
-                    <th scope="col" colspan="2" class="value-column">{{ 'actualization.region-plan' | translate }}</th>
-                    <th scope="col" colspan="11" class="value-column">
-                        <c-container class="input-group">
-                            <label>{{ 'actualization.second-date' | translate }}</label>
-
-                            <ng-select id="year" name="year" [items]="dates" [(ngModel)]="date" [clearable]="false"
-                                       (change)="search()">
-                            </ng-select>
-                        </c-container>
-                    </th>
+                        <ng-select
+                            id="year"
+                            name="year"
+                            [items]="dates"
+                            [(ngModel)]="date"
+                            [clearable]="false"
+                            (change)="search()"
+                        >
+                        </ng-select>
+                    </c-container>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.total-family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.family-de" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.family-decrease" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.family-de-in-perspective" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.family-de" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ getPrevColumnLabel() }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.difference-from-plan" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.out-from-de" | translate }}
+                </th>
+                <th scope="col" colspan="3" class="value-column">
+                    {{ "actualization.to" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "actualization.in-to-de" | translate }}
+                </th>
+                <th scope="col" colspan="3" class="value-column">
+                    {{ "actualization.from" | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="value-column">A</th>
+                <th scope="col" class="value-column">B</th>
+                <th scope="col" class="value-column">C</th>
+                <th scope="col" class="value-column">A</th>
+                <th scope="col" class="value-column">B</th>
+                <th scope="col" class="value-column">C</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th
+                    scope="col"
+                    *ngFor="
+                        let i of [
+                            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                            16
+                        ]
+                    "
+                >
+                    {{ i }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of list; let idx = index">
+                <tr class="text-center">
+                    <td class="px-2">{{ idx + 1 }}</td>
+                    <td class="text-start">
+                        {{
+                            utilService.getLocalization(
+                                item.state.nameKz,
+                                item.state.nameRu
+                            )
+                        }}
+                    </td>
+                    <td>{{ utilService.numberFormat2(item.col2) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col3) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col4) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col5) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col6) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col7) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col16) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col8) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col9) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col10) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col11) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col12) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col13) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col14) }}</td>
+                    <td>{{ utilService.numberFormat2(item.col15) }}</td>
                 </tr>
-                <tr>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.total-family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.family-de' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.family-decrease' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.family-de-in-perspective' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.family-de' | translate }}</th>
-                    <th scope="col" rowspan="2" class="value-column">
-                        {{ getPrevColumnLabel() }}
-                    </th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.difference-from-plan' | translate }}
-                    </th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.out-from-de' | translate }}</th>
-                    <th scope="col" colspan="3"
-                        class="value-column">{{ 'actualization.to' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'actualization.in-to-de' | translate }}</th>
-                    <th scope="col" colspan="3"
-                        class="value-column">{{ 'actualization.from' | translate }}</th>
-                </tr>
-                <tr>
-                    <th scope="col" class="value-column">A</th>
-                    <th scope="col" class="value-column">B</th>
-                    <th scope="col" class="value-column">C</th>
-                    <th scope="col" class="value-column">A</th>
-                    <th scope="col" class="value-column">B</th>
-                    <th scope="col" class="value-column">C</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th scope="col" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]">{{ i }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <ng-container *ngFor="let item of list; let idx = index">
-                    <tr class="text-center">
-                        <td class="px-2">{{ idx + 1 }}</td>
-                        <td class="text-start">
-                            {{ utilService.getLocalization(item.state.nameKz, item.state.nameRu) }}
-                        </td>
-                        <td>{{ utilService.numberFormat2(item.col2) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col3) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col4) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col5) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col6) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col7) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col16) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col8) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col9) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col10) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col11) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col12) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col13) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col14) }}</td>
-                        <td>{{ utilService.numberFormat2(item.col15) }}</td>
-                    </tr>
-                </ng-container>
-                </tbody>
-                <tfoot cTableColor="dark" *ngIf="total">
-                <tr class="text-center fw-medium">
-                    <td></td>
-                    <td class="text-start">{{ 'total' | translate }}</td>
-                    <td>{{ utilService.numberFormat2(total.col2) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col3) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col4) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col5) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col6) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col7) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col16) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col8) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col9) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col10) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col11) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col12) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col13) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col14) }}</td>
-                    <td>{{ utilService.numberFormat2(total.col15) }}</td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    </c-card-body>
-</c-card>
+            </ng-container>
+        </tbody>
+        <tfoot cTableColor="dark" *ngIf="total">
+            <tr class="text-center fw-medium">
+                <td></td>
+                <td class="text-start">{{ "total" | translate }}</td>
+                <td>{{ utilService.numberFormat2(total.col2) }}</td>
+                <td>{{ utilService.numberFormat2(total.col3) }}</td>
+                <td>{{ utilService.numberFormat2(total.col4) }}</td>
+                <td>{{ utilService.numberFormat2(total.col5) }}</td>
+                <td>{{ utilService.numberFormat2(total.col6) }}</td>
+                <td>{{ utilService.numberFormat2(total.col7) }}</td>
+                <td>{{ utilService.numberFormat2(total.col16) }}</td>
+                <td>{{ utilService.numberFormat2(total.col8) }}</td>
+                <td>{{ utilService.numberFormat2(total.col9) }}</td>
+                <td>{{ utilService.numberFormat2(total.col10) }}</td>
+                <td>{{ utilService.numberFormat2(total.col11) }}</td>
+                <td>{{ utilService.numberFormat2(total.col12) }}</td>
+                <td>{{ utilService.numberFormat2(total.col13) }}</td>
+                <td>{{ utilService.numberFormat2(total.col14) }}</td>
+                <td>{{ utilService.numberFormat2(total.col15) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

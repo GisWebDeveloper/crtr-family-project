@@ -1,0 +1,311 @@
+// Tab navigation styling to match Figma design
+:host {
+  .nav-tabs {
+    border: none;
+    gap: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0;
+
+    .nav-link {
+      // Base tab styling
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 16px;
+      background: #FFFFFF;
+      color: #131516;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.2;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      // Remove default Bootstrap styling
+      border-bottom: 1px solid #E2E8F0;
+
+      &:hover {
+        background: #F7FAFC;
+        border-color: #CBD5E0;
+        color: #131516;
+        text-decoration: none;
+      }
+
+      // Active tab styling
+      &.active {
+        background: #C2E7FF;
+        border-color: #1F98EA;
+        color: #1F98EA;
+        font-weight: 500;
+
+        &:hover {
+          background: #C2E7FF;
+          border-color: #1F98EA;
+          color: #1F98EA;
+        }
+      }
+
+      // Focus styling
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(31, 152, 234, 0.2);
+        outline: none;
+      }
+    }
+  }
+
+  // Tab content styling
+  .tab-content {
+    margin-top: 16px;
+
+    .tab-pane {
+      &.pt-3 {
+        padding-top: 1rem;
+      }
+    }
+  }
+
+  // Nested tab styling (for second level tabs)
+  .nav-tabs .nav-tabs {
+    margin-top: 16px;
+    margin-bottom: 0;
+
+    .nav-link {
+      // Same styling as parent tabs
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 16px;
+      background: #FFFFFF;
+      color: #131516;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.2;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        background: #F7FAFC;
+        border-color: #CBD5E0;
+        color: #131516;
+        text-decoration: none;
+      }
+
+      &.active {
+        background: #C2E7FF;
+        border-color: #1F98EA;
+        color: #1F98EA;
+        font-weight: 500;
+
+        &:hover {
+          background: #C2E7FF;
+          border-color: #1F98EA;
+          color: #1F98EA;
+        }
+      }
+    }
+  }
+}
+
+// Override CoreUI tab styling to match Figma design
+c-nav[variant="tabs"] {
+  border: none;
+  gap: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0;
+
+  // Main tabs specific styling
+  &.main-tabs {
+    gap: 16px;
+    width: 226px;
+    height: auto;
+
+    a[cNavLink] {
+      // Main tabs specific styling - clean text design
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      color: #131516 !important;
+      font-family: 'Roboto', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: 1.171875em !important;
+      text-align: left !important;
+      text-decoration: none !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      min-height: auto !important;
+      transition: all 0.2s ease !important;
+      white-space: nowrap !important;
+      margin-bottom: 0 !important;
+      cursor: pointer !important;
+
+      &:hover {
+        background: transparent !important;
+        color: #131516 !important;
+        text-decoration: none !important;
+      }
+
+      // Main tabs specific styling - inactive state (2025)
+   
+
+      // Active tab styling (2024)
+      &[active="true"],
+      &.active {
+        background: transparent !important;
+        color: #131516 !important;
+        font-weight: 400 !important;
+        color: #A0AEC0 !important;
+        &:hover {
+          background: transparent !important;
+          color: #131516 !important;
+        }
+      }
+
+      // Focus styling
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(31, 152, 234, 0.2) !important;
+        outline: none !important;
+      }
+    }
+  }
+
+  // Sub tabs styling - keep original design
+  &:not(.main-tabs) {
+    a[cNavLink] {
+      // Base tab styling for sub tabs
+      border: 1px solid #E2E8F0 !important;
+      border-radius: 16px !important;
+      padding: 16px !important;
+      background: #FFFFFF !important;
+      color: #131516 !important;
+      font-family: 'Roboto', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      line-height: 1.2 !important;
+      text-align: center !important;
+      text-decoration: none !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-height: 44px !important;
+      transition: all 0.2s ease !important;
+      white-space: nowrap !important;
+      margin-bottom: 0 !important;
+
+      &:hover {
+        background: #F7FAFC !important;
+        border-color: #CBD5E0 !important;
+        color: #131516 !important;
+        text-decoration: none !important;
+      }
+
+      // Active tab styling for sub tabs
+      &[active="true"],
+      &.active {
+        background: #C2E7FF !important;
+        border-color: #1F98EA !important;
+        color: #1F98EA !important;
+        font-weight: 500 !important;
+
+        &:hover {
+          background: #C2E7FF !important;
+          border-color: #1F98EA !important;
+          color: #1F98EA !important;
+        }
+      }
+
+      // Focus styling for sub tabs
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(31, 152, 234, 0.2) !important;
+        outline: none !important;
+      }
+    }
+  }
+}
+
+// Tab content styling
+c-tab-content {
+  margin-top: 16px;
+
+  c-tab-pane {
+    &.pt-3 {
+      padding-top: 1rem;
+    }
+  }
+}
+
+// Sub-tabs container styling
+.sub-tabs-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 16px;
+
+  .sub-tabs {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .export-button-container {
+    flex-shrink: 0;
+  }
+}
+
+// Export button styling to match Figma design
+.export-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #1F98EA;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #0D7BC7;
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(31, 152, 234, 0.2);
+    border-radius: 4px;
+  }
+
+  &:active {
+    color: #0A5F9A;
+  }
+
+  .export-text {
+    white-space: nowrap;
+  }
+
+  .export-icon {
+    flex-shrink: 0;
+    color: currentColor;
+  }
+}

@@ -1,54 +1,20 @@
-<!-- FILTER -->
-<c-card class="mb-4" [cBorder]="'secondary'">
-    <c-card-header>
-        <span class="pe-2"><svg cIcon name="cilFilter"></svg></span>
-        <strong>{{ 'filter' | translate }}</strong>
-        <span class="float-end">
-            <a role="button" class="btn btn-sm p-0" (click)="utilService.toggleCollapse(visible,0)">
-                <i class="fa fa-2x" [ngClass]="{'fa-angle-down': !visible[0], 'fa-angle-up': visible[0]}"></i>
-            </a>
-        </span>
-    </c-card-header>
-    <c-card-body *ngIf="visible[0]">
-        <form cForm novalidate (submit)="search()">
-            <c-row class="mb-2">
-                <c-col [md]="10">
-                    <ng-select id="count" name="count"
-                               [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
-                               [items]="dictionaryCount" [(ngModel)]="params.dictionary" [clearable]="true">
-                    </ng-select>
-                </c-col>
-                <c-col [md]="2">
-                    <div class="d-flex flex-column">
-                        <button type="submit" class="text-white" color="info" cButton
-                                [disabled]="!params.dictionary">
-                            <span class="pe-2"><svg cIcon name="cilSearch"></svg></span>
-                            {{ 'search' | translate }}
-                        </button>
-                    </div>
-                </c-col>
-            </c-row>
-        </form>
-    </c-card-body>
-</c-card>
+<form cForm novalidate >
+    <c-row class="mb-2">
+        <c-col [md]="4">
+            <ng-select id="count" name="count"
+                       [bindLabel]="utilService.getLocalization('nameKz', 'nameRu')"
+                       [items]="dictionaryCount" [(ngModel)]="params.dictionary" [clearable]="true"
+                       (ngModelChange)="search()"
+                       >
 
-<!-- REPORT -->
-<c-card class="mb-4" [cBorder]="'secondary'">
-    <c-card-header>
-        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
-        <strong *ngIf="params.selectedDictionary">
-            {{ utilService.getLocalization(params.selectedDictionary.nameKz, params.selectedDictionary.nameRu) }}
-        </strong>
-        <span class="float-end">
-            <span>Скачать</span>
-            <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel(year)">
-                <i class="fa fa-file-excel-o fs-5"></i>
-            </a>
-        </span>
-    </c-card-header>
-    <c-card-body>
-        <div class="table-responsive">
-            <app-table [tableId]="year" [eventSearchStatusStat]="eventSearchStatusStat"></app-table>
-        </div>
-    </c-card-body>
-</c-card>
+            </ng-select>
+        </c-col>
+        <c-col  >
+
+        </c-col>
+    </c-row>
+</form>
+
+<div class="table-responsive">
+    <app-table [tableId]="year" [eventSearchStatusStat]="eventSearchStatusStat"></app-table>
+</div>

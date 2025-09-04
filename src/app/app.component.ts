@@ -47,9 +47,10 @@ export class AppComponent implements OnInit {
     }
 
     initLanguage() {
-        this.translateService.setDefaultLang('kz');
-        this.translateService.addLangs(['en', 'kz', 'ru']);
-        this.translateService.use(this.dataService.getClientLanguage());
+        const lang = localStorage.getItem('appLang') || 'kz';
+        this.translateService.use(lang);
+         this.translateService.addLangs(['en', 'kz', 'ru']);
+        // this.translateService.use(this.dataService.getClientLanguage());
 
         /*
         this.translateService.get('title').subscribe(value => {

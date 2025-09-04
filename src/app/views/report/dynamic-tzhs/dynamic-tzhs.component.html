@@ -1,226 +1,382 @@
-<!-- CATEGORY ASP -->
-<!--<c-card class="mb-4" [cBorder]="'secondary'" *ngIf="categoryListASP.length > 0">-->
-<c-card class="mb-4" [cBorder]="'secondary'">
-    <c-card-header>
-        <span class="pe-2"><svg cIcon name="cilCalculator"></svg></span>
-        <strong>{{ 'report-page.dynamic-tzhs.label' | translate }}</strong>
-        <span class="float-end">
-            <span>Скачать</span>
-                        <a role="button" class="btn btn-sm p-0 ms-2" (click)="reportService.exportTableToExcel('table-dynamic-tzhs-' + year)">
-                <i class="fa fa-file-excel-o fs-5"></i>
-            </a>
-        </span>
-    </c-card-header>
-    <c-card-body>
-        <div class="table-responsive">
-            <table cTable bordered hover small [id]="'table-dynamic-tzhs-' + year">
-                <thead class="text-center align-middle table-header">
-                <tr>
-                    <th></th>
-                    <th scope="col" colspan="9">{{ 'report-page.dynamic-tzhs.prev-month-' + year | translate }}</th>
-                    <th scope="col" colspan="2"></th>
-                    <th scope="col" colspan="34">{{ 'report-page.dynamic-tzhs.this-month' | translate }}</th>
+<div class="table-responsive">
+    <table cTable bordered hover small [id]="'table-dynamic-tzhs-' + year">
+        <thead class="text-center align-middle table-header">
+            <tr>
+                <th></th>
+                <th scope="col" colspan="9">
+                    {{
+                        "report-page.dynamic-tzhs.prev-month-" + year
+                            | translate
+                    }}
+                </th>
+                <th scope="col" colspan="2"></th>
+                <th scope="col" colspan="34">
+                    {{ "report-page.dynamic-tzhs.this-month" | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" rowspan="4">#</th>
+                <th scope="col" rowspan="4" class="region-column">
+                    {{ "report-page.dynamic-tzhs.region" | translate }}
+                </th>
+                <th scope="col" rowspan="4" class="value-column">
+                    {{ "report-page.dynamic-tzhs.region-count" | translate }}
+                </th>
+                <th scope="col" rowspan="4" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family-total" | translate }}
+                </th>
+                <th scope="col" rowspan="4" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member-total" | translate }}
+                </th>
+                <th scope="col" rowspan="4" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.member-total-in-de"
+                            | translate
+                    }}
+                </th>
+                <th scope="col" rowspan="2" colspan="3" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.family-in-category"
+                            | translate
+                    }}
+                </th>
+                <th scope="col" rowspan="4" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.d-e-family-percentage"
+                            | translate
+                    }}
+                </th>
+
+                <th scope="col" rowspan="4" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.excluded-family-total-" + year
+                            | translate
+                    }}
+                </th>
+                <th scope="col" rowspan="4" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.decrease-percentage"
+                            | translate
+                    }}
+                </th>
+
+                <th scope="col" rowspan="2" colspan="6" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.family-in-category-de"
+                            | translate
+                    }}
+                </th>
+                <th scope="col" colspan="14" class="value-column">
+                    {{ "report-page.dynamic-tzhs.category-d" | translate }}
+                </th>
+                <th scope="col" colspan="14" class="value-column">
+                    {{ "report-page.dynamic-tzhs.category-e" | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" colspan="2" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.stayed-in-category"
+                            | translate
+                    }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.entered-again" | translate }}
+                </th>
+                <th scope="col" colspan="10" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.moved-to-another-category"
+                            | translate
+                    }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.stayed-in-category"
+                            | translate
+                    }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.entered-again" | translate }}
+                </th>
+                <th scope="col" colspan="10" class="value-column">
+                    {{
+                        "report-page.dynamic-tzhs.moved-to-another-category"
+                            | translate
+                    }}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.total" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.including" | translate }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.total" | translate }}
+                </th>
+                <th scope="col" colspan="4" class="value-column">
+                    {{ "report-page.dynamic-tzhs.including" | translate }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-d" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-d" | translate }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.total" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-a" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-b" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-c" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-e" | translate }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-e" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-e" | translate }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.total" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-a" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-b" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-c" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.to-d" | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="value-column">
+                    {{ "report-page.dynamic-tzhs.d" | translate }}
+                </th>
+                <th scope="col" class="value-column">
+                    {{ "report-page.dynamic-tzhs.e" | translate }}
+                </th>
+
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.d" | translate }}
+                </th>
+                <th scope="col" colspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.e" | translate }}
+                </th>
+
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" rowspan="2" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th rowspan="2"></th>
+                <th *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"></th>
+                <th scope="col" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+                <th scope="col" class="value-column">
+                    {{ "report-page.dynamic-tzhs.family" | translate }}
+                </th>
+                <th scope="col" class="value-column">
+                    {{ "report-page.dynamic-tzhs.member" | translate }}
+                </th>
+            </tr>
+            <tr>
+                <th
+                    *ngFor="
+                        let i of [
+                            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                            29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41,
+                            42, 43, 44, 45
+                        ]
+                    "
+                >
+                    {{ i }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container
+                *ngFor="
+                    let item of reportDynamicTzhsList | statTotalFilter : false;
+                    let idx = index
+                "
+            >
+                <tr class="text-center">
+                    <td class="px-2">{{ idx + 1 }}</td>
+                    <td class="text-start">
+                        {{
+                            utilService.getLocalization(
+                                item.state.nameKz,
+                                item.state.nameRu
+                            )
+                        }}
+                    </td>
+                    <td
+                        (click)="
+                            hasList(i) ? showListModal(i, item.state) : null
+                        "
+                        [attr.role]="hasList(i) ? 'button' : null"
+                        *ngFor="
+                            let i of [
+                                2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                                16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                                28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+                                40, 41, 42, 43, 44, 45
+                            ]
+                        "
+                    >
+                        {{
+                            utilService.numberFormat(getValue(item, "col" + i))
+                        }}
+                    </td>
                 </tr>
-                <tr>
-                    <th scope="col" rowspan="4">#</th>
-                    <th scope="col" rowspan="4"
-                        class="region-column">{{ 'report-page.dynamic-tzhs.region' | translate }}</th>
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.region-count' | translate }}</th>
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family-total' | translate }}</th>
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member-total' | translate }}</th>
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member-total-in-de' | translate }}</th>
-                    <th scope="col" rowspan="2" colspan="3"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family-in-category' | translate }}</th>
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.d-e-family-percentage' | translate }}</th>
-
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.excluded-family-total-' + year | translate }}</th>
-                    <th scope="col" rowspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.decrease-percentage' | translate }}</th>
-
-                    <th scope="col" rowspan="2" colspan="6"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family-in-category-de' | translate }}</th>
-                    <th scope="col" colspan="14"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.category-d' | translate }}</th>
-                    <th scope="col" colspan="14"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.category-e' | translate }}</th>
+            </ng-container>
+        </tbody>
+        <tfoot cTableColor="dark">
+            <ng-container
+                *ngFor="
+                    let item of reportDynamicTzhsList | statTotalFilter : true;
+                    let idx = index
+                "
+            >
+                <tr class="text-center fw-medium">
+                    <td></td>
+                    <td class="text-start">{{ "total" | translate }}</td>
+                    <td
+                        *ngFor="
+                            let i of [
+                                2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                                16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                                28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+                                40, 41, 42, 43, 44, 45
+                            ]
+                        "
+                    >
+                        {{
+                            getValue(item, "col" + i) !== null
+                                ? utilService.numberFormat(
+                                      getValue(item, "col" + i)
+                                  )
+                                : getValue(item, "col" + i)
+                        }}
+                    </td>
                 </tr>
-                <tr>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.stayed-in-category' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.entered-again' | translate }}</th>
-                    <th scope="col" colspan="10"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.moved-to-another-category' | translate }}</th>
+            </ng-container>
+        </tfoot>
+    </table>
+</div>
 
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.stayed-in-category' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.entered-again' | translate }}</th>
-                    <th scope="col" colspan="10"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.moved-to-another-category' | translate }}</th>
-                </tr>
-                <tr>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.total' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.including' | translate }}</th>
-
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.total' | translate }}</th>
-                    <th scope="col" colspan="4"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.including' | translate }}</th>
-
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-d' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-d' | translate }}</th>
-
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.total' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-a' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-b' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-c' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-e' | translate }}</th>
-
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-e' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-e' | translate }}</th>
-
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.total' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-a' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-b' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-c' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.to-d' | translate }}</th>
-                </tr>
-                <tr>
-                    <th scope="col" class="value-column">{{ 'report-page.dynamic-tzhs.d' | translate }}</th>
-                    <th scope="col" class="value-column">{{ 'report-page.dynamic-tzhs.e' | translate }}</th>
-
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.d' | translate }}</th>
-                    <th scope="col" colspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.e' | translate }}</th>
-
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" rowspan="2"
-                        class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                </tr>
-                <tr>
-                    <th rowspan="2"></th>
-                    <th *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"></th>
-                    <th scope="col" class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                    <th scope="col" class="value-column">{{ 'report-page.dynamic-tzhs.family' | translate }}</th>
-                    <th scope="col" class="value-column">{{ 'report-page.dynamic-tzhs.member' | translate }}</th>
-                </tr>
-                <tr>
-                    <th *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]">
-                        {{ i }}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <ng-container *ngFor="let item of reportDynamicTzhsList | statTotalFilter: false; let idx = index">
-                    <tr class="text-center">
-                        <td class="px-2">{{ idx + 1 }}</td>
-                        <td class="text-start">{{ utilService.getLocalization(item.state.nameKz, item.state.nameRu) }}</td>
-                        <td (click)="hasList(i) ? showListModal(i, item.state) : null"
-                            [attr.role]="hasList(i) ? 'button' : null"
-                            *ngFor="let i of [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]">
-                            {{ utilService.numberFormat(getValue(item, 'col' + i)) }}
-                        </td>
-                    </tr>
-                </ng-container>
-                </tbody>
-                <tfoot cTableColor="dark">
-                <ng-container *ngFor="let item of reportDynamicTzhsList | statTotalFilter: true; let idx = index">
-                    <tr class="text-center fw-medium">
-                        <td></td>
-                        <td class="text-start">{{ 'total' | translate }}</td>
-                        <td *ngFor="let i of [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]">
-                            {{ getValue(item, 'col' + i) !== null ? utilService.numberFormat(getValue(item, 'col' + i)) : getValue(item, 'col' + i)}}
-                        </td>
-                    </tr>
-                </ng-container>
-                </tfoot>
-            </table>
-        </div>
-    </c-card-body>
-</c-card>
-
-
-<app-dynamic-tzhs-list-modal [eventShowListModal]="eventShowListModal"></app-dynamic-tzhs-list-modal>
+<app-dynamic-tzhs-list-modal
+    [eventShowListModal]="eventShowListModal"
+></app-dynamic-tzhs-list-modal>

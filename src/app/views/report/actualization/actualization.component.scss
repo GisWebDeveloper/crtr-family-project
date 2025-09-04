@@ -1,19 +1,189 @@
-.region-column {
-    min-width: 250px;
+// Table container styling to match Figma design
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+    overflow-y: visible;
+    border: 1px solid #CBD5E0;
+    background: #FFFFFF;
+    -webkit-overflow-scrolling: touch;
+
+    // Ensure minimum width for horizontal scroll
+    min-width: 100%;
 }
 
-.value-column {
-    min-width: 100px;
+// Table styling
+table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    min-width: 2000px; // Ensure table has minimum width for horizontal scroll
+
+    // Header styling
+    thead {
+        background: #FFFFFF;
+
+        tr {
+            border-bottom: 1px solid #CBD5E0;
+
+            th {
+                background: #FFFFFF;
+                border-right: 1px solid #CBD5E0;
+                border-bottom: 1px solid #CBD5E0;
+                padding: 12px;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 1.2;
+                color: #131516;
+                text-align: center;
+                vertical-align: middle;
+                white-space: nowrap;
+                min-width: 80px;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                // Region column specific styling
+                &.region-column {
+                    min-width: 250px;
+                    width: 250px;
+                    text-align: left;
+                }
+
+                // Value column specific styling
+                &.value-column {
+                    min-width: 100px;
+                    width: 100px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    // Body styling with alternating rows
+    tbody {
+        tr {
+            background: #FFFFFF;
+            border-bottom: 1px solid #CBD5E0;
+
+            // Alternating row colors
+            &:nth-child(even) {
+                background: #E2E8F0;
+            }
+
+            td {
+                border-right: 1px solid #CBD5E0;
+                padding: 12px;
+                font-family: 'Inter', sans-serif;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 1.2;
+                color: #4A5568;
+                text-align: center;
+                vertical-align: middle;
+                white-space: nowrap;
+                min-width: 80px;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                // Region column specific styling
+                &.text-start {
+                    text-align: left;
+                    font-family: 'Roboto', sans-serif;
+                    font-weight: 500;
+                    color: #131516;
+                }
+
+                // Number column styling
+                &.px-2 {
+                    padding-left: 12px;
+                    padding-right: 12px;
+                    font-family: 'Roboto', sans-serif;
+                    font-weight: 500;
+                    color: #131516;
+                }
+            }
+        }
+    }
+
+    // Footer styling for totals
+    tfoot {
+        tr {
+            background: #CBD5E0;
+            border-bottom: none;
+
+            td {
+                border-right: 1px solid #CBD5E0;
+                padding: 12px;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 1.2;
+                color: #131516;
+                text-align: center;
+                vertical-align: middle;
+                white-space: nowrap;
+                min-width: 80px;
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                // Total label styling
+                &.text-start {
+                    text-align: left;
+                }
+            }
+        }
+    }
 }
 
-.input-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
+// Remove default Bootstrap table styling
+.table {
+    border: none;
+
+    &.table-bordered {
+        border: none;
+
+        th, td {
+            border: none;
+        }
+    }
+
+    &.table-hover {
+        tbody tr:hover {
+            background-color: inherit;
+        }
+    }
+
+    &.table-sm {
+        th, td {
+            padding: 12px;
+        }
+    }
 }
 
-label {
-    flex-shrink: 0;
+// Card styling adjustments
+.card {
+    border: 1px solid #CBD5E0;
+    border-radius: 12px;
+    box-shadow: none;
 }
 
+.card-header {
+    background: #FFFFFF;
+    border-bottom: 1px solid #CBD5E0;
+    border-radius: 12px 12px 0 0;
+}
+
+.card-body {
+    padding: 0;
+    background: #FFFFFF;
+    border-radius: 0 0 12px 12px;
+}
